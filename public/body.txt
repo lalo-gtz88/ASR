@@ -1,0 +1,8 @@
+Se ha asignado el ticket No. 8446 a Luis Tarin
+        DETALLES:
+        <p>PC conectada a Tv en CAT no funciona, solicitan revisión. </p><p>En caso de no servir, solicitan realizar dictamen para baja y considerar reemplazo.</p><p>DSI 10516<br>Sergio Reyes<br>Ext. 1469</p>
+
+        ATRIBUTOS:
+        Prioridad: Baja
+        Asignado: Luis Tarin
+        Creador: Eloy Garcia

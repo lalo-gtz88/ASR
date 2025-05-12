@@ -14,7 +14,7 @@
                     <div class="d-flex align-items-end justify-content-start">
                         <div class="mr-2">
                             <label for="inicio">Inicio</label>
-                            <input type="date" name="inicio" id="inicio" class="form-control @error('inicio') is-invalid @enderror" wire:model.defer="inicio">
+                            <input type="date" name="inicio" id="inicio" class="form-control @error('inicio') is-invalid @enderror" wire:model="inicio">
                             @error('inicio')
                             <small class="text-danger">{{$message}}</small>
                             @enderror
@@ -22,7 +22,7 @@
 
                         <div class="mr-2">
                             <label for="termina">Termina</label>
-                            <input type="date" name="termina" id="termina" class="form-control mr-2  @error('termina') is-invalid @enderror" wire:model.defer="termina">
+                            <input type="date" name="termina" id="termina" class="form-control mr-2  @error('termina') is-invalid @enderror" wire:model="termina">
                             @error('termina')
                             <small class="text-danger">{{$message}}</small>
                             @enderror
@@ -30,7 +30,7 @@
 
                         <div class="mr-2">
                             <label for="unidad" class="mr-2">Unidad</label>
-                            <select name="unidad" id="unidad" class="form-control mr-2" wire:model.defer="unidad">
+                            <select name="unidad" id="unidad" class="form-control mr-2" wire:model="unidad">
                                 <option value="">---TODAS---</option>
                                 <option>0992 [Ranger]</option>
                                 <option>1181 [F-150]</option>

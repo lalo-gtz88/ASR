@@ -12,7 +12,7 @@
                         <div class="card-title">Usuarios</div>
                     </div>
                     <div class="card-body">
-                        <input type="search" name="search" id="search" wire:model="search" class="form-control form-control-sm mb-2" placeholder="Buscar..." autofocus>
+                        <input type="search" name="search" id="search" wire:model.live="search" class="form-control form-control-sm mb-2" placeholder="Buscar..." autofocus>
                         <div style="overflow: auto; max-height:65vh">
                             <div wire:init="$set('readyToLoad', true)">
                                 @if($readyToLoad)
@@ -70,14 +70,14 @@
                         @enderror
                         <div>
                             <label for="nombre">Nombre</label>
-                            <input type="text" wire:model.defer="nombre" class="form-control" name="nombre" id="nombre" placeholder="Obligatorio">
+                            <input type="text" wire:model="nombre" class="form-control" name="nombre" id="nombre" placeholder="Obligatorio">
                         </div>
                         @error('nombre')
                         <small class="text-danger">{{$message}}</small>
                         @enderror
                         <div>
                             <label for="apellido">Apellido</label>
-                            <input type="text" wire:model.defer="apellido" class="form-control" name="apellido" id="apellido" placeholder="Obligatorio">
+                            <input type="text" wire:model="apellido" class="form-control" name="apellido" id="apellido" placeholder="Obligatorio">
                         </div>
                         @error('apellido')
                         <small class="text-danger">{{$message}}</small>
@@ -85,14 +85,14 @@
                         
                         <div>
                             <label for="telefono">Teléfono</label>
-                            <input type="tel" wire:model.defer="telefono" class="form-control" name="telefono" id="telefono">
+                            <input type="tel" wire:model="telefono" class="form-control" name="telefono" id="telefono">
                             @error('telefono')
                             <small class="text-danger">{{$message}}</small>
                             @enderror
                         </div>
                         <div>
                             <label for="correo">Correo electrónico</label>
-                            <input type="email" wire:model.defer="correo" class="form-control" name="correo" id="correo">
+                            <input type="email" wire:model="correo" class="form-control" name="correo" id="correo">
                             @error('correo')
                             <small class="text-danger">{{$message}}</small>
                             @enderror
@@ -100,21 +100,21 @@
                         
                         <div>
                             <label for="usuario">Usuario</label>
-                            <input type="text" wire:model.defer="usuario" class="form-control" name="usuario" id="usuario" placeholder="Obligatorio">
+                            <input type="text" wire:model="usuario" class="form-control" name="usuario" id="usuario" placeholder="Obligatorio">
                         </div>
                         @error('usuario')
                         <small class="text-danger">{{$message}}</small>
                         @enderror
                         <div>
                             <label for="password">Password</label>
-                            <input type="password" wire:model.defer="password" class="form-control" name="password" id="password" @if(!$editarRegistro) placeholder="Obligatorio" @else null @endif />
+                            <input type="password" wire:model="password" class="form-control" name="password" id="password" @if(!$editarRegistro) placeholder="Obligatorio" @else null @endif />
                         </div>
                         @error('password')
                         <small class="text-danger">{{$message}}</small>
                         @enderror
                         <div>
                             <label for="confirmaPass">Confirma password</label>
-                            <input type="password" wire:model.defer="confirmaPassword" class="form-control" name="confirmaPass" id="confirmaPass" @if(!$editarRegistro) placeholder="Obligatorio" @else null @endif />
+                            <input type="password" wire:model="confirmaPassword" class="form-control" name="confirmaPass" id="confirmaPass" @if(!$editarRegistro) placeholder="Obligatorio" @else null @endif />
                         </div>
                         @error('confirmaPassword')
                         <small class="text-danger">{{$message}}</small>

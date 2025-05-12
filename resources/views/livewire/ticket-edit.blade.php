@@ -99,11 +99,11 @@ use Carbon\Carbon; ?>
                     <div class="align-items-center">
 
                         <div wire:ignore>
-                            <div name="message" id="message" wire:model.defer="message"></div>
+                            <div name="message" id="message" wire:model="message"></div>
                         </div>
 
                         <div class="float-left">
-                                <span style="font-size: 12px" wire:loading wire:target='archivoAdjunto'>
+                                    <span style="font-size: 12px" wire:loading wire:target='archivoAdjunto'>
                                     <img src="{{asset('img')}}/loading.gif" alt="cargando..." style="height: 25px; width:25px;"> Cargando...
                         </span>
 
@@ -129,7 +129,7 @@ use Carbon\Carbon; ?>
                         <div class="mr-2" style="width: 92%;">
                             <label for="plantilla"><strong> Plantillas</strong>
                                 <span class="badge" style="cursor:pointer;" id="btnShowAddPlantilla" title="Agregar plantilla" data-toggle="tooltip"><i class="fa fa-plus-circle text-info" style="font-size:16px"></i></span></label>
-                            <select name="plantilla" id="plantilla" class="form-control" wire:change="pastePlantilla" wire:model="plantilla">
+                            <select name="plantilla" id="plantilla" class="form-control" wire:change="pastePlantilla" wire:model.live="plantilla">
                                 <option value="">---Selecciona una opción---</option>
                                 @foreach($plantillas as $item)
                                 <option title="{{strip_tags($item->descripcion)}}" value="{{$item->descripcion}}" data-toggle="tooltip">{{$item->nombre}}</option>
@@ -151,7 +151,7 @@ use Carbon\Carbon; ?>
 
 
 
-                    <input type='file' class='d-none' name='archivoAdjunto' id='archivoAdjunto' wire:model.defer='archivoAdjunto' multiple>
+                    <input type='file' class='d-none' name='archivoAdjunto' id='archivoAdjunto' wire:model='archivoAdjunto' multiple>
 
 
                 </div>
@@ -171,7 +171,7 @@ use Carbon\Carbon; ?>
 
                         <div class="d-flex flex-column">
                             <label for="quien_reporta"><strong> Usuario </strong></label>
-                            <input type="text" name="quien_reporta" id="quien_reporta" wire:model.defer="quien_reporta" class="form-control field">
+                            <input type="text" name="quien_reporta" id="quien_reporta" wire:model="quien_reporta" class="form-control field">
                             @error('quien_reporta')
                             <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -179,7 +179,7 @@ use Carbon\Carbon; ?>
 
                         <div class="d-flex flex-column">
                             <label for="telefono"><strong> Teléfono </strong></label>
-                            <input type="tel" name="telefono" id="telefono" wire:model.defer="telefono" class="form-control field">
+                            <input type="tel" name="telefono" id="telefono" wire:model="telefono" class="form-control field">
                             @error('telefono')
                             <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -187,35 +187,35 @@ use Carbon\Carbon; ?>
 
                         <div class="d-flex flex-column">
                             <label for="edificio"><strong> Centro de trabajo </strong></label>
-                            <select class="form-control field" name="edificio" id="edificio" wire:model.defer="edificio">
+                            <select class="form-control field" name="edificio" id="edificio" wire:model="edificio">
                                 <option value="">---Selecciona una opción---</option>
                                 @foreach ($edificios as $item)
                                 <option>{{Str::upper($item->nombre)}}</option>
                                 @endforeach
                             </select>
-                            <!-- <input type="text" name="edificio" id="edificio" wire:model.defer="edificio" class="form-control"> -->
+                            <!-- <input type="text" name="edificio" id="edificio" wire:model="edificio" class="form-control"> -->
                         </div>
 
                         <div class="d-flex flex-column">
                             <label for="departamento"><strong>Departamento</strong></label>
-                            <select class="form-control field" name="departamento" id="departamento" wire:model.defer="departamento">
+                            <select class="form-control field" name="departamento" id="departamento" wire:model="departamento">
                                 <option value="">---Selecciona una opción---</option>
                                 @foreach ($departamentos as $item)
                                 <option>{{Str::upper($item->nombre)}}</option>
                                 @endforeach
                             </select>
-                            <!-- <input type="text" name="departamento" id="departamento" wire:model.defer="departamento" class="form-control"> -->
+                            <!-- <input type="text" name="departamento" id="departamento" wire:model="departamento" class="form-control"> -->
                             @error('departamento')
                             <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                         <div class="d-flex flex-column">
                             <label for="usuario_red"><strong>Usuario de red</strong></label>
-                            <input type="text" name="usuario_red" id="usuario_red" wire:model.defer="usuario_red" class="form-control field">
+                            <input type="text" name="usuario_red" id="usuario_red" wire:model="usuario_red" class="form-control field">
                         </div>
                         <div class="d-flex flex-column">
                             <label for="ip"><strong>IP</strong></label>
-                            <input type="text" name="ip" id="ip" wire:model.defer="ip" class="form-control field">
+                            <input type="text" name="ip" id="ip" wire:model="ip" class="form-control field">
                             @error('ip')
                             <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -223,12 +223,12 @@ use Carbon\Carbon; ?>
 
                         <div class="d-flex flex-column">
                             <label for="autoriza"><strong>Autoriza</strong></label>
-                            <input type="text" name="autoriza" id="autoriza" wire:model.defer="autoriza" class="form-control field">
+                            <input type="text" name="autoriza" id="autoriza" wire:model="autoriza" class="form-control field">
                         </div>
 
                         <div class="d-flex flex-column">
                             <label for="categoria"><strong>Categoría</strong></label>
-                            <select type="text" name="categoria" id="categoria" wire:model.defer="categoria" class="form-control field">
+                            <select type="text" name="categoria" id="categoria" wire:model="categoria" class="form-control field">
                                 <option value="">---Selecciona una opción---</option>
                                 @foreach ($categorias as $item)
                                 <option>
@@ -240,7 +240,7 @@ use Carbon\Carbon; ?>
 
                         <div class="d-flex flex-column">
                             <label for="asignado"><strong>Asignar a</strong></label>
-                            <select name="asignado" id="asignado" wire:model.defer="asignado" class="form-control field">
+                            <select name="asignado" id="asignado" wire:model="asignado" class="form-control field">
                                 <option value="">---Selecciona una opción---</option>
                                 @foreach ($usuarios as $item)
                                 <option value="{{ $item->id }}">{{ $item->name .' '. $item->lastname }}</option>
@@ -250,7 +250,7 @@ use Carbon\Carbon; ?>
 
                         <div class="d-flex flex-column">
                             <label for="prioridad"><strong>Prioridad</strong></label>
-                            <select name="prioridad" id="prioridad" wire:model.defer="prioridad" class="form-control field">
+                            <select name="prioridad" id="prioridad" wire:model="prioridad" class="form-control field">
                                 <option>Baja</option>
                                 <option>Media</option>
                                 <option>Alta</option>
@@ -259,12 +259,12 @@ use Carbon\Carbon; ?>
 
                         <div>
                             <label for="fecha_de_atencion"><strong>Fecha de atención</strong></label>
-                            <input type="date" class="form-control field-date" wire:model.defer="fecha_de_atencion">
+                            <input type="date" class="form-control field-date" wire:model="fecha_de_atencion">
                         </div>
 
                         <div>
                             <label for="unidad"><strong>Unidad</strong></label>
-                            <select name="unidad" id="unidad" class="form-control field" wire:model="unidad">
+                            <select name="unidad" id="unidad" class="form-control field" wire:model.live="unidad">
                                 <option value=""> ---Selecciona una opción ---</option>
                                 <option>1181 [F-150] </option>
                                 <option>1917 [Hilux] </option>
@@ -313,14 +313,14 @@ use Carbon\Carbon; ?>
                     @endif
 
                     <div class="mb-2">
-                        <input type="text" name="para" id="para" wire:model.defer="para" class="form-control" placeholder="Para" data-toggle="tooltip" title="Ingresa la lista de destinatarios separados por comas (,)" data-placement="left">
+                        <input type="text" name="para" id="para" wire:model="para" class="form-control" placeholder="Para" data-toggle="tooltip" title="Ingresa la lista de destinatarios separados por comas (,)" data-placement="left">
                         @error('para')
                         <small class="text-danger">{{$message}}</small>
                         @enderror
                     </div>
 
                     <label for="mensaje">Mensaje</label>
-                    <textarea name="mensaje" id="mensaje" rows="10" class="form-control" wire:model.defer="mensaje"></textarea>
+                    <textarea name="mensaje" id="mensaje" rows="10" class="form-control" wire:model="mensaje"></textarea>
 
                 </div>
                 <div class="modal-footer">
@@ -360,14 +360,14 @@ use Carbon\Carbon; ?>
                 <div class="modal-body">
 
                     <label for="nombreDePlantilla">Nombre</label>
-                    <input type="text" id="nombreDePlantilla" name="nombreDePlantilla" class="form-control" wire:model.defer="nombreDePlantilla">
+                    <input type="text" id="nombreDePlantilla" name="nombreDePlantilla" class="form-control" wire:model="nombreDePlantilla">
                     @error('complete')
                     <small class="text-danger">{{$message}}</small>
                     @enderror
 
                     <div wire:ignore>
                         <label for="descripcionDePlantilla">Descripción</label>
-                        <textarea name="descripcionDePlantilla" id="descripcionDePlantilla" class="form-control" wire:model.defer="descrpcionDePlantilla"></textarea>
+                        <textarea name="descripcionDePlantilla" id="descripcionDePlantilla" class="form-control" wire:model="descrpcionDePlantilla"></textarea>
                     </div>
 
 
@@ -394,7 +394,7 @@ use Carbon\Carbon; ?>
 
                     <div>
                         <label for="tema">Tema</label>
-                        <input type="text" class="form-control" id="temaTicket" name="temaTicket" wire:model.defer="tema">
+                        <input type="text" class="form-control" id="temaTicket" name="temaTicket" wire:model="tema">
                         @error('tema')
                         <small class="text-danger">{{$message}}</small>
                         @enderror
@@ -402,7 +402,7 @@ use Carbon\Carbon; ?>
 
                     <div wire:ignore>
                         <label for="descripcion">Descripción</label>
-                        <textarea type="text" class="form-control" id="descrTicket" name="descrTicket" wire:model.defer="descripcion"></textarea>
+                        <textarea type="text" class="form-control" id="descrTicket" name="descrTicket" wire:model="descripcion"></textarea>
                         @error('descripcion')
                         <small class="text-danger">{{$message}}</small>
                         @enderror

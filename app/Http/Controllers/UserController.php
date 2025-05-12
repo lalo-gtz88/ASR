@@ -11,19 +11,19 @@ class UserController extends Controller
     public function authenticate(Request $request){
 
          $request->validate([
-            'username' => ['required'],
+            'usuario' => ['required'],
             'password' => ['required'],
         ]);
  
-        if (Auth::attempt(['username'=>$request->username, 'password'=>$request->password, 'activo'=> 1])) {
+        if (Auth::attempt(['username'=>$request->usuario, 'password'=>$request->password, 'activo'=> 1])) {
             
             $request->session()->regenerate();
             return redirect()->intended('tickets');
         }
  
         return back()->withErrors([
-            'username' => 'Las credenciales proporcionadas son incorrectas, favor de verificar',
-        ])->onlyInput('username');
+            'password' => 'Las credenciales proporcionadas son incorrectas, favor de verificar',
+        ])->onlyInput('password');
     }
 
 
@@ -48,7 +48,7 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'username' => 'required',
+            'usuario' => 'required',
             'password' => 'required | min:8',
         ]);
         
@@ -57,7 +57,7 @@ class UserController extends Controller
 
         if(User::create([
             'name'=> $request->name,
-            'username' => $request->username,
+            'username' => $request->usuario,
             'password' => bcrypt($request->password)
         ])){
             return back()->with('success', 'Registro guardado');

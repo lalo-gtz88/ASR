@@ -1,99 +1,98 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="max-height: 3.5rem !important;">
-<img src="{{asset('img/logo.png')}}" width="40px" height="40px" class="d-inline-block align-top rounded mr-3" alt="Logo">
-  <a class="navbar-brand" href="{{route('tickets')}}">{{env('APP_NAME')}}</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item @if(Route::is('tickets')) active @endif"">
-        <a class=" nav-link" href="{{route('tickets')}}">Tickets</a>
-      </li>
-
-      <li class="nav-item @if(Route::is('todolist')) active @endif"">
-        <a class=" nav-link" href="{{route('todolist')}}">Actividades</a>
-      </li>
-
-      <li class="nav-item @if(Route::is('base')) active @endif"">
-        <a class=" nav-link" href="{{route('base')}}">Base de conocimiento</a>
-      </li>
-
-
-      {{--<li class="nav-item @if(Route::is('diagnosticos')) active @endif"">
-        <a class=" nav-link" href="{{route('diagnosticos')}}">Diagnósticos</a>
-      </li>--}}
-
-      <li class="nav-item dropdown @if(Route::is('usuarios') || Route::is('catalogos')) active @endif"">
-        <a class=" nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-        Administración
-        </a>
-        <div class="dropdown-menu">
-          @can('Seccion usuarios')
-          <a class="dropdown-item" href="{{route('usuarios')}}">Usuarios</a>
-          @endcan
-
-          @can('Catalogos')
-          <a class="dropdown-item" href="{{route('catalogos')}}">Catálogos</a>
-          @endcan
-
-          @can('Reporte de unidades')
-          <a class="dropdown-item" href="{{route('reporte.unidades')}}">Reporte de unidades</a>
-          @endcan
-
-          @can('Almacen')
-          <a class="dropdown-item" href="{{route('almacenes')}}">Almacén</a>
-          @endcan
-          
-          
+    <!-- Navbar para pantallas pequeñas -->
+    <nav class="navbar navbar-dark bg-dark d-lg-none">
+        <div class="container-fluid">
+            <button class="btn btn-outline-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar" aria-controls="mobileSidebar">
+                <i class="bi bi-list"></i> Menú
+            </button>
         </div>
-      </li>
-    </ul>
-    <ul class="navbar-nav ml-auto" style="margin-right: 100px;">
-      <li class="nav-item dropdown show mt-2">
-        <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true">
-          <i class="fa fa-bell-o"></i>
-          @if($notificaciones > 0)
-          <span class="badge badge-danger">1</span>
-          @endif
-        </a>
-        @if($notificaciones > 0)
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
-          <!-- Actividades -->
-          <a href="#">
-            @if(count($todolist) > 0)
-            <a href="{{route('todolist')}}"><span class="dropdown-item dropdown-header">Tienes <span>{{count($todolist)}}</span> actividad(es) pendient(es)</span></a>
-            @endif
-          </a>
-          <!-- ./actividades -->
+    </nav>
+
+    <!-- Sidebar fijo en pantallas grandes -->
+    <div class="sidebar d-none d-lg-block">
+        <h5 class="text-center">Menú</h5>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="bi bi-house"></i> Inicio</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('tickets')}}"><i class="bi bi-ticket"></i> Tickets</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link d-flex justify-content-between align-items-center toggleSubmenu" href="#">
+                    <span><i class="bi bi-pc-display"></i> Equipos</span>
+                    <i class="bi bi-chevron-down"></i>
+                </a>
+                <ul class="submenu" id="submenu">
+                    <li><a class="nav-link" href="{{route('equipos')}}"><i class="bi bi-box-seam"></i> Inventario</a></li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link d-flex justify-content-between align-items-center toggleSubmenu" href="#">
+                    <span><i class="bi bi-globe"></i> Red</span>
+                    <i class="bi bi-chevron-down"></i>
+                </a>
+                <ul class="submenu" id="submenu">
+                    <li><a class="nav-link" href="{{route('enlaces')}}"><i class="bi bi-link"></i> Enlaces</a></li>
+                    <li><a class="nav-link" href="{{route('mapaEnlaces')}}"><i class="bi bi-geo-alt"></i> Mapa</a></li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('todolist')}}"><i class="bi bi-list-task"></i> Actividades</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('almacenes')}}"><i class="bi bi-clipboard-check"></i> Almacén</a>
+            </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link d-flex justify-content-between align-items-center toggleSubmenu" href="#">
+                    <span><i class="bi bi-gear"></i> Administración</span>
+                    <i class="bi bi-chevron-down"></i>
+                </a>
+                <ul class="submenu" id="submenu">
+                    <li><a class="nav-link" href="{{route('catalogos')}}"><i class="bi bi-journals"></i> Catálogos</a></li>
+                    <li><a class="nav-link" href="{{route('usuarios')}}"><i class="bi bi-people"></i> Usuarios</a></li>
+                    
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Offcanvas para pantallas pequeñas -->
+    <div class="offcanvas offcanvas-start bg-dark text-white d-lg-none" tabindex="-1" id="mobileSidebar" aria-labelledby="mobileSidebarLabel">
+        <div class="offcanvas-header">
+            <h5 id="mobileSidebarLabel">Menú</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
         </div>
-        @endif
-      </li> 
-
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" style="font-size: x-large;">
-          <span data-toggle="tooltip" title="{{auth()->user()->name.' '.auth()->user()->lastname}}" data-placement='bottom'>
-            @if(auth()->user()->photo != null)
-            <img src="{{ asset('storage/perfiles').'/'. auth()->user()->photo }}" class="rounded-circle" style="height:40px; width:40px">
-            @else
-            {{substr(ucwords(auth()->user()->name),0,1).substr(ucwords(auth()->user()->lastname),0,1)}}
-            @endif
-          </span>
-        </a>
-
-        <div class="dropdown-menu">
-          @if(auth()->user()->photo != null)
-          <a href="#" id="verFoto" class="dropdown-item verFoto">Ver foto</a>
-          @endif
-          <a href="{{route('perfil')}}" class="dropdown-item">Pérfil</a>
-          <a href="#" id="logout" class="dropdown-item">Salir</a>
-          <form id="frmLogout" action="{{route('logout')}}" method="POST">
-            @csrf
-          </form>
+        <div class="offcanvas-body">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#"><i class="bi bi-house-door"></i> Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#"><i class="bi bi-person"></i> Perfil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white d-flex justify-content-between align-items-center toggleSubmenuMobile" href="#" >
+                        <span><i class="bi bi-list"></i> Más opciones</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                    <ul class="submenu" id="submenuMobile">
+                        <li><a class="nav-link text-white" href="#"><i class="bi bi-star"></i> Favoritos</a></li>
+                        <li><a class="nav-link text-white" href="#"><i class="bi bi-bell"></i> Notificaciones</a></li>
+                        <li><a class="nav-link text-white" href="#"><i class="bi bi-gear"></i> Ajustes</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
+                </li>
+            </ul>
         </div>
-      </li>
-    </ul>
-
-
-  </div>
-</nav>
+    </div>

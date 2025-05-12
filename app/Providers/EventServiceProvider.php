@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\IpAssigned;
+use App\Events\UpdateEquipoEvent;
+use App\Listeners\IpAssignedListener;
+use App\Listeners\UpdateEquipoListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +22,7 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        
     ];
 
     /**
@@ -28,6 +33,11 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        Event::listen(
+            UpdateEquipoEvent::class,
+            [UpdateEquipoListener::class, 'handle'],
+
+        );
     }
 
     /**

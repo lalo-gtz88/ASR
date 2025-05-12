@@ -2,11 +2,15 @@
 
 namespace App\Providers;
 
+use App\Events\CambiosTicket;
+use App\Listeners\RegistrarCambiosTicket;
 use App\Models\UsuarioActividades;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,6 +32,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
 
+        // Implicitly grant "Super Admin" role all permissions
+        // This works in the app by using gate-related functions like auth()->user->can() and @can()
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole('Super Admin') ? true : null;
+        });
+
 
         //compose all the views....
         view()->composer('*', function () {
@@ -48,6 +58,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
-    
+        Event::listen(
+            CambiosTicket::class,
+            RegistrarCambiosTicket::class,
+        );
     }
 }

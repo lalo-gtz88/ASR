@@ -9,12 +9,12 @@
 
     <div class="container-fluid pt-2">
 
-        <h2>EQUIPO EN STOCK</h2>
+        <h4>Equipos en stock</h4>
 
         <div class="d-flex align-items-center justify-content-between my-2">
             <div class="d-flex">
-                <input type="search" name="search" id="search" class="form-control" placeholder="Buscar..." wire:model="search" wire:keypress="getEquipos">
-                <select name="filtro" id="filtro" class="form-control" wire:model="filtroTipo">
+                <input type="search" name="search" id="search" class="form-control" placeholder="Buscar..." wire:model.live="search" wire:keypress="getEquipos">
+                <select name="filtro" id="filtro" class="form-control" wire:model.live="filtroTipo">
                     <option value="">TODOS</option>
                     @foreach($cat_tipos_equipos as $item)
                     <option>{{$item->nombre}}</option>
@@ -114,33 +114,33 @@
                 <div class="modal-body">
 
                     <label for="tipoId">Tipo de ID</label>
-                    <select name="tipoId" id="tipoId" class="form-control" wire:model.defer="tipoID">
+                    <select name="tipoId" id="tipoId" class="form-control" wire:model="tipoID">
                         <option>DSI</option>
                         <option>ST</option>
                         <option>SN</option>
                     </select>
 
                     <label for="">DSI / Service Tag / Número de serie</label>
-                    <input type="text" class="form-control" wire:model.defer="etiqueta">
+                    <input type="text" class="form-control" wire:model="etiqueta">
 
                     <label for="tipoEq">Tipo de equipo</label>
-                    <select name="tipoEq" id="tipoEq" class="form-control" wire:model="tipoEq">
+                    <select name="tipoEq" id="tipoEq" class="form-control" wire:model.live="tipoEq">
                         @foreach($tiposEquipos as $item)
                         <option>{{$item->nombre}}</option>
                         @endforeach
                     </select>
 
                     <label for="notas">Descripcion / Notas</label>
-                    <textarea name="notas" id="notas" class="form-control" wire:model.defer="notas"></textarea>
+                    <textarea name="notas" id="notas" class="form-control" wire:model="notas"></textarea>
 
                     <label for="condicion">Condición</label>
-                    <select name="condicion" id="condicion" wire:model="condicion" class="form-control">
+                    <select name="condicion" id="condicion" wire:model.live="condicion" class="form-control">
                         <option>NUEVO</option>
                         <option>USADO</option>
                     </select>
 
                     <label for="almacen">Almacén</label>
-                    <select name="almacen" id="almacen" class="form-control" wire:model="almacenID">
+                    <select name="almacen" id="almacen" class="form-control" wire:model.live="almacenID">
                         <option value="">---Selecciona una opción---</option>
                         @foreach($listAlmacenes as $item)
                         <option value="{{$item->id}}">{{$item->nombre}}</option>
@@ -171,7 +171,7 @@
                 </div>
                 <div class="modal-body">
                     <label for="destino">Destino</label>
-                    <select name="destino" id="destino" class="form-control" wire:model="destino">
+                    <select name="destino" id="destino" class="form-control" wire:model.live="destino">
                         <option>ASIGNAR EQUIPO</option>
                         <option>DAR DE BAJA</option>
                     </select>
@@ -179,7 +179,7 @@
                     @if($destino == 'ASIGNAR EQUIPO')
                     <div>
                         <label for="tecnico">Tecnico que instala</label>
-                        <select name="tecnico" id="tecnico" class="form-control" wire:model="tecnico">
+                        <select name="tecnico" id="tecnico" class="form-control" wire:model.live="tecnico">
                             <option value="">---Selecciona una opción---</option>
                             @foreach($tecnicos as $item)
                             <option value="{{$item->id}}">{{$item->name}} {{$item->lastname}}</option>
@@ -192,41 +192,41 @@
 
                     <div class="d-flex flex-column">
                         <label for="quien_reporta">Usuario</label>
-                        <input type="text" name="quien_reporta" id="quien_reporta" wire:model.defer="quien_reporta" class="form-control">
+                        <input type="text" name="quien_reporta" id="quien_reporta" wire:model="quien_reporta" class="form-control">
                         @error('quien_reporta')
                         <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                     <div class="d-flex flex-column">
                         <label for="edificio">Edificio</label>
-                        <select class="form-control" name="edificio" id="edificio" wire:model.defer="edificio">
+                        <select class="form-control" name="edificio" id="edificio" wire:model="edificio">
                             <option value="">---Selecciona una opción---</option>
                             @foreach ($edificios as $item)
                             <option>{{Str::upper($item->nombre)}}</option>
                             @endforeach
                         </select>
-                        <!-- <input type="text" name="edificio" id="edificio" wire:model="edificio" class="form-control"> -->
+                        <!-- <input type="text" name="edificio" id="edificio" wire:model.live="edificio" class="form-control"> -->
                     </div>
                     <div class="d-flex flex-column">
                         <label for="departamento">Departamento</label>
-                        <select class="form-control" name="departamento" id="departamento" wire:model="departamento">
+                        <select class="form-control" name="departamento" id="departamento" wire:model.live="departamento">
                             <option value="">---Selecciona una opción---</option>
                             @foreach ($departamentos as $item)
                             <option>{{Str::upper($item->nombre)}}</option>
                             @endforeach
                         </select>
-                        <!-- <input type="text" name="departamento" id="departamento" wire:model="departamento" class="form-control"> -->
+                        <!-- <input type="text" name="departamento" id="departamento" wire:model.live="departamento" class="form-control"> -->
                         @error('departamento')
                         <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                     <div class="d-flex flex-column">
                         <label for="autoriza">Autoriza</label>
-                        <input type="text" name="autoriza" id="autoriza" wire:model.defer="autoriza" class="form-control">
+                        <input type="text" name="autoriza" id="autoriza" wire:model="autoriza" class="form-control">
                     </div>
                     <div class="d-flex flex-column">
                         <label for="prioridad">Prioridad</label>
-                        <select name="prioridad" id="prioridad" wire:model="prioridad" class="form-control">
+                        <select name="prioridad" id="prioridad" wire:model.live="prioridad" class="form-control">
                             <option>Baja</option>
                             <option>Media</option>
                             <option>Alta</option>
@@ -235,7 +235,7 @@
 
                     <div>
                         <label for="fecha_de_atencion">Fecha de atención</label>
-                        <input type="date" class="form-control" wire:model.defer="fecha_de_atencion">
+                        <input type="date" class="form-control" wire:model="fecha_de_atencion">
                     </div>
 
                     @endif

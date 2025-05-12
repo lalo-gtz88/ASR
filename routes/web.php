@@ -1,30 +1,36 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\VerEnlace;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\Enlaces;
+use App\Http\Controllers\EditarTicket;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImportToExcel;
+use App\Http\Controllers\NuevoEnlace;
 use App\Http\Controllers\PDFController;
-use App\Http\Controllers\PlantillaController;
-use App\Http\Controllers\SendEventController;
-use App\Http\Controllers\TelegramSessionController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Livewire\RolesComponent;
-use App\Http\Livewire\TicketsComp;
-use App\Http\Livewire\TicketEdit;
-use App\Http\Livewire\UsersComponent;
-use App\Http\Livewire\CatalogosComp;
-use App\Http\Livewire\Edificios;
-use App\Http\Livewire\EditarDiagnostico;
-use App\Http\Livewire\ListDiagnosticos;
-use App\Http\Livewire\Monitoreo;
-use App\Http\Livewire\NuevoDiagnostico;
-use App\Http\Livewire\ToDoList;
-use App\Http\Livewire\Perfil;
-use App\Http\Livewire\RptUnidades;
-use App\Http\Livewire\AlmacenComp;
-use App\Http\Livewire\BaseConocimiento;
-use App\Http\Livewire\EditarBase;
-use App\Http\Livewire\NuevaBase;
+use App\Http\Controllers\EditarEnlace;
+use App\Http\Controllers\EquipoController;
+use App\Http\Controllers\RedMapas;
+use App\Http\Controllers\TicketsController;
+use App\Livewire\RolesComponent;
+use App\Livewire\UsersComponent;
+use App\Livewire\CatalogosComp;
+use App\Livewire\ToDoList;
+use App\Livewire\Perfil;
+use App\Livewire\RptUnidades;
+use App\Livewire\AlmacenComp;
+use App\Livewire\EditarEquipo;
+use App\Livewire\EquipoDetails;
+use App\Livewire\InventarioEquipos;
+use App\Livewire\MapaEnlaces;
+use App\Livewire\MemoriasTecnicas;
+use App\Livewire\MonitorEquipos;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -37,11 +43,10 @@ use App\Http\Livewire\NuevaBase;
 |
 */
 
-//Monitoreo
-Route::get('/monitoreo', Monitoreo::class)->name('monitoreo');
 //Login
 Route::view('/', 'login')->name('login');
 Route::post('/loginned', [UserController::class, 'authenticate'])->name('loginned');
+Route::get('/route-cache', function() { Artisan::call('route:cache'); return 'Routes cache cleared'; });
 
 
 //Auth
@@ -54,23 +59,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/user/save', [UserController::class, 'store'])->name('users.store');
 
     //Tickets
-    Route::get('/tickets', TicketsComp::class)->name('tickets');
-    Route::get('/tickets/editar/{ticket}', TicketEdit::class)->name('tickets.editar');
+    Route::view('/tickets', 'tickets')->name('tickets');
+    Route::get('/nuevo/ticket',[TicketsController::class, 'newTicket'] )->name('nuevoTicket');
+    Route::get('/copia/ticket/{id}',[TicketsController::class, 'copy'] )->name('copyTicket');
+    Route::get('/ticket/{id}',[EditarTicket::class, 'index'] )->name('editarTicket');
     Route::get('/ticket/document/{id}', [PDFController::class, 'viewDocTicket'])->name('ticketDocument');
-
-
-
-    //Base de conocimiento
-    Route::get('/baseConocimiento', BaseConocimiento::class)->name('base');
-    Route::get('/baseConocimiento/nueva', NuevaBase::class)->name('nuevaBase');
-    Route::get('/baseConocimiento/editar/{id}', EditarBase::class)->name('editarBase');
-
-    //Red
-
 
     //Catalogos
     Route::group(['middleware' => ['permission:Catalogos']], function () {
-        Route::get('/admin/catalogos', CatalogosComp::class)->name('catalogos');
+        Route::get('/admin/catalogos',  [AdminController::class, 'indexCat'])->name('catalogos');
     });
 
     //Perfil
@@ -79,11 +76,23 @@ Route::middleware(['auth'])->group(function () {
     //Actividades
     Route::get('/actividades', ToDoList::class)->name('todolist');
 
-    //Diagnosticos
-    Route::get('/diagnosticos/', ListDiagnosticos::class)->name('diagnosticos');
-    Route::get('/diagnosticos/nuevo', NuevoDiagnostico::class)->name('nuevo.diagnostico');
-    Route::get('/diagnosticos/editar/{id}', EditarDiagnostico::class)->name('editar.diagnostico');
-    Route::get('/diagnosticos/document/{id}', [PDFController::class, 'getDocDiagnostico'])->name('docDiagnostico');
+    //Red
+    Route::get('/enlaces', [Enlaces::class, 'index'])->name('enlaces');
+    Route::get('/nuevo/enlace', [NuevoEnlace::class, 'index' ])->name('nuevoEnlace');
+    Route::get('/editar/enlace/{id}', [EditarEnlace::class, 'index'])->name('editarEnlace');
+    Route::get('/details/enlace/{id}', [VerEnlace::class, 'index'])->name('verEnlace');
+    Route::get('/mapa/enlaces/', [RedMapas::class, 'index'])->name('mapaEnlaces');
+
+    //Equipos
+    Route::view('/equipos', 'equipos-inventario')->name('equipos');
+    Route::get('/equipo/details/{id}', [EquipoController::class, 'index'])->name('detalleEquipo');
+    Route::get('/equipo/editar/{id}', [EquipoController::class, 'edit'])->name('editarEquipo');
+
+    //Monitoreo equipos
+    Route::get('/monitoreo/equipos', MonitorEquipos::class)->name('monitoreoEquipos');
+    
+    //Documentos
+    Route::get('/memorias', MemoriasTecnicas::class)->name('memorias');
 
 
     //Reportes de unidades
@@ -96,16 +105,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/almacen', AlmacenComp::class)->name('almacenes');
     });
 
+    //Excel
+    Route::post('/uploadEquipos', [ImportToExcel::class, 'import'])->name('uploadEquipos');
+
     //Users
     Route::group(['middleware' => ['permission:Seccion usuarios']], function () {
         Route::get('/usuarios', UsersComponent::class)->name('usuarios');
         Route::get('/user/roles/{id}', RolesComponent::class)->name('roles');
     });
-
-
-
-
-    Route::post('/plantillas/add', [PlantillaController::class, 'save'])->name('plantillas.save');
-    Route::get('/eventServ', [SendEventController::class, 'send'])->name('sendEvent');
-    Route::post('/uploadEquipos', [ImportToExcel::class, 'import'])->name('uploadEquipos');
+    
 });

@@ -78,7 +78,7 @@
                     @can('Creacion de actividades')
                     <div>
                         <label for="descripcion"><strong>Nueva actividad</strong></label>
-                        <input type="text" id="descripcion" wire:model.defer="descripcion" class="form-control" autofocus placeholder="Describe aquí la actividad que deseas registrar...">
+                        <input type="text" id="descripcion" wire:model="descripcion" class="form-control" autofocus placeholder="Describe aquí la actividad que deseas registrar...">
                         @error('descripcion')
                         <small class="text-danger">{{$message}}</small>
                         @enderror
@@ -86,7 +86,7 @@
                     <div class="row mb-2">
                         <div class="col-lg-3">
                             <label for="fecha"><strong>Fecha</strong></label>
-                            <input type="date" id="fecha" wire:model.defer="fecha" class="form-control">
+                            <input type="date" id="fecha" wire:model="fecha" class="form-control">
                             @error('fecha')
                             <small class="text-danger">{{$message}}</small>
                             @enderror
@@ -97,7 +97,7 @@
 
                     @foreach($usuarios as $user)
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" wire:model="usuariosAdd" value="{{$user->id}}" id="chk{{$user->id}}">
+                        <input class="form-check-input" type="checkbox" wire:model.live="usuariosAdd" value="{{$user->id}}" id="chk{{$user->id}}">
                         <label class="form-check-label" for="chk{{$user->id}}">
                             {{$user->name .' '.$user->lastname}}
                         </label>

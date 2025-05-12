@@ -35,7 +35,7 @@
                         @foreach($permisos as $item)
                         <div class="form-check">
                             <label class="form-check-label" for="chk{{$item->id}}">
-                                <input class="form-check-input" wire:model="permisosAsignados" id="chk{{$item->id}}" type="checkbox" value="{{$item->name}}">
+                                <input class="form-check-input" wire:model.live="permisosAsignados" id="chk{{$item->id}}" type="checkbox" value="{{$item->name}}">
                                 {{$item->name}}
                             </label>
                         </div>

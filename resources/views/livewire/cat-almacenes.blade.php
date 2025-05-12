@@ -3,7 +3,7 @@
         <div class="card-body">
         <label> <strong>Nuevo Almacén</strong></label>
         <div class="input-group mb-2">
-            <input type="text" class="form-control" wire:model="nameAlmacen">
+            <input type="text" class="form-control" wire:model.live="nameAlmacen">
             <div class="input-group-append">
                 @if(!$editar)
                 <button class="btn btn-secondary" wire:click="store"><i class="fa fa-save"></i> Guardar</button>

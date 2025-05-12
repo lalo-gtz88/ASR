@@ -46,7 +46,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="">Password nuevo</label>
-                        <input type="password" class="form-control" wire:model.defer="password" name="password" id="password">
+                        <input type="password" class="form-control" wire:model="password" name="password" id="password">
                         @error('password')
                         <small class="text-danger">{{$message}}</small>
                         @enderror
@@ -56,7 +56,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Confirma password</label>
-                        <input type="password" class="form-control" wire:model.defer="confirmaPassword" name="confirma_password" id="confirma_password">
+                        <input type="password" class="form-control" wire:model="confirmaPassword" name="confirma_password" id="confirma_password">
                         @error('confirmaPassword')
                         <small class="text-danger">{{$message}}</small>
                         @enderror
@@ -83,13 +83,13 @@
                 <div class="modal-body text-center">
                     @if($foto == null)
                     <label for="photo">
-                        <input type="file" name="photo" id="photo" wire:model="foto" class="d-none">
+                        <input type="file" name="photo" id="photo" wire:model.live="foto" class="d-none">
                         <span style="cursor:pointer; background-color:#9FA5AA; color:#FFF;" class="btn"> <i class="fa fa-paperclip"></i> 
                         Subir archivo...</span>
                     </label>
                     @else
                     <label for="photo">
-                        <input type="file" name="photo" id="photo" wire:model="foto" class="d-none">
+                        <input type="file" name="photo" id="photo" wire:model.live="foto" class="d-none">
                         <img style="cursor:pointer; border-radius: 100px; height: 130px; width: 130px;" title="Subir foto de pérfil" src="{{ $foto->temporaryUrl() }}">
                         <!-- <div class="d-flex justify-content-around">
                             <button class="btn btn-link" wire:click="storePhoto"><i class="fa fa-check"></i> Aceptar</button>

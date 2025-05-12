@@ -3,7 +3,7 @@
         <div class="card-body">
             <label for="nombre">@if(!$editar)Nuevo @else Editar @endif categoría</label>
             <div class="input-group mb-2">
-                <input type="text" class="form-control" id="nombre" wire:model.defer="nombre" placeholder="Nombre">
+                <input type="text" class="form-control" id="nombre" wire:model="nombre" placeholder="Nombre">
                 <div class="input-group-append">
                     @if(!$editar)
                     <button class="btn btn-secondary" wire:click="store()"><i class="fa fa-save"></i> Guardar</button>

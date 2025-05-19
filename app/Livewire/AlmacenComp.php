@@ -52,10 +52,6 @@ class AlmacenComp extends Component
 
     protected $listeners = ['reload', 'delete'];
 
-    protected function updatingSearch()
-    {
-        $this->resetPage();
-    }
 
     public function render()
     {
@@ -68,6 +64,12 @@ class AlmacenComp extends Component
 
         $equipos = $this->getEquipos();
         return view('livewire.almacen-comp', compact('equipos'));
+    }
+
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
     }
 
     function getAlmacenes()
@@ -126,8 +128,8 @@ class AlmacenComp extends Component
         ];
 
         EqStock::insert($eq);
-        $this->dispatchBrowserEvent('alerta', ['type' => 'success', 'msg' => 'Registro guardado!']);
-        $this->dispatchBrowserEvent('closeModal');
+        $this->dispatch('alerta', ['type' => 'success', 'msg' => 'Registro guardado!']);
+        $this->dispatch('closeModal');
     }
 
     function edit($id)
@@ -143,7 +145,7 @@ class AlmacenComp extends Component
         $this->tipoID = $eq->tip_id;
         $this->editar = true;
 
-        $this->dispatchBrowserEvent('editar');
+        $this->dispatch('editar');
     }
 
     function update()
@@ -159,7 +161,7 @@ class AlmacenComp extends Component
         $e->user_updated_id = Auth::user()->id;
 
         $e->save();
-        $this->dispatchBrowserEvent('alerta', ['type' => 'success', 'msg' => 'Cambios guardados!']);
+        $this->dispatch('alerta', ['type' => 'success', 'msg' => 'Cambios guardados!']);
     }
 
     function reload()
@@ -177,7 +179,7 @@ class AlmacenComp extends Component
     function showModalSalida($id) {
      
         $this->eqSalidaID = EqStock::find($id)->id;
-        $this->dispatchBrowserEvent('shoModalSalida');
+        $this->dispatch('shoModalSalida');
         
     }
 
@@ -224,10 +226,10 @@ class AlmacenComp extends Component
             $seguimiento->save();
 
             //mandamos alerta
-            $this->dispatchBrowserEvent('alerta', ['type'=>'success', 'msg'=> 'Cambios guardados!']);
+            $this->dispatch('alerta', ['type'=>'success', 'msg'=> 'Cambios guardados!']);
 
             //escondemos el modal
-            $this->dispatchBrowserEvent('closeModal');
+            $this->dispatch('closeModal');
         }
     }
 
@@ -236,8 +238,8 @@ class AlmacenComp extends Component
         $e = EqStock::find($this->eqSalidaID);
         $e->deleted = true;
         $e->save();
-        $this->dispatchBrowserEvent('alerta', ['type'=>'success', 'msg'=> 'Equipo dado de baja!']);
-        $this->dispatchBrowserEvent('closeModal');
+        $this->dispatch('alerta', ['type'=>'success', 'msg'=> 'Equipo dado de baja!']);
+        $this->dispatch('closeModal');
     }
 
     function orderEq($field) {   

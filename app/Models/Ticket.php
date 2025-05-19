@@ -48,4 +48,14 @@ class Ticket extends Model
         
         return $this->hasMany(Seguimiento::class, 'ticket', 'id');
     }
+
+    function getColorPrioridadAttribute()  {
+
+        return match ($this->prioridad) {
+            'Baja' => 'success',
+            'Media' => 'warning',
+            'Alta' => 'danger',
+            default => 'secondary',
+        };
+    }
 }

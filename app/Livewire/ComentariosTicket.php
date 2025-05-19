@@ -66,7 +66,7 @@ class ComentariosTicket extends Component
     function guardarComentario()
     {
 
-        if ($this->mensaje == "" || $this->mensaje == '<br>' || $this->mensaje == '<p><br></p>' || $this->mensaje == '') {
+        if ($this->mensaje == "" ) {
 
             return;
         }

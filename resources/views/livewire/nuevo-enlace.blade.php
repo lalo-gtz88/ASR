@@ -7,8 +7,8 @@
 
     <div class="container-fluid mt-3">
 
-        <a href="{{route('enlaces')}}" class="mr-2"><i class="fa fa-arrow-circle-left"></i> Atras</a>
-
+        <h4>Nuevo Enlace</h4>
+        
         <div class="row">
             <div class="col-lg-4">
                 <div>
@@ -119,6 +119,8 @@
                 <div id="map" wire:ignore></div>
             </div>
         </div>
+        
+    
     </div>
 
 

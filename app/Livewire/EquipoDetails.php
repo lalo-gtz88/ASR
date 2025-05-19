@@ -32,12 +32,12 @@ class EquipoDetails extends Component
         $this->inventario = $e->inventario;
         $this->tipo = $e->tipo;
         $this->tipoNombre = $e->relTipoEquipo->nombre;
-        $this->marca = $e->relMarca->nombre;
-        $this->modelo = $e->relModelo->nombre;
+        $this->marca = ($e->marca)? $e->relMarca->nombre: null;
+        $this->modelo = ($e->modelo)? $e->relModelo->nombre: null;
         $this->fechaDeAdquisicion = $e->fecha_adquisicion;
         $this->direccionIp =($e->direccion_ip)? $this->obtenerIP($e->direccion_ip)[0]->dir: null;
         $this->direccionMac = $e->direccion_mac;
-        $this->photo = $e->relModelo->foto;
+        $this->photo = ($e->modelo)? $e->relModelo->foto: null;
 
     }
 

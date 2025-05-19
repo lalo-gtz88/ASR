@@ -10,14 +10,18 @@ class CajaEstadistica extends Component
 
     public $etiqueta;
     public $metodo;
+    public $color;
+    public $icon;
 
 
     protected $listeners = ['ticket-saved' => '$refresh'];
 
-    public function mount($etiqueta = null, $metodo = null)
+    public function mount($etiqueta = null, $metodo = null, $color=null, $icon=null)
     {
         $this->etiqueta = $etiqueta;
         $this->metodo = $metodo;
+        $this->color = $color;
+        $this->icon = $icon;
     }
 
     public function render()

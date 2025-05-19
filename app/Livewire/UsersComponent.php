@@ -7,13 +7,14 @@ use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\UserPrivilegio;
-
+use Livewire\Attributes\Url;
 
 class UsersComponent extends Component
 {
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
+    #[Url('q')]
     public $search = '';
     public $idUser = '';
     public $usuario = '';
@@ -32,15 +33,23 @@ class UsersComponent extends Component
 
     public function render()
     {
-        $users = User::where('activo', 1)
-            ->where('username', '!=', 'admin')
+
+        $users = User::where('activo', 1)->where('username', '!=', 'admin')
             ->where(function ($q) {
-                $q->where('username', 'like', '%' . $this->search . '%');
-                $q->orWhere('name', 'like', '%' . $this->search . '%');
+                $q->where('username', 'like', "%{$this->search}%");
+                $q->orWhereRaw("concat_ws('',name,lastname) like '%{$this->search}%'");
             })->paginate(10);
 
         return view('livewire.users-component', compact('users'));
     }
+
+
+    
+
+    public function updatedSearch(){
+        $this->resetPage();
+    }
+
 
     public function store()
     {
@@ -78,7 +87,7 @@ class UsersComponent extends Component
         $user->save();
         $this->clear();
 
-        $this->dispatchBrowserEvent('alerta', ['msg'=>'Registro guardado!']);
+        $this->dispatch('alerta', ['msg'=>'Registro guardado!']);
     }
 
     public function clear()
@@ -157,6 +166,6 @@ class UsersComponent extends Component
         $user->save();
         $this->cancel();
 
-        $this->dispatchBrowserEvent('alerta', ['msg'=>'Cambios guardados!']);
+        $this->dispatch('alerta', ['msg'=>'Cambios guardados!']);
     }
 }

@@ -11,46 +11,133 @@
   <title>Acceso</title>
 
 
-  <style>
-    body {
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-      background-color: #FFF;
-      margin: 0;
-      padding: 0;
-      font-family: var(--bs-font-sans-serif);
-      font-size: 1rem;
-      font-weight: 400;
-      line-height: 1.5;
-      color: #212529;
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', sans-serif;
+        }
 
-    }
-  </style>
+        .full-screen {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
 
+        .left-side {
+            flex: 1;
+            background: linear-gradient(to bottom right, #002b4c, #0078d4);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+        }
 
+        .left-side img {
+            max-width: 120px;
+            margin-bottom: 1.5rem;
+        }
+
+        .right-side {
+            flex: 1;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 3rem 4rem;
+        }
+
+        .form-control {
+            margin-bottom: 1.2rem;
+        }
+
+        .btn-login {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .btn-login:hover {
+            background-color: #004494;
+        }
+
+        .top-right {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+        }
+
+        .top-right a {
+            font-size: 0.9rem;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .top-right a.btn {
+            margin-left: 1rem;
+        }
+
+        .text-small {
+            font-size: 0.875rem;
+        }
+
+        .form-header {
+            margin-bottom: 2rem;
+        }
+
+        .logoImg{
+          height: 170px;
+        }
+    </style>
 </head>
+<body>
 
-<body class="text-center">
 
-  <form class="mx-auto col-md-6 col-lg-2" style="margin-top: 140px;" action="{{ route('loginned') }}" method="post">
-    <img src="{{asset('img') }}/logo.png" class="card-img-top" alt="Logo" style="height:200px; width:200px">
-    <h1 class="h3 mb-3 fw-normal">Inicio de sesión</h1>
-    @csrf
-    <div class="form-floating">
-      <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Usuario" style="height: 60px;">
-      @error('usuario')
-      <small class="text-danger">{{ $message }}</small>
-      @enderror
+    <div class="full-screen">
+
+        {{-- Columna Izquierda --}}
+        <div class="left-side">
+            <img src="{{ asset('img/logo.png') }}" alt="Logo" class="logoImg m-0">
+            <h2 class="m-0">NetDesk</h2>
+            <p class="mt-3">Gestión para servicios de red y tickets de servicio en TI</p>
+            <small class="mt-5">Versión 3.0</small>
+        </div>
+
+        {{-- Columna Derecha --}}
+        <div class="right-side mx-auto col-md-5">
+            <div class="form-header">
+                <h3>Iniciar sesión</h3>
+                <p class="text-muted">Introduce tus credenciales para continuar</p>
+            </div>
+
+            <form action="{{ route('loginned') }}" method="POST">
+                @csrf
+
+                <label class="form-label">Usuario</label>
+                <input type="text" class="form-control" name="usuario" placeholder="Ingresa tu usuario" required>
+                @error('usuario')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+
+                <label class="form-label mt-2">Contraseña</label>
+                <input type="password" class="form-control" name="password" placeholder="Contraseña" required>
+                @error('password')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+
+                <button type="submit" class="btn btn-login w-100 my-5">Entrar</button>
+                
+            </form>
+        </div>
+
     </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="password" name="password" placeholder="Password" style="height: 60px;">
-      @error('password')
-      <small class="text-danger">{{ $message }}</small>
-      @enderror
-    </div>
-
-    <button class="w-100 mt-3 btn btn-lg text-white" type="submit" style="background-color: #0056b3;">Entrar</button>
-  </form>
-
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>

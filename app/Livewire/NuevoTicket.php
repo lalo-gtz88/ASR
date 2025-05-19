@@ -40,6 +40,7 @@ class NuevoTicket extends Component
     public $unidad;
     public $direccionIp;
     public $usuariosNotificar = [];
+    public $tempImage;
 
 
     public function mount() {
@@ -58,6 +59,11 @@ class NuevoTicket extends Component
             $this->categoria = $ticket->categoria;
             $this->asignado = $ticket->asignado;
             $this->prioridad = $ticket->prioridad;
+
+                    
+            //lanzamos un evento para setear trix editor 
+            $this->dispatch('setEditor', contenido: $this->descripcion);
+        
         }
         
     }
@@ -166,7 +172,7 @@ class NuevoTicket extends Component
         //}
 
         //limpiamos
-        $this->reset();
+        $this->resetExcept('uniqueId');
         $this->dispatch('limpiarDescripcion');
     }
 
@@ -203,7 +209,7 @@ class NuevoTicket extends Component
     function enviarTelegram($destino, $mensaje)
     {
 
-        $this->dispatch('enviar-notificacion-telegram', destino: $destino, msj: $mensaje);
+       // $this->dispatch('enviar-notificacion-telegram', destino: $destino, msj: $mensaje);
     }
 
     #[On('limpiar')]
@@ -222,4 +228,5 @@ class NuevoTicket extends Component
         return $unicos;
         
     }
+
 }

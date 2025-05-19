@@ -12,6 +12,12 @@ class EquipoController extends Controller
         return view('equipo-detalles', compact('uniqueId'));
     }
 
+    function create() {
+        
+        return view('nuevo-equipo');
+    }
+
+
     function edit($id) {
         
         $uniqueId = $id;

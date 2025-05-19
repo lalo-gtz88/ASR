@@ -1,220 +1,225 @@
-<div class="col-6 mt-3">
+<div>
 
-    <a href="{{route('tickets')}}" class="mr-2"><i class="fa fa-arrow-circle-left"></i> Atras</a>
+  <h1 class="h3 my-4">Nuevo ticket</h1>
 
-    <div class="d-flex flex-column">
-        <label for="tema">Tema <span><strong>*</strong></span></label>
-        <input type="text" id="tema" wire:model="tema" class="form-control" placeholder="Obligatorio (100 caracteres máximo)"
-         maxlength="100"
-         autofocus>
-        @error('tema')
-        <small class="text-danger">{{ $message }}</small>
-        @enderror
+  <form wire:submit.prevent="guardar">
+    {{-- Información del Ticket --}}
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">Información del Ticket</div>
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="tema" class="form-label">Tema *</label>
+            <input type="text" wire:model="tema" class="form-control" id="tema" maxlength="100" >
+              @error('tema')
+              <small class="text-danger">{{ $message }}</small>
+              @enderror
+          </div>
+          <div class="col-md-6">
+            <label for="telefono" class="form-label">Teléfono / EXT *</label>
+            <input type="text" wire:model="telefono" class="form-control" id="telefono" >
+              @error('telefono')
+              <small class="text-danger">{{$message}}</small>
+              @enderror
+          </div>
+        </div>
+        <div id="editor-container" wire:ignore class="mb-3">
+          <label for="descripcion">Descripción <span><strong>*</strong></span></label>
+          <input id="descripcion" type="hidden" wire:model.live="descripcion">
+          <trix-editor input="descripcion"></trix-editor>
+
+          @error('descripcion')
+          <small class="text-danger">{{$message}}</small>
+          @enderror
+
+        </div>
+      </div>
     </div>
 
-    <label for="descripcion">Descripción <span><strong>*</strong></span></label>
-    <div id="contentDescripcion" wire:ignore>
-        <textarea id="descripcion" wire:model="descripcion"></textarea>
-    </div>
-    @error('descripcion')
-    <small class="text-danger">{{$message}}</small>
-    @enderror
+    {{-- Información del Solicitante --}}
+    <div class="card mb-4">
+      <div class="card-header bg-secondary text-white">Información del Solicitante</div>
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label for="usuario" class="form-label">Usuario</label>
+            <input type="text" wire:model="quien_reporta" class="form-control" id="usuario">
+          @error('quien_reporta')
+          <small class="text-danger">{{$message}}</small>
+          @enderror
+          </div>
+          <div class="col-md-4">
+            <label for="edificio" class="form-label">Edificio</label>
+            <select wire:model="edificio" class="form-select" id="edificio">
+              <option value="">-- Selecciona una opción --</option>
+              @foreach($edificios as $index => $edificio)
+                <option>{{Str::upper($edificio->nombre)}}</option>
+              @endforeach
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="departamento" class="form-label">Departamento</label>
+            <select wire:model="departamento" class="form-select" id="departamento">
+              <option value="">-- Selecciona una opción --</option>
+              @foreach($departamentos as $id => $dpto)
+                <option>{{Str::upper($dpto->nombre)}}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+        <div class="row mb-3">
 
-    <div class="d-flex flex-column">
-        <label for="telefono">Teléfono / EXT<span><strong>*</strong></span></label>
-        <input type="tel" id="telefono" wire:model="telefono" class="form-control">
-        @error('telefono')
-        <small class="text-danger">{{ $message }}</small>
-        @enderror
-    </div>
+          <div class="col-md-4">
+            <label for="usuario_red" class="form-label">Usuario de Red</label>
+            <input type="text" wire:model="usuario_red" class="form-control" id="usuario_red">
+          </div>
 
-    <div class="d-flex flex-column">
-        <label for="quien_reporta">Usuario</label>
-        <input type="text" id="quien_reporta" wire:model="quien_reporta" class="form-control">
-        @error('quien_reporta')
-        <small class="text-danger">{{ $message }}</small>
-        @enderror
-    </div>
+          <div class="col-md-4">
+            <label for="ip" class="form-label">IP</label>
+            <input type="text" wire:model="direccionIp" class="form-control" id="ip">
+            @error('direccionIp')
+            <small class="text-danger">{{ $message }}</small>
+            @enderror
+          </div>
 
-
-    <div class="d-flex flex-column">
-        <label for="edificio">Edificio</label>
-        <select class="form-control" id="edificio" wire:model="edificio">
-            <option value="">---Selecciona una opción---</option>
-            @foreach ($edificios as $item)
-            <option>{{Str::upper($item->nombre)}}</option>
-            @endforeach
-        </select>
-        <!-- <input type="text" name="edificio" id="edificio" wire:model.live="edificio" class="form-control"> -->
-    </div>
-
-    <div class="d-flex flex-column">
-        <label for="departamento">Departamento</label>
-        <select class="form-control" id="departamento" wire:model="departamento">
-            <option value="">---Selecciona una opción---</option>
-            @foreach ($departamentos as $item)
-            <option>{{Str::upper($item->nombre)}}</option>
-            @endforeach
-        </select>
-
-        @error('departamento')
-        <small class="text-danger">{{ $message }}</small>
-        @enderror
-    </div>
-    <div class="d-flex flex-column">
-        <label for="usuario_red">Usuario de red</label>
-        <input type="text" id="usuario_red" wire:model="usuario_red" class="form-control">
-    </div>
-    <div class="d-flex flex-column">
-        <label for="ip">IP</label>
-        <input type="text" id="ip" wire:model="direccionIp" class="form-control" maxlength="7">
-        @error('ip')
-        <small class="text-danger">{{ $message }}</small>
-        @enderror
+          
+          <div class="col-md-4">
+            <label for="autoriza" class="form-label">Autoriza</label>
+            <input type="text" wire:model="autoriza" class="form-control" id="autoriza">
+            @error('autoriza')
+            <small class="text-danger">{{ $message }}</small>
+            @enderror
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="d-flex flex-column">
-        <label for="autoriza">Autoriza</label>
-        <input type="text" id="autoriza" wire:model="autoriza" class="form-control">
-    </div>
-
-    <div class="d-flex flex-column">
-        <label for="categoria">Categoría</label>
-        <select type="text" id="categoria" wire:model="categoria" class="form-control">
-            <option value="">---Selecciona una opción---</option>
-            @foreach ($categorias as $item)
-            <option>
-                {{ Str::upper($item->name)}}
-            </option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="d-flex flex-column">
-        <label for="asignado">Asignar a</label>
-        <select id="asignado" wire:model="asignado" class="form-control">
-            <option value=""> ---Selecciona una opción--- </option>
-            @foreach ($tecnicos as $item)
-            <option value="{{ $item->id }}">{{ $item->name . ' ' . $item->lastname }}
-            </option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="d-flex flex-column">
-        <label for="prioridad">Prioridad</label>
-        <select id="prioridad" wire:model="prioridad" class="form-control">
-            <option>Baja</option>
-            <option>Media</option>
-            <option>Alta</option>
-        </select>
-    </div>
-
-    <div>
-        <label for="fecha_de_atencion">Fecha de atención</label>
-        <input type="date" class="form-control" wire:model="fecha_de_atencion">
-    </div>
-
-    <div>
-        <label for="unidad"><strong>Unidad</strong></label>
-        <select id="unidad" class="form-control field" wire:model="unidad">
-            <option value=""> ---Selecciona una opción ---</option>
-            <option>1181 [F-150] </option>
-            <option>1917 [Hilux] </option>
-            <option>2319 [Versa] </option>
-        </select>
+    {{-- Asignación y Prioridad --}}
+    <div class="card mb-4">
+      <div class="card-header bg-info text-white">Asignación y Prioridad</div>
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label for="categoria" class="form-label">Categoría</label>
+            <select wire:model.defer="categoria" class="form-select" id="categoria">
+              <option value="">-- Selecciona una opción --</option>
+              @foreach($categorias as $index => $cat)
+                   <option>{{ Str::upper($cat->name)}}</option>
+              @endforeach
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="asignado_a" class="form-label">Asignar a</label>
+            <select wire:model="asignado" class="form-select" id="asignado_a">
+              <option value="">-- Selecciona una opción --</option>
+              @foreach($tecnicos as $index => $tec)
+                <option value="{{ $tec->id }}">{{ $tec->name .' '. $tec->lastname }}</option>
+              @endforeach
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="prioridad" class="form-label">Prioridad</label>
+            <select wire:model="prioridad" class="form-select" id="prioridad">
+              <option value="baja">Baja</option>
+              <option value="media">Media</option>
+              <option value="alta">Alta</option>
+            </select>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label for="fecha_atencion" class="form-label">Fecha de atención</label>
+            <input type="date" wire:model="fecha_de_atencion" class="form-control" id="fecha_atencion">
+          </div>
+          <div class="col-md-8">
+            <label for="unidad" class="form-label">Unidad</label>
+            <select id="unidad" class="form-control field" wire:model="unidad">
+              <option value=""> ---Selecciona una opción ---</option>
+              <option>1181 [F-150] </option>
+              <option>1917 [Hilux] </option>
+              <option>2319 [Versa] </option>
+          </select>
+          </div>
+        </div>
+      </div>
     </div>
 
     @error('attachment.*')
-    <small class="text-danger">{{ $message }}</small>
+      <small class="text-danger">{{ $message }}</small>
     @enderror
 
+    {{-- Adjuntar archivo --}}
 
+    <div class="d-flex align-items-center justify-content-between">
 
-    <div class="d-flex align-items-center justify-content-between w-100 mt-3">
+      <div>
 
-        <div>
+          <label for="attach">
+              <!-- Input para subir archivos -->
+              <input type="file" id="attach" wire:model="attachment" multiple class="form-control d-none">
+              <span class="btn btn-secondary" wire:loading.remove.attr="disabled"><i class="fa fa-paperclip"></i> Adjuntar archivo</span>
+          </label>
 
-            <label for="attach">
-                <!-- Input para subir archivos -->
-                <input type="file" id="attach" wire:model="attachment" multiple class="form-control d-none">
-                <span class="btn btn-secondary" wire:loading.remove.attr="disabled"><i class="fa fa-paperclip"></i> Adjuntar archivo</span>
-            </label>
+          <div wire:loading wire:target="attachment">
+              <span><img src="{{asset('img/loading.gif')}}" style="height: 32px; width:32px" alt="cargando archivos"></span>
+          </div>
 
+          <div class="mt-2">
+            @if($attachment)
+            <div class="d-flex">
+              @foreach($attachment as $item => $value)
+              @if($value != null)
+              <h4>
+              <span class="badge bg-dark text-white">
+                {{$value->getClientOriginalName()}}</span>
+              <span wire:click="delFile({{$item}})" style="cursor:pointer" class="me-2"><i class="fa fa-times-circle text-danger"></i></span>
+              </h4>
+              @endif
+              @endforeach
+            </div>
+            @endif
+          </div>
+      </div>
 
-        </div>
+      {{-- Guardar --}}
+      <div>
+          <button type="submit" wire:loading.remove="guardar" class="btn btn-success">
+              <i class="fa fa-save"></i> Guardar
+          </button>
 
-
-        <div>
-            <button type="button" wire:click="guardar" wire:loading.remove="guardar" class="btn btn-success">
-                <i class="fa fa-save"></i> Guardar
-            </button>
-
-            <button class="btn btn-success" wire:loading disabled=true wire:target="guardar">
-                <img src="{{asset('img/loading.gif')}}" style="height: 16px; width:16px"> Procesando...
-            </button>
-        </div>
+          <button class="btn btn-success" wire:loading disabled=true wire:target="guardar">
+              <img src="{{asset('img/loading.gif')}}" style="height: 16px; width:16px"> Procesando...
+          </button>
+      </div>
 
     </div>
-
-    <div wire:loading wire:target="attachment">
-        <span><img src="{{asset('img/loading.gif')}}" style="height: 32px; width:32px" alt="cargando archivos"></span>
-    </div>
-
-    <div>
-        @if($attachment)
-        @foreach($attachment as $item => $value)
-        @if($value != null)
-        <span class="badge">
-            {{$value->getClientOriginalName()}} &nbsp; <span wire:click="delFile({{$item}})" style="cursor:pointer"><i class="fa fa-times"></i></span>
-        </span>
-        @endif
-        @endforeach
-        @endif
-    </div>
-
-    <br><br><br>
-    <br><br><br>
-
-
-
+  </form>
 
     @push('custom-scripts')
     <script>
-        $(document).ready(function() {
-            $('#descripcion').summernote({
-                height: 100,
-                callbacks: {
-                    onChange: function(content, $editable) {
-                        @this.set('descripcion', content)
-                    }
-                }
-            })
+      //Sincronizar cambios en descripcion con Trix
+        document.addEventListener("trix-change", function (event) {
+            const input = document.querySelector("#descripcion");
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+        });
+
+        //limpiar contenido del Trix editor
+        Livewire.on('limpiarDescripcion', () => {
+            document.querySelector("#descripcion").value = "";
+            document.querySelector("trix-editor").editor.loadHTML("");
+        });
+
+        //Setear contenido en trix editor
+        $(document).on('setEditor', function(event){
+
+          setTimeout(() => {
+            const contenido = event.detail.contenido;
+            document.querySelector("#descripcion").value = contenido;
+            document.querySelector("trix-editor").editor.loadHTML(contenido);
+          }, 200);
+          
         })
-
-        $(document).on('copy', function(e) {
-
-            $('#descripcion').summernote({
-                height: 100,
-                focus: true,
-                callbacks: {
-                    onChange: function(content, $editable) {
-                        @this.set('descripcion', content)
-                    }
-                }
-            })
-
-            $('.note-editable').html(e.detail.descripcion)
-            
-        })
-
-
-        //limpiar descripcion con summernote
-        $(document).on('limpiarDescripcion', function(){
-            $('.note-editable').html('')
-
-        })
-
+        
 
         // Enviar telegram
         $(document).on('enviar-notificacion-telegram', function(event) {
@@ -226,5 +231,4 @@
 
     </script>
     @endpush
-
 </div>

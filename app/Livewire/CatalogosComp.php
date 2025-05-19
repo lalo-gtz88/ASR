@@ -31,8 +31,8 @@ class CatalogosComp extends Component
         $edificio = new edificio();
         $edificio->nombre = $this->nombre_edificio;
         $edificio->save();
-        $this->dispatchBrowserEvent('alerta', ['msg' => 'Registro guardado!', 'type' => 'success']);
-        $this->dispatchBrowserEvent('showCollapse');
+        $this->dispatch('alerta', ['msg' => 'Registro guardado!', 'type' => 'success']);
+        $this->dispatch('showCollapse');
 
     }
 
@@ -45,8 +45,8 @@ class CatalogosComp extends Component
         $edificio = edificio::find($id);
         $edificio->nombre = $this->nombre_edificio;
         $edificio->save();
-        $this->dispatchBrowserEvent('alerta', ['msg' => 'Cambios guardados!', 'type' => 'success']);
-        $this->dispatchBrowserEvent('showCollapse');
+        $this->dispatch('alerta', ['msg' => 'Cambios guardados!', 'type' => 'success']);
+        $this->dispatch('showCollapse');
     }
 
     public function storeDepto()
@@ -58,7 +58,7 @@ class CatalogosComp extends Component
         $dpto = new departamento();
         $dpto->nombre = $this->nombre_departamento;
         $dpto->save();
-        $this->dispatchBrowserEvent('alerta', ['msg' => 'Registro guardado!', 'type' => 'success']);
+        $this->dispatch('alerta', ['msg' => 'Registro guardado!', 'type' => 'success']);
         $this->render();
     }
 
@@ -71,7 +71,7 @@ class CatalogosComp extends Component
         $dpto = departamento::find($id);
         $dpto->nombre = $this->nombre_departamento;
         $dpto->save();
-        $this->dispatchBrowserEvent('alerta', ['msg' => 'Cambios guardados!', 'type' => 'success']);
+        $this->dispatch('alerta', ['msg' => 'Cambios guardados!', 'type' => 'success']);
         $this->render();
     }
 
@@ -84,7 +84,7 @@ class CatalogosComp extends Component
         $categoria = new Categoria();
         $categoria->name = $this->nombre_categoria;
         $categoria->save();
-        $this->dispatchBrowserEvent('alerta', ['msg' => 'Registro guardado!', 'type' => 'success']);
+        $this->dispatch('alerta', ['msg' => 'Registro guardado!', 'type' => 'success']);
         $this->render();
     }
 
@@ -97,7 +97,7 @@ class CatalogosComp extends Component
         $categoria = Categoria::find($id);
         $categoria->name = $this->nombre_categoria;
         $categoria->save();
-        $this->dispatchBrowserEvent('alerta', ['msg' => 'Cambios guardados!', 'type' => 'success']);
+        $this->dispatch('alerta', ['msg' => 'Cambios guardados!', 'type' => 'success']);
         $this->render();
     }
 

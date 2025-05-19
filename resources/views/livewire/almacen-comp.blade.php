@@ -7,42 +7,46 @@
         }
     </style>
 
-    <div class="container-fluid pt-2">
+    <div class="container-fluid my-4">
 
         <h4>Equipos en stock</h4>
 
-        <div class="d-flex align-items-center justify-content-between my-2">
-            <div class="d-flex">
+        <div class="row my-4">
+
+            <div class="col-md-4">
                 <input type="search" name="search" id="search" class="form-control" placeholder="Buscar..." wire:model.live="search" wire:keypress="getEquipos">
-                <select name="filtro" id="filtro" class="form-control" wire:model.live="filtroTipo">
+            </div>
+
+            <div class="col-md-4">
+                 <select name="filtro" id="filtro" class="form-select" wire:model.live="filtroTipo">
                     <option value="">TODOS</option>
                     @foreach($cat_tipos_equipos as $item)
                     <option>{{$item->nombre}}</option>
                     @endforeach
                 </select>
             </div>
-            <div style="color:#012E69; width: 500px;"><i><strong> Mostrando {{count($equipos)}} resultados...</strong></i></div>
-            <div class="d-flex">
-                <a href="#" wire:click="downloadFormat()" class="mr-2"><i class="fa fa-download"></i> <small>Formato...</small></a>
-                <div class="dropdown">
-                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-plus"></i> Entrada
-                    </button>
-                    <div class="dropdown-menu" style="z-index: 10000;">
-                        <button id="btnNuevo" class="dropdown-item" type="button">Manual</button>
-                        <button id="importButton" class="dropdown-item" type="button">Importar</button>
-                    </div>
+            
+        
+            <div class="dropdown col-md-4">
+                <button class="btn btn-primary dropdown-bs-toggle col-12" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-plus"></i> Entrada
+                </button>
+                <div class="dropdown-menu" style="z-index: 10000;">
+                    <button id="btnNuevo" class="dropdown-item" type="button">Manual</button>
+                    <button id="importButton" class="dropdown-item" type="button">Importar</button>
                 </div>
             </div>
+        
         </div>
 
+        <div style="color:#012E69; width: 100%;" class="text-center"><i><strong> Mostrando {{count($equipos)}} resultados...</strong></i></div>
         @if(count($equipos) > 0)
 
         <div class="card">
             <div class="card-body" style="height: 65vh; overflow-y: auto; padding:0">
 
                 <table id="tblEquipos" class="table table-sm small">
-                    <thead class="sticky-top" style="z-index: 1;">
+                    <thead class="sticky-top table-primary" style="z-index: 1;">
                         <th style="cursor:pointer;" wire:click="orderEq('et')">DSI / ST @if($orderField == 'et') @if($orderTable == 'asc') <i class="fa fa-sort-asc"></i> @else <i class="fa fa-sort-desc"></i> @endif @endif</th>
                         <th style="cursor:pointer;" wire:click="orderEq('tip_id')">Tipo de ID @if($orderField == 'tip_id') @if($orderTable == 'asc') <i class="fa fa-sort-asc"></i> @else <i class="fa fa-sort-desc"></i> @endif @endif</th>
                         <th style="cursor:pointer;" wire:click="orderEq('tip')">Equipo @if($orderField == 'tip') @if($orderTable == 'asc') <i class="fa fa-sort-asc"></i> @else <i class="fa fa-sort-desc"></i> @endif @endif</th>
@@ -87,10 +91,10 @@
                     </tbody>
                 </table>
 
-            </div>
-            <div class="card-footer">
+
                 <button class="btn-success btn export-btn"><i class="fa fa-share"></i> Exportar</button>
             </div>
+            
         </div>
 
 
@@ -102,14 +106,12 @@
     </div>
 
     <!-- Modal Equipo -->
-    <div class="modal" id="modalEq" data-backdrop="static" , data-keyboard="false" wire:ignore.self>
-        <div class="modal-dialog" role="document">
+    <div class="modal" id="modalEq" wire:ignore.self>
+        <div class="modal-dialog" >
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">@if($editar) Editar @else Nuevo @endif equipo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
@@ -160,14 +162,12 @@
     </div>
 
     <!-- Modal salida almacen-->
-    <div class="modal" id="modalSalida" data-backdrop="static" , data-keyboard="false" wire:ignore.self>
+    <div class="modal" id="modalSalida"  wire:ignore.self>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Salida de almacén</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <label for="destino">Destino</label>
@@ -260,9 +260,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Importar equipos</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- <div class="alert alert-info">
@@ -342,7 +340,7 @@
 
         $(document).on('hide.bs.modal', '#modalEq, #modalSalida', function() {
 
-            Livewire.emit('reload')
+            Livewire.dispatch('reload')
         })
 
         $(document).on('shoModalSalida', function() {
@@ -355,7 +353,7 @@
         $(document).on('click', '#btnDelItem', function() {
 
             if (confirm("Estas seguro de dar de baja el equipo?"))
-                Livewire.emit("delete")
+                Livewire.dispatch("delete")
 
         })
 

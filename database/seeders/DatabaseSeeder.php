@@ -16,15 +16,15 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        $this->call([
+        // $this->call([
             
-            TipoEquipoSeeder::class,
+        //     TipoEquipoSeeder::class,
             
-        ]);
+        // ]);
 
         // Ticket::factory(50)->create();
         // User::factory(1)->create();
-        Categoria::factory(30)->create();
-        departamento::factory(50)->create();
+        //Categoria::factory(30)->create();
+        //departamento::factory(50)->create();
     }
 }

@@ -1,7 +1,7 @@
 <div>
     <div class="d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center justify-content-start">
-            <h5 class="mr-2">Ticket # {{$ticketID}}</h5>
+            <h5 class="me-2">Ticket # {{$ticketID}}</h5>
             <h5 class="title-tema"> {{$ticket->tema}}  <spanv class="badge badge-pill bg-{{$ticket->colorPrioridad}} text-white">{{$ticket->prioridad}}</span></h5>
         </div>
         <input type="text" class="form-control input-tema d-none" style="width: 85%;" wire:model="tema" wire:change="actualizarTema()" />
@@ -19,16 +19,6 @@
                 <span class="text-muted" style="font-weight: 400; font-style:italic">{{$ticket->userCreador->name .' '.$ticket->userCreador->lastname}}</span>
             </div>
             <div class="clear-fix border rounded p-4 mb-2">
-                <div class="caja-edit-desc d-none">
-                    <div class="d-flex align-items-start justify-content-betwen">
-                        <textarea wire:model="descripcion" class="form-control"></textarea>
-                        <div>
-                            <a href="#" class="cancelEditarDesc" wire:click="cancelEditarDesc()"><i class="fa fa-times text-danger"></i></a>
-                            <a href="#" class="cancelEditarDesc" wire:click="actualizarDescripcion()" onclick="cancelEditarDesc()"><i class="fa fa-check text-success"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <a href="#" class="editarDesc" onclick="editarDesc()"><i class="fa fa-pencil"></i></a>
                 <div class="float-left caja-descripcion" style="width: 85%;"><?php echo $ticket->descripcion; ?></div>
                 <span class="float-right text-muted" style="font-weight: 400; font-style:italic">{{Carbon\Carbon::parse($ticket->created_at)->diffForHumans()}}</span>
             </div>
@@ -38,7 +28,11 @@
         <div class="fila">
             <div class="disco">
                 <div>
+                    @if($comentario->userComment->photo != null)
                     <img class="rounded-circle" style="height:36px;" src="{{asset('storage/perfiles')}}/{{$comentario->userComment->photo}}">
+                    @else
+                    <img class="rounded-circle" style="height:36px;" src="{{asset('img/user.png')}}">
+                    @endif
                 </div>
             </div>
             <div class="d-flex flex-column">{{Carbon\Carbon::parse($comentario->created_at)->format('d/m/Y')}}
@@ -52,10 +46,19 @@
         @endforeach
     </div>
 
-    <div class="d-flex">
-        <div wire:ignore style="width:98%; margin-right:5px;">
-            <textarea wire:model="mensaje" id="mensaje" rows="1"  placeholder="Escribe tus comentarios aqui..."></textarea>
-        </div>
+    <div class="d-flex align-items-center">
+        
+        <div id="editor-container" style="width: 100%;" wire:ignore class="my-4">
+
+            <input id="mensaje" type="hidden" wire:model.live="mensaje">
+            <trix-editor input="mensaje"></trix-editor>
+
+            @error('mensaje')
+            <small class="text-danger">{{$message}}</small>
+            @enderror
+
+      </div>
+        
         <div class="d-flex flex-column ">
             <div class="contenedor-btn-enviar">
                 <span class="btn btn-link" id="btnEnviar" style="cursor: pointer;" wire:click="guardar()"><i class="fa fa-paper-plane"></i></span>
@@ -99,33 +102,11 @@
 
     @push('custom-scripts')
     <script>
-        $(document).ready(function() {
-
-            $('#mensaje').summernote({
-                placeholder: "Escribe aqui tus comentarios...",
-                height: 50,
-                focus: true,
-                airMode: true,
-                popover: {
-                    air: [
-                        ['color', ['color']],
-                        ['font', ['font', 'bold', 'underline', 'clear']],
-                    ],
-                },
-                callbacks: {
-                    onChange: function(content, $editable) {
-                        @this.set('mensaje', content)
-                    }
-                }
-            })
-
-
-        })
-
-        $(document).on('limpiarSummerNote', function() {
-            $('#mensaje').summernote('reset')
-            $('#mensaje').summernote('focus')
-        })
+        //Sincronizar cambios en descripcion con Trix
+        document.addEventListener("trix-change", function (event) {
+            const input = document.querySelector("#mensaje");
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+        });
 
         $(document).on('setScroll', function() {
 

@@ -27,10 +27,6 @@ $(document).ready(function () {
         selector: '[data-toggle=tooltip]'
     })
 
-    toastr.options = {
-        "positionClass": "toast-bottom-right",
-    }
-
 });
 
 

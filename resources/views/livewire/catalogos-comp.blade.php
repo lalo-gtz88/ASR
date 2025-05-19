@@ -1,6 +1,7 @@
 <div>
-    <div class="container-fluid pt-3">
+    <div class="container-fluid my-3">
 
+        <h4>Catálogos</h4>
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
@@ -81,13 +82,13 @@
                 let id = $(this).data('id')
 
                 if ($(this).hasClass('editEd')) {
-                    Livewire.emitTo('edificios', 'delItem', id)
+                    Livewire.dispatchTo('edificios', 'delItem', {id:id})
                 }
                 if ($(this).hasClass('editDpto')) {
-                    Livewire.emitTo('departamentos', 'delItem', id)
+                    Livewire.dispatchTo('departamentos', 'delItem', {id:id})
                 }
                 if ($(this).hasClass('editCat')) {
-                    Livewire.emitTo('categorias', 'delItem', id)
+                    Livewire.dispatchTo('categorias', 'delItem', {id:id})
                 }
             }
         })

@@ -26,19 +26,27 @@
         }
     </style>
 
-    <div>
 
-        <div class="d-flex align-items-center justify-content-between mb-2">
-            <div class="d-flex align-items-end">
-                <input type="search" wire:model.live="buscar" id="buscar" class="form-control form-control-sm"
+        <h1 class="h4 my-4">Enlaces</h1>
+        <div class="row mb-2">
+            
+            <div class="col-md-3">
+                <input type="search" wire:model.live="buscar" id="buscar" class="form-control"
                 placeholder="Buscar...">
             </div>
+
+            <!-- Boton para nuevo equipo -->
+             
+            <a href="{{route('nuevoEnlace')}}" id="btn-nuevo" title="Nuevo enlace" class="btn btn-primary col-md-2"><i class="fa fa-plus text-white"></i> Nuevo</a>
+            <!-- ./boton nuevo equipo -->
+             
+
         </div>
 
         <!-- Lista de enlaces -->
         @if(count($enlaces) > 0)
         <table class="table table-sm small table-hover table-striped">
-            <thead>
+            <thead class="table-primary">
                 <th>Referencia</th>
                 <th>Descripción</th>
                 <th>Teléfono</th>
@@ -73,14 +81,11 @@
             </tbody>
         </table>
         @else
-        <p><i class="fa fa-exclamation-circle text-primary"></i> No se encontrarón enlaces registrados</p>
+        <p class="text-muted"><i class="fa fa-exclamation-circle text-primary"></i> No se encontrarón enlaces registrados</p>
         @endif
         <!-- ./ lista de enlaces -->
-    </div>
 
-    <!-- Boton para nuevo equipo -->
-    <a href="{{route('nuevoEnlace')}}" id="btn-nuevo-equipo" title="Nuevo enlace"><i class="fa fa-plus text-white"></i></a>
-    <!-- ./boton nuevo equipo -->
+
 
 
     @push('custom-scripts')

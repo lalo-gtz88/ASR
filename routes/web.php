@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Actividades;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AlmacenController;
 use App\Http\Controllers\VerEnlace;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -29,8 +31,7 @@ use App\Livewire\InventarioEquipos;
 use App\Livewire\MapaEnlaces;
 use App\Livewire\MemoriasTecnicas;
 use App\Livewire\MonitorEquipos;
-
-
+use App\Livewire\NuevoEquipo;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,7 +75,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/perfil', Perfil::class)->name('perfil');
 
     //Actividades
-    Route::get('/actividades', ToDoList::class)->name('todolist');
+    Route::get('/actividades', [Actividades::class,'index'])->name('todolist');
 
     //Red
     Route::get('/enlaces', [Enlaces::class, 'index'])->name('enlaces');
@@ -85,6 +86,7 @@ Route::middleware(['auth'])->group(function () {
 
     //Equipos
     Route::view('/equipos', 'equipos-inventario')->name('equipos');
+    Route::get('equipo/nuevo', [EquipoController::class, 'create'])->name('equipo.create');
     Route::get('/equipo/details/{id}', [EquipoController::class, 'index'])->name('detalleEquipo');
     Route::get('/equipo/editar/{id}', [EquipoController::class, 'edit'])->name('editarEquipo');
 
@@ -94,7 +96,6 @@ Route::middleware(['auth'])->group(function () {
     //Documentos
     Route::get('/memorias', MemoriasTecnicas::class)->name('memorias');
 
-
     //Reportes de unidades
     Route::group(['middleware' => ['permission:Reporte de unidades']], function () {
         Route::get('/reportes/unidades', RptUnidades::class)->name('reporte.unidades');
@@ -102,7 +103,7 @@ Route::middleware(['auth'])->group(function () {
 
     //Almacén
     Route::group(['middleware' => ['permission:Almacen']], function () {
-        Route::get('/almacen', AlmacenComp::class)->name('almacenes');
+        Route::get('/almacen', [AlmacenController::class, 'index'])->name('almacenes');
     });
 
     //Excel
@@ -110,8 +111,9 @@ Route::middleware(['auth'])->group(function () {
 
     //Users
     Route::group(['middleware' => ['permission:Seccion usuarios']], function () {
-        Route::get('/usuarios', UsersComponent::class)->name('usuarios');
-        Route::get('/user/roles/{id}', RolesComponent::class)->name('roles');
+
+        Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios');
+        Route::get('/user/roles/{id}', [UserController::class, 'roles'])->name('roles');
     });
     
 });

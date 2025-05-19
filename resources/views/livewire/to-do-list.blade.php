@@ -8,58 +8,65 @@
         }
     </style>
 
-    <div class="container mt-2">
-        <div class="clearfix mb-2">
-            <h4 class="float-left">Actividades</h4>
+    <div class="container-fluid my-4">
+        <h4>Actividades</h4>
+
+        <div class="row mb-2">
+    
             @can('Creacion de actividades')
-            <div class="float-right"><button id="btnNuevo" class="btn btn-primary"><i class="fa fa-plus"></i> Nuevo</button></div>
+            
+                <button id="btnNuevo" class="btn btn-primary col-md-2"><i class="fa fa-plus"></i> 
+                    Nuevo
+                </button>
+            
             @endcan
         </div>
 
-        @if(count($listaActividades)>0)
-        <ul class="list-group">
-            @foreach($listaActividades as $item)
-            @if($item->status)
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div class="d-flex flex-row align-items-center" style="font-size: 18px;">
-                    @can('Creacion de actividades')<span wire:click="checkUnckeck({{$item->id}},0)"><i class="fa fa-circle-o text-info mr-2" style="cursor:pointer; font-size:28px;"></i>@endcan
-                    </span><a href="#" wire:click.prevent="showMiembros({{$item->id}})">{{$item->descripcion}}</a>
-                </div>
-                <div>
+        <div class="row">
+            @if(count($listaActividades)>0)
+            <ul class="list-group">
+                @foreach($listaActividades as $item)
+                @if($item->status)
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="d-flex flex-row align-items-center" style="font-size: 18px;">
+                        @can('Creacion de actividades')<span wire:click="checkUnckeck({{$item->id}},0)"><i class="fa fa-circle-o text-info mr-2" style="cursor:pointer; font-size:28px;"></i>@endcan
+                        </span><a href="#" wire:click.prevent="showMiembros({{$item->id}})">{{$item->descripcion}}</a>
+                    </div>
+                    <div>
+                        @if($item->fecha != null)
+                        <span class="badge badge-info" data-toggle="tooltip" title="Programada para el día {{Carbon::parse($item->fecha)->format('d-m-Y')}}">{{Carbon::parse($item->fecha)->format('d-m-Y') }}</span>
+                        @endif
+
+                        <button class="btn text-secondary" data-bs-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#" id="btnBorrar" data-id="{{$item->id}}">Borrar</a>
+                        </div>
+                    </div>
+                </li>
+                @else($item->status)
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div wire:click.prevent="checkUnckeck({{$item->id}},1)" class="d-flex flex-row align-items-center" style="font-size: 18px;">
+                        @can('Creacion de actividades')<span wire:click="checkUnckeck({{$item->id}},1)"><i class="fa fa-check-circle-o text-primary mr-2" style="cursor:pointer; font-size:28px;"></i>@endcan
+                        </span><del>{{$item->descripcion}}</del>
+                    </div>
                     @if($item->fecha != null)
-                    <span class="badge badge-info" data-toggle="tooltip" title="Programada para el día {{Carbon::parse($item->fecha)->format('d-m-Y')}}">{{Carbon::parse($item->fecha)->format('d-m-Y') }}</span>
+                    <span class="badge badge-secondary"><del>{{Carbon::parse($item->fecha)->format('d-m-Y') }}</del></span>
                     @endif
 
-                    <button class="btn text-secondary" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#" id="btnBorrar" data-id="{{$item->id}}">Borrar</a>
-                    </div>
-                </div>
-            </li>
-            @else($item->status)
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div wire:click.prevent="checkUnckeck({{$item->id}},1)" class="d-flex flex-row align-items-center" style="font-size: 18px;">
-                    @can('Creacion de actividades')<span wire:click="checkUnckeck({{$item->id}},1)"><i class="fa fa-check-circle-o text-primary mr-2" style="cursor:pointer; font-size:28px;"></i>@endcan
-                    </span><del>{{$item->descripcion}}</del>
-                </div>
-                @if($item->fecha != null)
-                <span class="badge badge-secondary"><del>{{Carbon::parse($item->fecha)->format('d-m-Y') }}</del></span>
+                </li>
                 @endif
 
-            </li>
+                @endforeach
+            </ul>
+
+            @else
+            <p class="text-muted"><i class="fa fa-exclamation-circle text-primary"></i> No hay actividades pendientes</p>
             @endif
 
-            @endforeach
-        </ul>
-
-        @else
-        <h5>NO HAY ACTIVIDADES PENDIENTES</h5>
-        @endif
-
-        @if($showLimpiarList)
-        <button class="btn btn-light mt-2" wire:click="delTodos"><i class="fa fa-eraser"></i> Limpiar</button>
-        @endif
-
+            @if($showLimpiarList)
+            <button class="btn btn-light mt-2" wire:click="delTodos"><i class="fa fa-eraser"></i> Limpiar</button>
+            @endif
+        </div>
     </div>
 
 
@@ -69,9 +76,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Nueva actividad</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
@@ -155,7 +160,7 @@
             e.preventDefault()
             let id = $(this).data('id')
             if (confirm("¿Estas seguro de eliminar la actividad?")) {
-                Livewire.emit('delete', id)
+                Livewire.dispatch('delete', {id:id})
             }
         })
     </script>

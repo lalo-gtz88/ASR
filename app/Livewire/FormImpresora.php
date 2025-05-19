@@ -10,23 +10,17 @@ use Livewire\Component;
 
 class FormImpresora extends Component
 {
-    public $uniqueId;
-    #[Reactive]
     public $equipoId;
-    public $proveedor;
-    public $aColor = false;
-    public $multifuncional;
-
-    public $editable;
-
+    public $proveedor="JMAS", $aColor = false, $multifuncional=false;
+    
 
     protected $listeners = ['guardarEquipo3'=> 'guardarCambios'];
 
-    public function mount()
+    public function mount($equipoId = null)
     {
-        if ($this->editable) {
+        if($equipoId){
 
-            $this->editar($this->equipoId);
+            $this->editar($equipoId);
         }
     }
 
@@ -38,9 +32,8 @@ class FormImpresora extends Component
     //se obtienen los datos para mostrar
     public function editar($id)
     {
-
         $p = Printer::where('equipo_id', $id)->first();
-        $this->uniqueId = $p->id;
+        $this->equipoId = $p->equipo_id;
         $this->aColor = ($p->color == 1)? true: false;
         $this->multifuncional = ($p->multifuncional == 1)? true: false;
         $this->proveedor = $p->proveedor;
@@ -49,55 +42,62 @@ class FormImpresora extends Component
 
     function guardarCambios($dataEquipo)
     {
-        if ($this->editable){
-            $e = Equipo::find($dataEquipo['id']);
-            $p = Printer::where('equipo_id', $this->equipoId)->first();
-            $msj = "Cambios guardados!";
+        if ($this->equipoId){
 
-        }else{
-            $e = new Equipo();
-            $p = new Printer();
-            $msj = "Registro guardado!";
+            $ip = ($dataEquipo['direccionIp'])? $dataEquipo['direccionIp'][0]['dir']: null;
+
+            if ($this->equipoId){
+
+                $eq = Equipo::find($this->equipoId);
+                $eq->update([
+                    'service_tag'=>$dataEquipo['serviceTag'],
+                    'tipo'=>$dataEquipo['tipo'],
+                    'inventario'=>$dataEquipo['inventario'],
+                    'marca'=>  $dataEquipo['marca'],
+                    'modelo'=> $dataEquipo['modelo'],
+                    'fecha_adquisicion'=>$dataEquipo['fechaDeAdquisicion'],
+                    'direccion_ip'=> $ip,
+                    'direccion_mac'=> $dataEquipo['direccionMac'],
+                ]);
+
+
+                $prt = Printer::where('equipo_id', $this->equipoId)->first();
+                $prt->update([
+                    'equipo_id'=> $eq->id,
+                    'proveedor' => $this->proveedor,
+                    'multifuncional'=> $this->multifuncional,
+                    'color'=> $this->aColor
+                ]);
+
+                $msj = "Cambios guardados!";
+
+            }else{
+
+                $ip = $dataEquipo['direccionIp'][0]['dir'];
+                $eq = Equipo::create([
+                    'service_tag'=>$dataEquipo['serviceTag'],
+                    'tipo'=>$dataEquipo['tipo'],
+                    'inventario'=>$dataEquipo['inventario'],
+                    'marca'=>  $dataEquipo['marca'],
+                    'modelo'=> $dataEquipo['modelo'],
+                    'fecha_adquisicion'=>$dataEquipo['fechaDeAdquisicion'],
+                    'direccion_ip'=> $ip,
+                    'direccion_mac'=> $dataEquipo['direccionMac'],
+                ]);
+
+                Printer::create([
+                    'equipo_id'=> $eq->id,
+                    'proveedor' => $this->proveedor,
+                    'multifuncional'=>$this->multifuncional,
+                    'color'=>$this->aColor,
+                ]);
+
+        
+                $msj = "Registro guardado!";
+            }
+            
+            $this->dispatch('alerta', msg: $msj, type: 'success');
+            $this->dispatch('refrescar')->to('InventarioEquipos');
         }
-
-        $this->guardarEquipo($e, $dataEquipo);
-        $this->guardarPrinter($p, $e);
-
-        $this->dispatch('alerta', msg: $msj, type: 'success');
-        $this->dispatch('refrescar')->to('InventarioEquipos');
-    }
-
-
-    public function guardarEquipo(Equipo $e, $data)
-    {
-        $e->service_tag = $data['serviceTag'];
-        $e->tipo = $data['tipo'];
-        $e->inventario = $data['inventario'];
-        $e->marca = $data['marca'];
-        $e->modelo = $data['modelo'];
-        $e->fecha_adquisicion = $data['fechaDeAdquisicion'];
-        $e->direccion_ip = ($data['direccionIp']) ? $data['direccionIp'][0]['dir'] : null;
-        $e->direccion_mac = $data['direccionMac'];
-        $e->save();
-    }
-
-    function guardarPrinter(Printer $ptr, $e=null)
-    {
-        if($e)
-            $ptr->equipo_id = $e->id;
-
-        $ptr->multifuncional = $this->multifuncional;
-        $ptr->color = $this->aColor;
-        $ptr->proveedor = $this->proveedor;
-        
-        $ptr->save();
-    }
-
-    function actualizarPrinter() {
-        
-        $pc = Printer::where('equipo_id', $this->equipoId)->first();
-        $msj = "Cambios guardados!";
-        $this->guardarPrinter($pc);
-        $this->dispatch('alerta', msg: $msj, type: 'success');
     }
 }

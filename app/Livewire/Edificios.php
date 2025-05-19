@@ -40,7 +40,7 @@ class Edificios extends Component
         $ed = new edificio();
         $ed->nombre = $this->nombre;
         $ed->save();
-        $this->dispatchBrowserEvent('alerta', ['msg' => 'Registro guardado']);
+        $this->dispatch('alerta', ['msg' => 'Registro guardado']);
         $this->reset();
     }
 
@@ -61,7 +61,7 @@ class Edificios extends Component
         $ed = edificio::find($this->idEd);
         $ed->nombre = $this->nombre;
         $ed->save();
-        $this->dispatchBrowserEvent('alerta', ['msg' => 'Cambios guardados!']);
+        $this->dispatch('alerta', ['msg' => 'Cambios guardados!']);
         $this->reset();
     }
 
@@ -75,7 +75,7 @@ class Edificios extends Component
         $ed = edificio::find($id);
         $ed->active = 0;
         $ed->save();
-        $this->dispatchBrowserEvent('alerta', ['msg' => 'Registro eliminado!']);
+        $this->dispatch('alerta', ['msg' => 'Registro eliminado!']);
         $this->reset();
     }
 }

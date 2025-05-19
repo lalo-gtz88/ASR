@@ -1,15 +1,11 @@
-<div>
-    <div style="max-width:18rem; margin-top:15px; margin-bottom:10px; margin-right:15px;">
-        <div class="card bg-light text-dark" style="height: 70px;">
-            <div class="card-body d-flex align-items-start justify-content-between">
-                <div>
-                    <h3>{{$total}}</h1>
-                    <p>{{$etiqueta}} </p>
-                </div>
-                <div>
-                    <i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i>
-                </div>
-            </div>
+<div class="card shadow-sm border-0 rounded-3">
+    <div class="card-body d-flex justify-content-between align-items-center">
+        <div>
+            <h4 class="fw-bold mb-0">{{ $total }}</h4>
+            <small class="text-muted">{{ $etiqueta }}</small>
+        </div>
+        <div class="{{$color}} text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+            <i class="{{$icon}}"></i>
         </div>
     </div>
 </div>

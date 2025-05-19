@@ -41,7 +41,7 @@ class Categorias extends Component
         $ed = new Categoria();
         $ed->name = $this->nombre;
         $ed->save();
-        $this->dispatchBrowserEvent('alerta',['msg'=> 'Registro guardado']);
+        $this->dispatch('alerta',['msg'=> 'Registro guardado']);
         $this->reset();
 
     }
@@ -63,7 +63,7 @@ class Categorias extends Component
         $cat = Categoria::find($this->idCat);
         $cat->name = $this->nombre;
         $cat->save();
-        $this->dispatchBrowserEvent('alerta', ['msg' => 'Cambios guardados!']);
+        $this->dispatch('alerta', ['msg' => 'Cambios guardados!']);
         $this->reset();
     }
 
@@ -77,7 +77,7 @@ class Categorias extends Component
         $cat = Categoria::find($id);
         $cat->active = 0;
         $cat->save();
-        $this->dispatchBrowserEvent('alerta', ['msg' => 'Registro eliminado!']);
+        $this->dispatch('alerta', ['msg' => 'Registro eliminado!']);
         $this->reset();
     }
 }

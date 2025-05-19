@@ -63,8 +63,8 @@ class ToDoList extends Component
 
         //alerta
         $this->reset('usuariosAdd', 'descripcion');
-        $this->dispatchBrowserEvent('alerta', ['msg' => 'Registro guardado!', 'type' => 'success']);
-        $this->dispatchBrowserEvent('cerrarModal');
+        $this->dispatch('alerta', ['msg' => 'Registro guardado!', 'type' => 'success']);
+        $this->dispatch('cerrarModal');
     }
 
     public function getTodoList()
@@ -119,7 +119,7 @@ class ToDoList extends Component
 
         $act = Actividad::find($id);
         $this->actividadSelect = $act->descripcion;
-        $this->dispatchBrowserEvent('showMembers');
+        $this->dispatch('showMembers');
     }
 
     public function delete($id)
@@ -129,7 +129,7 @@ class ToDoList extends Component
         UsuarioActividades::where('actividad', $t->id)->delete();
         $t->delete();
 
-        $this->dispatchBrowserEvent('alerta', ['msg' => 'Registro eliminado!', 'type' => 'success']);
+        $this->dispatch('alerta', ['msg' => 'Registro eliminado!', 'type' => 'success']);
 
 
     }

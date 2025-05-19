@@ -40,7 +40,7 @@ class Departamentos extends Component
         $ed = new departamento();
         $ed->nombre = $this->nombre;
         $ed->save();
-        $this->dispatchBrowserEvent('alerta',['msg'=> 'Registro guardado']);
+        $this->dispatch('alerta',['msg'=> 'Registro guardado']);
         $this->reset();
 
     }
@@ -62,7 +62,7 @@ class Departamentos extends Component
         $dep = departamento::find($this->idDep);
         $dep->nombre = $this->nombre;
         $dep->save();
-        $this->dispatchBrowserEvent('alerta', ['msg' => 'Cambios guardados!']);
+        $this->dispatch('alerta', ['msg' => 'Cambios guardados!']);
         $this->reset();
     }
 
@@ -76,7 +76,7 @@ class Departamentos extends Component
         $dep = departamento::find($id);
         $dep->active = 0;
         $dep->save();
-        $this->dispatchBrowserEvent('alerta', ['msg' => 'Registro eliminado!']);
+        $this->dispatch('alerta', ['msg' => 'Registro eliminado!']);
         $this->reset();
     }
 }

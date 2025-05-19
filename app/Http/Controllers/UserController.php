@@ -8,6 +8,16 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+
+    public function index() {
+        
+        return view('usuarios');
+    }
+
+    public function roles($id){
+        return view('roles',['id'=> $id]);
+    }
+
     public function authenticate(Request $request){
 
          $request->validate([

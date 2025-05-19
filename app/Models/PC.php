@@ -13,7 +13,7 @@ class PC extends Model
 
     protected $table= "pcs";
     
-    protected $fillable = ['equipo_id', 'ram', 'hdd', 'sdd', 'sistema_operativo', 'usuario', 'usuario_red', 'monitores'];
+    protected $fillable = ['equipo_id', 'nombre_equipo', 'ram', 'hdd', 'sdd', 'sistema_operativo', 'usuario', 'usuario_red', 'monitores'];
 
     function relEquipo(): HasOne{
         

@@ -47,7 +47,7 @@ class FormEquipo extends Component
         if ($this->editable) {
 
             $e = $this->getData($this->uniqueId);
-            //dd($e);
+            
             $this->serviceTag = $e->service_tag;
             $this->tipo = $e->tipo;
             $this->marca = $e->marca;
@@ -61,7 +61,7 @@ class FormEquipo extends Component
         $this->modelos = $this->getModelos();
     }
 
-    public function render()
+    public function render() 
     {
         return view('livewire.form-equipo');
     }

@@ -1,8 +1,11 @@
 <div>
+
     <div class="d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center justify-content-start">
             <h5 class="me-2">Ticket # {{$ticketID}}</h5>
-            <h5 class="title-tema"> {{$ticket->tema}}  <spanv class="badge badge-pill bg-{{$ticket->colorPrioridad}} text-white">{{$ticket->prioridad}}</span></h5>
+            <h5 class="title-tema"> {{$ticket->tema}}
+                <spanv class="badge badge-pill bg-{{$ticket->colorPrioridad}} text-white">{{$ticket->prioridad}}</span>
+            </h5>
         </div>
         <input type="text" class="form-control input-tema d-none" style="width: 85%;" wire:model="tema" wire:change="actualizarTema()" />
         <a href="#" class="editarTema" title="Editar tema"><i class="fa fa-pencil" style="font-size: 15px;"></i></a>
@@ -38,7 +41,7 @@
             <div class="d-flex flex-column">{{Carbon\Carbon::parse($comentario->created_at)->format('d/m/Y')}}
                 <span class="text-muted" style="font-weight: 400; font-style:italic">{{$comentario->userComment->name .' '.$comentario->userComment->lastname}}</span>
             </div>
-            <div class="clear-fix rounded p-4 mb-2 globo">
+            <div class="clear-fix rounded p-4 mb-2 globo" style="background-color: #CDE4FF;">
                 <div class="float-left w-75 " data-id="{{$comentario->id}}"><?php echo $comentario->notas; ?></div>
                 <span class="float-right text-dark" style="font-weight: 400; font-style:italic">{{Carbon\Carbon::parse($comentario->created_at)->diffForHumans()}}</span>
             </div>
@@ -46,26 +49,37 @@
         @endforeach
     </div>
 
-    <div class="d-flex align-items-center">
-        
-        <div id="editor-container" style="width: 100%;" wire:ignore class="my-4">
+    <hr>
 
+    <div class="d-flex align-items-center">
+
+        <div id="editor-container" style="width: 90%;" wire:ignore class="my-2">
+
+            <!-- Input hidden -->
             <input id="mensaje" type="hidden" wire:model.live="mensaje">
+
+            <!-- Text Editor -->
             <trix-editor input="mensaje"></trix-editor>
 
             @error('mensaje')
             <small class="text-danger">{{$message}}</small>
             @enderror
 
-      </div>
-        
+        </div>
+
         <div class="d-flex flex-column ">
             <div class="contenedor-btn-enviar">
                 <span class="btn btn-link" id="btnEnviar" style="cursor: pointer;" wire:click="guardar()"><i class="fa fa-paper-plane"></i></span>
-                <div class="submenu-hover text-secondary" style="width:100px;">
-                    <a href="#" style="color:#182533" wire:click.prevent="guardar('Abierto')"><i class="fa fa-unlock"></i> Abierto</a>
-                    <a href="#" style="color:#182533" wire:click.prevent="guardar('Cerrado')"><i class="fa fa-lock"></i> Cerrado</a>
-                    <a href="#" style="color:#182533" wire:click.prevent="guardar('Pendiente')"><i class="fa fa-clock-o"></i> Pendiente</a>
+                <div class="submenu-hover text-secondary" style="width:130px;">
+                    <a href="#" class="fs-5" wire:click.prevent="guardar('Abierto')">
+                        <i class="fa fa-unlock"></i> Abierto
+                    </a>
+                    <a href="#" class="fs-5" wire:click.prevent="guardar('Cerrado')">
+                        <span class="fa fa-lock"></span> Cerrado
+                    </a>
+                    <a href="#" class="fs-5" wire:click.prevent="guardar('Pendiente')">
+                        <i class="fa-solid fa-clock"></i> Pendiente
+                    </a>
                 </div>
             </div>
             <label for="attach">
@@ -89,7 +103,7 @@
         @endif
 
     </div>
-    
+
     <div>
         @error('attachments.*')
         <small class="text-danger m-2"><strong>*{{$message}}</strong></small>
@@ -103,10 +117,17 @@
     @push('custom-scripts')
     <script>
         //Sincronizar cambios en descripcion con Trix
-        document.addEventListener("trix-change", function (event) {
+        document.addEventListener("trix-change", function(event) {
             const input = document.querySelector("#mensaje");
-            input.dispatchEvent(new Event("input", { bubbles: true }));
+            input.dispatchEvent(new Event("input", {
+                bubbles: true
+            }));
         });
+
+        document.addEventListener('limpiarMensaje', function() {
+            document.querySelector("trix-editor").editor.loadHTML(""); // Limpia visualmente
+            document.getElementById("descripcion").value = ""; // Limpia el input hidden
+        })
 
         $(document).on('setScroll', function() {
 
@@ -147,7 +168,7 @@
             $('.editarTema').removeClass('d-none')
         })
 
-        function editarDesc(){
+        function editarDesc() {
 
             $('.caja-edit-desc').removeClass('d-none')
             $('.editarDesc').addClass('d-none')
@@ -155,17 +176,16 @@
         }
 
 
-        $(document).on('editarDesc', function(){
+        $(document).on('editarDesc', function() {
 
-           editarDesc()
+            editarDesc()
         })
 
-        $(document).on('cancelEditarDesc', function(){
+        $(document).on('cancelEditarDesc', function() {
             $('.caja-edit-desc').addClass('d-none')
             $('.editarDesc').removeClass('d-none')
             $('.caja-descripcion').removeClass('d-none')
         })
-
     </script>
     @endpush
 

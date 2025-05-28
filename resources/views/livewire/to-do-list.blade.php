@@ -8,17 +8,17 @@
         }
     </style>
 
-    <div class="container-fluid my-4">
-        <h4>Actividades</h4>
+    <div class="container-fluid">
+        <h2>Actividades</h2>
 
         <div class="row mb-2">
-    
+
             @can('Creacion de actividades')
-            
-                <button id="btnNuevo" class="btn btn-primary col-md-2"><i class="fa fa-plus"></i> 
-                    Nuevo
-                </button>
-            
+
+            <button id="btnNuevo" class="btn btn-primary col-md-2"><i class="fa fa-plus"></i>
+                Nuevo
+            </button>
+
             @endcan
         </div>
 
@@ -76,7 +76,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Nueva actividad</h5>
-                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
@@ -160,7 +160,9 @@
             e.preventDefault()
             let id = $(this).data('id')
             if (confirm("¿Estas seguro de eliminar la actividad?")) {
-                Livewire.dispatch('delete', {id:id})
+                Livewire.dispatch('delete', {
+                    id: id
+                })
             }
         })
     </script>

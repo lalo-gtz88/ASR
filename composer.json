@@ -9,6 +9,7 @@
         "barryvdh/laravel-dompdf": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel-lang/lang": "^12.5",
+        "laravel-notification-channels/telegram": "^6.0",
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.7",

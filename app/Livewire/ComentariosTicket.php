@@ -78,6 +78,7 @@ class ComentariosTicket extends Component
         $seguimiento->print = 1;
         $seguimiento->save();
         $this->reset('mensaje');
+        $this->dispatch('limpiarMensaje');
     }
 
     function guardarStatus($status = null)

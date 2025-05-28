@@ -22,7 +22,7 @@ class ActualizarTicket extends Component
     public $ticket;
     public $tema = "";
     public $descripcion = "";
-    public $prioridad = "Media";
+    public $prioridad = "Baja";
     public $quien_reporta = "";
     public $telefono = "";
     public $edificio = "";
@@ -50,7 +50,9 @@ class ActualizarTicket extends Component
         $this->categoria = $this->ticket->categoria;
         $this->asignado = $this->ticket->asignado;
         $this->prioridad = $this->ticket->prioridad;
-
+        $this->fecha_de_atencion = $this->ticket->fecha_atencion;
+        $this->unidad = $this->ticket->unidad;
+        
         $this->dispatch('buscarEquipo', ip: $this->ip)->to('HistorialTicket');
     }
 

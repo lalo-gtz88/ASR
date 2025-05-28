@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Events\TicketAssigned;
 use App\Models\AlertasUsers;
 use App\Models\Categoria;
 use App\Models\departamento;
@@ -43,9 +44,10 @@ class NuevoTicket extends Component
     public $tempImage;
 
 
-    public function mount() {
-        
-        if($this->uniqueId){
+    public function mount()
+    {
+
+        if ($this->uniqueId) {
 
             $ticket = Ticket::find($this->uniqueId);
             $this->descripcion = $ticket->descripcion;
@@ -60,12 +62,9 @@ class NuevoTicket extends Component
             $this->asignado = $ticket->asignado;
             $this->prioridad = $ticket->prioridad;
 
-                    
             //lanzamos un evento para setear trix editor 
             $this->dispatch('setEditor', contenido: $this->descripcion);
-        
         }
-        
     }
 
     public function render()
@@ -119,7 +118,7 @@ class NuevoTicket extends Component
             $this->ip = "172.16." . $this->direccionIp;
 
         //validacion
-        $validated = $this->validate([
+        $this->validate([
             'tema' => 'required|max:100',
             'descripcion' => 'required',
             'telefono' => 'required',
@@ -144,11 +143,16 @@ class NuevoTicket extends Component
         $ticket->ip = $this->direccionIp;
         $ticket->autoriza = $this->autoriza;
         $ticket->usuario = Auth::user()->id;
+        $ticket->fecha_atencion = $this->fecha_de_atencion;
+        $ticket->unidad = $this->unidad;
         $ticket->save();
 
 
         //guardamos adjuntos
         $this->adjuntarArchivos($this->attachment, $ticket->id);
+
+        //enviamos notificacion por telegram
+        event(new TicketAssigned($ticket));
 
         //eventos
         $this->dispatch('alerta', msg: 'Registro guardado!', type: 'success');
@@ -156,20 +160,6 @@ class NuevoTicket extends Component
         $this->dispatch('ticket-saved')->to(TicketsList::class);
         $this->dispatch('ticket-saved')->to(CajaEstadistica::class);
 
-        //if ($ticket->asignado != 0 && $ticket->tecnico->telegram != null) {
-        
-        $alertaUsers = $this->getUsersNotifications();
-        $contenido = "Nuevo Ticket ". $ticket->id; 
-
-        foreach($alertaUsers as $item){
-            $contenido = "Nuevo Ticket ". $ticket->id; 
-            $this->enviarTelegram($ticket->tecnico->telegram, $contenido);
-        }
-            
-            //$contenido = "[TICKET $ticket->id .-" . mb_strtoupper($ticket->tema) . "]\nDETALLES:\n" . strip_tags($ticket->descripcion) . "\n\nATRIBUTOS:\nPrioridad: $ticket->prioridad \nAsignado: " . $ticket->tecnico->name . "\nCreador: " . $ticket->userCreador->name . "";
-            
-            $this->enviarTelegram($ticket->tecnico->telegram, $contenido);
-        //}
 
         //limpiamos
         $this->resetExcept('uniqueId');
@@ -200,17 +190,17 @@ class NuevoTicket extends Component
                     $seguimiento->ticket = $id;
                     $seguimiento->file = $basename;
                     $seguimiento->usuario = Auth::user()->id;
-                    $seguimiento->save();   
+                    $seguimiento->save();
                 }
             }
         }
     }
 
-    function enviarTelegram($destino, $mensaje)
-    {
+    // function enviarTelegram($destino, $mensaje)
+    // {
 
-       // $this->dispatch('enviar-notificacion-telegram', destino: $destino, msj: $mensaje);
-    }
+    //     $this->dispatch('enviar-notificacion-telegram', destino: $destino, msj: $mensaje);
+    // }
 
     #[On('limpiar')]
     function limpiar()
@@ -219,14 +209,13 @@ class NuevoTicket extends Component
         $this->reset();
     }
 
-    function getUsersNotifications() {
-        
+    function getUsersNotifications()
+    {
+
         $usuarios = AlertasUsers::select('user_id')->where('categoria', 'Tickets')->get()->toArray();
         $usuarios = array_column($usuarios, 'user_id');
         array_push($usuarios, (int)($this->asignado));
         $unicos = array_unique($usuarios);
         return $unicos;
-        
     }
-
 }

@@ -18,6 +18,11 @@ class UserController extends Controller
         return view('roles',['id'=> $id]);
     }
 
+    public function perfil()  {
+        
+        return view('perfil');
+    }
+
     public function authenticate(Request $request){
 
          $request->validate([
@@ -28,7 +33,7 @@ class UserController extends Controller
         if (Auth::attempt(['username'=>$request->usuario, 'password'=>$request->password, 'activo'=> 1])) {
             
             $request->session()->regenerate();
-            return redirect()->intended('tickets');
+            return redirect()->intended('home');
         }
  
         return back()->withErrors([
@@ -73,4 +78,5 @@ class UserController extends Controller
             return back()->with('success', 'Registro guardado');
         }
     }
+
 }

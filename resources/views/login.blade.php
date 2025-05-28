@@ -105,7 +105,8 @@
         {{-- Columna Izquierda --}}
         <div class="left-side">
             <img src="{{ asset('img/logo.png') }}" alt="Logo" class="logoImg m-0">
-            <h2 class="m-0">NetDesk</h2>
+            <h1 class="m-0">NetDesk</h1>
+            <h5 class="mt-3">Red + Helpdesk</h5>
             <p class="mt-3">Gestión para servicios de red y tickets de servicio en TI</p>
             <small class="mt-5">Versión 3.0</small>
         </div>

@@ -24,7 +24,7 @@ class EditTicket extends Component
         $this->ticketID = $id;
         $this->tema = $ticket->tema;
         $this->descripcion = $ticket->descripcion;
-        $this->dispatch('setDesc', descripcion: $this->descripcion);
+        //$this->dispatch('setDesc', descripcion: $this->descripcion);
         $this->dispatch('showEditTicket', descripcion: $this->descripcion);
     }
 
@@ -33,14 +33,8 @@ class EditTicket extends Component
         
         $this->validate([
             'tema' => 'required|max:255',
+            'descripcion' => 'required',
         ]);
-
-        if($this->descripcion == '<br>' || $this->descripcion == '<p><br></p>' || $this->descripcion == ''){
-            
-            $this->addError('descEmpty' ,"El campo descripción debe completarse");
-            return;
-
-        }
 
         $t = Ticket::find($this->ticketID);
         $t->tema = $this->tema;

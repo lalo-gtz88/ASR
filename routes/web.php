@@ -17,6 +17,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\EditarEnlace;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\RedMapas;
+use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\TicketsController;
 use App\Livewire\RolesComponent;
 use App\Livewire\UsersComponent;
@@ -53,7 +54,7 @@ Route::get('/route-cache', function() { Artisan::call('route:cache'); return 'Ro
 //Auth
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/home', [HomeController::class, 'index'])->name('welcome');
+    Route::get('/home', [HomeController::class, 'dashboard'])->name('welcome');
 
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
     Route::get('/user/add', [UserController::class, 'create'])->name('users.create');
@@ -72,7 +73,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     //Perfil
-    Route::get('/perfil', Perfil::class)->name('perfil');
+    Route::get('/perfil', [UserController::class, 'perfil'])->name('perfil');
 
     //Actividades
     Route::get('/actividades', [Actividades::class,'index'])->name('todolist');
@@ -98,7 +99,7 @@ Route::middleware(['auth'])->group(function () {
 
     //Reportes de unidades
     Route::group(['middleware' => ['permission:Reporte de unidades']], function () {
-        Route::get('/reportes/unidades', RptUnidades::class)->name('reporte.unidades');
+        Route::get('/reportes/unidades', [ReportesController::class, 'index'])->name('reporte.unidades');
     });
 
     //Almacén

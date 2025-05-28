@@ -1,7 +1,7 @@
 <div>
-    <div class="container-fluid my-3">
+    <div class="container-fluid">
 
-        <h4>Catálogos</h4>
+        <h2>Catálogos</h2>
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
@@ -18,7 +18,7 @@
                 <div
                     id="collapseOne"
                     class="accordion-collapse collapse"
-                    data-bs-parent="#accordionExample"> 
+                    data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <livewire:edificios />
                     </div>
@@ -82,13 +82,19 @@
                 let id = $(this).data('id')
 
                 if ($(this).hasClass('editEd')) {
-                    Livewire.dispatchTo('edificios', 'delItem', {id:id})
+                    Livewire.dispatchTo('edificios', 'delItem', {
+                        id: id
+                    })
                 }
                 if ($(this).hasClass('editDpto')) {
-                    Livewire.dispatchTo('departamentos', 'delItem', {id:id})
+                    Livewire.dispatchTo('departamentos', 'delItem', {
+                        id: id
+                    })
                 }
                 if ($(this).hasClass('editCat')) {
-                    Livewire.dispatchTo('categorias', 'delItem', {id:id})
+                    Livewire.dispatchTo('categorias', 'delItem', {
+                        id: id
+                    })
                 }
             }
         })

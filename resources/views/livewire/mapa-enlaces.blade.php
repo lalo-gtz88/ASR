@@ -1,16 +1,15 @@
 <div>
-
     <style>
         #map {
-            height: 88vh;
+            height: 85vh;
         }
     </style>
 
-    <div class="container-fluid mt-3">
+    <div class="container-fluid">
         <div class="d-flex align-items-center justify-content-between mb-2">
-            <h5>Mapa completo</h5>
+            <h2>Mapa completo</h2>
             <div class="d-flex align-items-center">
-                <label class="mr-2" for="sitio">Sitio</label>
+                <label class="me-2" for="sitio">Sitio</label>
                 <select wire:model="sitio" id="sitio" wire:change="getEnlaces()" class="form-control">
                     <option value="">---TODOS---</option>
                     @foreach($sitios as $key => $value)
@@ -57,9 +56,5 @@
             map.add(markerGroup)
         })
     </script>
-
-
-
-
     @endpush
 </div>

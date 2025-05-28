@@ -7,26 +7,26 @@
         }
     </style>
 
-    <div class="container-fluid my-4">
+    <div class="container-fluid">
 
-        <h4>Equipos en stock</h4>
+        <h2>Equipos en stock</h2>
 
-        <div class="row my-4">
+        <div class="row">
 
             <div class="col-md-4">
                 <input type="search" name="search" id="search" class="form-control" placeholder="Buscar..." wire:model.live="search" wire:keypress="getEquipos">
             </div>
 
             <div class="col-md-4">
-                 <select name="filtro" id="filtro" class="form-select" wire:model.live="filtroTipo">
+                <select name="filtro" id="filtro" class="form-select" wire:model.live="filtroTipo">
                     <option value="">TODOS</option>
                     @foreach($cat_tipos_equipos as $item)
                     <option>{{$item->nombre}}</option>
                     @endforeach
                 </select>
             </div>
-            
-        
+
+
             <div class="dropdown col-md-4">
                 <button class="btn btn-primary dropdown-bs-toggle col-12" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-plus"></i> Entrada
@@ -36,10 +36,10 @@
                     <button id="importButton" class="dropdown-item" type="button">Importar</button>
                 </div>
             </div>
-        
+
         </div>
 
-        <div style="color:#012E69; width: 100%;" class="text-center"><i><strong> Mostrando {{count($equipos)}} resultados...</strong></i></div>
+        <div style="color:#012E69; width: 100%;" class="text-center mt-4"><i><strong> Mostrando {{count($equipos)}} resultados...</strong></i></div>
         @if(count($equipos) > 0)
 
         <div class="card">
@@ -83,7 +83,7 @@
                             <a href="#" data-toggle="tooltip" title="Stock" class="p-0 mr-3" ><i class="fa fa-archive" ></i></a>
                             </td> -->
                             <td>
-                                <a href="#" data-toggle="tooltip" title="Editar" class="p-0 mr-3" wire:click.prevent="edit({{$item->id}})"><i class="fa fa-pencil text-secondary"></i></a>
+                                <a href="#" data-toggle="tooltip" title="Editar" class="p-0 me-3" wire:click.prevent="edit({{$item->id}})"><i class="fa fa-pencil text-secondary"></i></a>
                                 <a href="#" wire:click.prevent="showModalSalida({{$item->id}})" data-toggle="tooltip" title="Salida de almacén" class="p-0"><i class="fa fa-external-link" aria-hidden="true"></i></a>
                             </td>
                         </tr>
@@ -94,7 +94,7 @@
 
                 <button class="btn-success btn export-btn"><i class="fa fa-share"></i> Exportar</button>
             </div>
-            
+
         </div>
 
 
@@ -107,7 +107,7 @@
 
     <!-- Modal Equipo -->
     <div class="modal" id="modalEq" wire:ignore.self>
-        <div class="modal-dialog" >
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">@if($editar) Editar @else Nuevo @endif equipo</h5>
@@ -162,7 +162,7 @@
     </div>
 
     <!-- Modal salida almacen-->
-    <div class="modal" id="modalSalida"  wire:ignore.self>
+    <div class="modal" id="modalSalida" wire:ignore.self>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

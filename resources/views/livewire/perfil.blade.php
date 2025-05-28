@@ -1,5 +1,5 @@
 <div>
-    <div class="container">
+    <div class="container-fluid my-4">
         <div class="card">
 
             <div class="card-body">
@@ -8,7 +8,7 @@
                 <div style="position:relative; height: 130px; width: 130px; ">
                     <img style="border-radius: 100px;height: 130px; width: 130px;" 
                     title="Subir foto de pérfil" src="{{asset('/storage/perfiles').'/'. $archivo}}" 
-                    wire:click="changePhoto">
+                    >
                     <span style="position: absolute; top:0; right: 0; cursor:pointer;" 
                     title="Eliminar foto" data-toggle="tooltip" data-placement="right" wire:click="deletePhoto">
                     <i class="fa fa-times"></i></span>
@@ -26,9 +26,15 @@
                     @endforeach
                 </ul>
             </div>
+
             <div class="card-footer">
-                <button class="btn btn-primary" id="btnNuevoPass"><i class="fa fa-key"></i> Cambiar password</button>
-                <button class="btn btn-secondary" id="btnNuevaPicture"><i class="fa fa-picture-o"></i> Cambiar foto de pérfil</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalChangePass">
+                    <i class="fa fa-key"></i> Cambiar password
+                </button>
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalChangePicture">
+                    <i class="fa fa-key"></i><i class="fa fa-picture-o"></i> Cambiar foto de pérfil
+                </button>
+                
             </div>
         </div>
     </div>
@@ -37,11 +43,9 @@
     <div class="modal fade" id="modalChangePass" data-backdrop="static" data-keyboard="false" wire:ignore.self>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-secondary text-white">
+                <div class="modal-header">
                     <h5 class="modal-title">Cambiar contraseña</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -63,7 +67,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" wire:click="update" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                    <button type="button" wire:click="update" class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
                 </div>
             </div>
         </div>
@@ -74,17 +78,15 @@
     <div class="modal fade" id="modalChangePicture" data-backdrop="static" data-keyboard="false" wire:ignore.self>
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-secondary text-white">
+                <div class="modal-header">
                     <h5 class="modal-title">Foto de pérfil</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
                     @if($foto == null)
                     <label for="photo">
                         <input type="file" name="photo" id="photo" wire:model.live="foto" class="d-none">
-                        <span style="cursor:pointer; background-color:#9FA5AA; color:#FFF;" class="btn"> <i class="fa fa-paperclip"></i> 
+                        <span style="cursor:pointer;" class="btn btn-primary"> <i class="fa fa-paperclip"></i> 
                         Subir archivo...</span>
                     </label>
                     @else
@@ -104,7 +106,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" wire:click="storePhoto"><i class="fa fa-save"></i> Guardar</button>
+                    <button type="button" class="btn btn-success" wire:click="storePhoto"><i class="fa fa-save"></i> Guardar</button>
                     @if($foto != null)<button type="button" class="btn btn-light" wire:click="$set('foto', null)"><i class="fa fa-times"></i> Cancelar</button>@endif
                 </div>
             </div>
@@ -115,6 +117,7 @@
     @push('custom-scripts')
     <script>
         $(document).on('click', '#btnNuevoPass', function() {
+
             $('#modalChangePass').modal('show')
             setTimeout(() => {
                 $('#password').focus()
@@ -127,7 +130,7 @@
         })
 
         $(document).on('hide.bs.modal', function() {
-            Livewire.emit('clearModal')
+            Livewire.dispatch('clearModal')
         })
 
         $(document).on('click', '#btnNuevaPicture', function(){

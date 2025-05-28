@@ -1,22 +1,16 @@
 <div>
-    <style>
 
-    .content_equipo{
-        overflow-x: auto;
-    }
+    <div class="row g-2">
 
-    </style>
-    <div class="contenedor">
-        <div class="content_datos">
-            <div class="mb-3">
-                <a href="{{route('tickets')}}"><i class="fa-solid fa-circle-left"></i> Atras</a>
-            </div>
+        <div class="col-md-3 pe-4">
             <livewire:actualizar-ticket :$ticketID />
         </div>
-        <div class="content_comentarios">
+
+        <div class="col-md-6">
             <livewire:comentarios-ticket :$ticketID />
         </div>
-        <div class="content_equipo">
+
+        <div class="col-md-3">
             @if($equipo)
             <div>
                 <livewire:equipo-details wire:key="form-equipo-{{ $uniqueId }}" :uniqueId="$equipo->id" />
@@ -27,5 +21,6 @@
             </div>
             @endif
         </div>
+
     </div>
 </div>

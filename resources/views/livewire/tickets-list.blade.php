@@ -44,9 +44,10 @@
                     <option>PENDIENTE</option>
                 </select>
             </div>
+            
             <div class="col-md-3">
                 <label for="usuario" class="form-label">Técnico asignado</label>
-                <select name="usuario" id="usuario" class="form-select" wire:model.live="fu">
+                <select name="usuario" id="usuario" class="form-select"  @can(!'Mostrar todos los ticiket') disabled @endcan wire:model.live="fu">
                     <option value="">TODOS</option>
                     <option value="0">SIN ASIGNAR</option>
                     @foreach($tecnicos as $item)
@@ -54,6 +55,8 @@
                     @endforeach
                 </select>
             </div>
+
+
             <div class="col-md-4">
                 <label for="search" class="form-label">Buscar</label>
                 <div class="input-group">
@@ -84,8 +87,10 @@
             <div class="row ticket-header">
                 <div class="col-md-1">Asignado</div>
                 <div class="col-md-1">ID</div>
-                <div class="col-md-3">Tema</div>
-                <div class="col-md-2">Categoría</div>
+                <div class="col-md-1">Creado</div>
+                <div class="col-md-2">Tema</div>
+                <div class="col-md-1 text-center">F. de atención</div>
+                <div class="col-md-1">Categoría</div>
                 <div class="col-md-1">Prioridad</div>
                 <div class="col-md-2">Usuario</div>
                 <div class="col-md-1">Edificio</div>
@@ -100,7 +105,7 @@
                 <div class="col-md-1">
                     @if($value->asignado != 0)
                     <div class="dropdown">
-                        <span class="dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" style="cursor: pointer; font-size:11px;">
+                        <span class="dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" style="cursor: pointer; ">
                             @if($value->tecnico->photo != null)
                             <img class="rounded-circle me-1" src="{{asset('storage/perfiles/')}}/{{$value->tecnico->photo }}" alt="Perfil" style="height:30px; width:30px">
                             @else
@@ -131,15 +136,21 @@
                 <!-- ID -->
                 <div class="col-md-1">{{$value->id}}</div>
 
+                <!-- Fecha de creacion -->
+                 <div class="col-md-1">
+                 {{Carbon\Carbon::parse($value->created_at)->format('d-M-Y')}} <br>
+                 <span class="text-muted">{{Carbon\Carbon::parse($value->created_at)->format('H:i a')}}</span>
+                </div>
+
                 <!-- Tema -->
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <a href="{{route('editarTicket', $value->id)}}" class="linkticket text-dark">{{$value->tema}}</a>
                     <div class="tipticket shadow border rounded p-2 position-absolute bg-white" style="z-index:1000;">
                         <h6 class="mt-2">
                             <span class="badge badge-{{$value->colorPrioridad}}">{{$value->prioridad}}</span> #{{$value->id}} - {{$value->tema}}
                         </h6>
                         <hr>
-                        <p>{{ strip_tags($value->descripcion)}}</p>
+                        <p><?php echo strip_tags($value->descripcion) ?></p>
                         <hr>
                         @if(count($value->seguimientos) > 0)
                         <p><strong>ULTIMO COMENTARIO</strong> <br><i>{{Carbon\Carbon::parse($value->seguimientos->last()->created_at)->format('d/m/Y h:i:s')}}</i></p>
@@ -148,8 +159,17 @@
                     </div>
                 </div>
 
+                <!-- Fecha de atención -->
+                <div class="col-md-1 text-center">
+                    @if($value->fecha_atencion)
+                    <h5><span class="badge bg-info text-dark"> {{Carbon\Carbon::parse($value->fecha_atencion)->format('d-M-Y')}}</span></h5>
+                    @else
+                    ---
+                    @endif
+                </div>
+
                 <!-- Categoria -->
-                <div class="col-md-2">{{$value->categoria}}</div>
+                <div class="col-md-1">{{$value->categoria}}</div>
 
                 <!-- Prioridad -->
                 <div class="col-md-1"><h5><span class="badge bg-{{$value->colorPrioridad}} ">{{$value->prioridad}}</span></h5></div>
@@ -180,10 +200,22 @@
         </div>
 
         @else
-        <p><i class="fa fa-exclamation-circle text-primary"></i> <strong>NO SE ENCONTRARON TICKETS</strong></p>
+        <p class="text-muted"><i class="fa fa-exclamation-circle text-primary"></i> <strong>No se encontrarón tickets</strong></p>
         @endif
 
         <!-- Modales -->
         <livewire:edit-ticket />
+        
     </div>
+
+    @push('custom-scripts')
+    <script>
+        document.addEventListener('disabledFiltro', function(){
+
+            document.querySelector('#usuario').disabled = true
+        })
+
+    </script>
+    
+    @endpush
 </div>

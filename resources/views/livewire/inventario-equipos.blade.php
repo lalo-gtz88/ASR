@@ -7,9 +7,9 @@
         }
     </style>
 
-    <div class="container-fluid my-4">
+    <div class="container-fluid">
 
-        <h1 class="h4">Equipos</h1>
+        <h1 class="h2">Equipos</h1>
 
         <!-- Filtros -->
         <div class="row">
@@ -60,7 +60,7 @@
                 <th>Dirección IP</th>
                 <th>Dirección MAC</th>
                 <th>Nombre de usuario</th>
-                <th>Acciones</th>
+                <th class="text-center">Acciones</th>
             </thead>
             <tbody>
                 @foreach($equipos as $key => $value)
@@ -80,7 +80,7 @@
                     <td>{{$value->direccion_mac}}</td>
                     <td>{{$value->nombreUsuario}}</td>
                     <td class="text-center">
-                        <a href="{{route('detalleEquipo', $value->id)}}" class="mr-3" title="Ver"><i class="fa fa-eye"></i></a>
+                        <a href="{{route('detalleEquipo', $value->id)}}" class="me-2" title="Ver"><i class="fa fa-eye"></i></a>
                         <a href="#" onclick="borrar({{$value->id}})" title="Eliminar"><i class="fa fa-trash text-danger"></i></a>
                     </td>
                 </tr>

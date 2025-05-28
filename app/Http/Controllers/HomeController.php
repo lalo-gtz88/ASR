@@ -7,6 +7,11 @@ use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
 class HomeController extends Controller
 {
+
+    public function dashboard(){
+        return view('home');
+    }
+
     public function index()
     {
 

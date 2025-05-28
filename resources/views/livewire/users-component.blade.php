@@ -1,11 +1,6 @@
 <div>
-    <div class="container-fluid pt-3">
-        @if(Session::has('success'))
-        <div class="alert alert-success my-2 text-center">
-            <strong>Listo!</strong> {{Session::get('success')}}
-        </div>
-        @endif
-
+    <div class="container-fluid">
+        <h2>Usuarios</h2>
         <div class="card">
             <div class="card-header bg-primary text-white">
                 @if(!$editarRegistro)
@@ -24,9 +19,9 @@
                         <input type="text" wire:model="nombre" class="form-control" name="nombre" id="nombre" placeholder="Obligatorio">
                         @error('nombre')
                         <small class="text-danger">{{$message}}</small>
-                        @enderror   
+                        @enderror
                     </div>
-                
+
                     <div class="col-md-3">
                         <label for="apellido">Apellido</label>
                         <input type="text" wire:model="apellido" class="form-control" name="apellido" id="apellido" placeholder="Obligatorio">
@@ -42,7 +37,7 @@
                         <small class="text-danger">{{$message}}</small>
                         @enderror
                     </div>
-                    
+
                     <div class="col-md-3">
                         <label for="correo">Correo electrónico</label>
                         <input type="email" wire:model="correo" class="form-control" name="correo" id="correo">
@@ -67,7 +62,7 @@
                         <small class="text-danger">{{$message}}</small>
                         @enderror
                     </div>
-                
+
                     <div class="col-md-4">
                         <label for="confirmaPass">Confirma password</label>
                         <input type="password" wire:model="confirmaPassword" class="form-control" name="confirmaPass" id="confirmaPass" @if(!$editarRegistro) placeholder="Obligatorio" @else null @endif />
@@ -78,7 +73,7 @@
                         <small class="text-danger">{{$message}}</small>
                         @enderror
                     </div>
-            
+
                 </div>
 
                 @if(!$editarRegistro)
@@ -95,15 +90,15 @@
                 <div class="card-title">Usuarios</div>
             </div>
             <div class="card-body">
-               
-                <input type="search" id="search" wire:model.live="search" class="form-control mb-2" 
-                    placeholder="Buscar..." 
-                    autofocus >
+
+                <input type="search" id="search" wire:model.live="search" class="form-control mb-2"
+                    placeholder="Buscar..."
+                    autofocus>
                 <div>
                     <div>
                         <table class="table table-sm small">
                             <thead class="table-primary">
-                                <th>Nombre</th>    
+                                <th>Nombre</th>
                                 <th>Usuario</th>
                                 <th>Acciones</th>
                             </thead>
@@ -122,14 +117,14 @@
                                 @endforeach
                             </tbody>
                         </table>
-                     
+
                     </div>
                 </div>
                 {{$users->links()}}
             </div>
-            
+
         </div>
-        
+
     </div>
     @push('custom-scripts')
     <script>
@@ -137,7 +132,9 @@
             e.preventDefault()
             if (confirm('¿Estas seguro de eliminar el usuario?')) {
                 let id = $(this).data('id')
-                Livewire.dispatch('delete', {id:id})
+                Livewire.dispatch('delete', {
+                    id: id
+                })
             }
 
         })

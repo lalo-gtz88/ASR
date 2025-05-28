@@ -11,21 +11,67 @@
     font-size: 13px;
 }
 
+/* Sidebar visible en pantallas grandes */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(to bottom right, #002b4c, #0078d4);
+    color: white;
+    padding-top: 20px;
+    z-index: 10000;
+}
+
+#toggleSidebar{
+    
+    margin-left: 255px;
+}
+
+.sidebar.collapsed {
+    transform: translateX(-250px);
+    transition: transform 0.3s ease;
+}
+
+.sidebar.collapsed ~ .main-content{
+    margin-left: 0;
+}
+
+.sidebar .nav-link {
+    color: white;
+}
+
+.sidebar .nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.submenu {
+    display: none;
+    padding-left: 20px;
+}
+
+.submenu li {
+    padding: 5px 5px;
+    list-style: none;
+
+}
+
+trix-toolbar [data-trix-action="attachFiles"] {
+    display: none;
+}
+
+
 /* Contenido principal */
 .main-content {
     margin-left: 250px;
+    padding: 10px 20px;
     transition: 0.3s;
 }
-
-main {
-    padding: 0px 20px;
-}
-
 
 /* Navbar */
 .navbar {
     padding: 10px 20px;
-
     display: flex;
     background: #102C61;
     justify-content: space-between;
@@ -37,7 +83,6 @@ main {
 #toggleSidebar {
     background: none;
     border: none;
-    color: white;
     font-size: 24px;
     cursor: pointer;
     display: none;
@@ -64,52 +109,19 @@ main {
     font-size: 14px !important;
 }
 
-
-/* Comentarios tickets y datos del ticket */
-.contenedor {
-    height: 95vh;
-    width: 85vw;
-    display: flex;
-
-}
-
-.content_comentarios {
-    width: 57%;
-    height: 100%;
-    margin-right: 30px;
-    padding-top: 15px;
-}
-
-.content_datos {
-    width: 20%;
-    height: 100%;
-    padding-top: 10px;
-    padding-right: 20px;
-    border-right: 1px solid #DFDFDF;
-    margin-right: 25px;
-}
-
-.content_equipo {
-    width: 23%;
-    height: 100%;
-    border-left: 1px solid #DFDFDF;
-    
-}
-
 .note-editable {
     border: 1px solid #DEE2E6;
     border-radius: 3px;
-    padding: 10px !important;
+    padding: 5px !important;
     font-weight: 100 !important;
 }
 
 .lineatemp {
     position: relative;
-    height: 72vh;
+    height: 60vh;
     overflow-x: auto;
-    border-bottom: 1px solid #DEDEDE;
-    margin-bottom: 5px;
     padding: 5px;
+    border-left: solid 1px #D3D3D3;
 }
 
 .fila {
@@ -169,7 +181,7 @@ main {
 
 .globo {
     position: relative;
-    background: #DEE2E6;
+    background: #CDE4FF;
     border: none;
 }
 
@@ -182,7 +194,7 @@ main {
     left: -20px;
     width: 0px;
     height: 0px;
-    border-bottom: 40px solid #DEE2E6;
+    border-bottom: 40px solid #CDE4FF;
     border-right: 40px solid transparent;
     border-left: 40px solid transparent;
     transform: rotate(180deg);
@@ -190,17 +202,15 @@ main {
 
 }
 
-
-
 .item-link {
     text-decoration: none;
     font-style: normal;
     list-style: none;
 }
 
-.contenedor-btn-enviar {
+/*.contenedor-btn-enviar {
     position: relative;
-}
+}*/
 
 .submenu-hover {
     display: none;
@@ -210,12 +220,24 @@ main {
     border-radius: 3%;
     padding: 10px;
     background: #FFF;
+    
+}
+
+.submenu-hover a{
+    text-decoration: none;
+    color: #182533;
+    transition: color 0.2s;
 }
 
 .submenu-hover:hover {
 
     display: flex;
     flex-direction: column;
+}
+
+.submenu-hover a:hover {
+    text-decoration: none;
+    color: #4da3ff;
 }
 
 #btnEnviar:hover+div {
@@ -290,6 +312,20 @@ td {
     display: none;
 }
 
+.resultadosEquipos:hover {
+
+    background-color: #007BFF;
+    color: #FFF;
+    cursor: pointer;
+
+}
+
+
+[wire\:loading] {
+    display: none;
+}
+
+
 /* Responsive */
 @media (max-width: 768px) {
     .sidebar {
@@ -306,6 +342,21 @@ td {
     }
 }
 
+/* Ocultar sidebar en móviles y usar offcanvas */
+@media (max-width: 991px) {
+    .sidebar {
+        display: none;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+
+    nav.navbar {
+        margin-left: 0 !important;
+    }
+}
+
 .resultadosEquipos {
 
     max-height: 150px;
@@ -317,14 +368,3 @@ td {
 
 }
 
-.resultadosEquipos:hover {
-
-    background-color: #007BFF;
-    color: #FFF;
-    cursor: pointer;
-
-}
-
-[wire\:loading] {
-    display: none;
-}

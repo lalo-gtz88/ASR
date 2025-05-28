@@ -37,18 +37,18 @@ class Perfil extends Component
         ]);
 
         $us = User::find(Auth::user()->id);
-        if($us->photo != ''){
+        // if($us->photo != ''){
 
-            unlink(storage_path('app/public/perfiles/'). $us->photo);
-        }
+        //     unlink(storage_path('app/public/perfiles/'). $us->photo);
+        // }
 
         $name_photo = $this->foto->store('public/perfiles');
 
         $us->photo = explode("/",$name_photo)[2];
         $us->save();
 
-        $this->dispatchBrowserEvent('alerta', ['msg' => 'Cambios guardados!', 'type' => 'success']);
-        $this->dispatchBrowserEvent('closeModalPhoto');
+        $this->dispatch('alerta', ['msg' => 'Cambios guardados!', 'type' => 'success']);
+        $this->dispatch('closeModalPhoto');
     }
 
 
@@ -69,8 +69,8 @@ class Perfil extends Component
         $us->save();
         
         $this->clearModal();
-        $this->dispatchBrowserEvent('hideModal');
-        $this->dispatchBrowserEvent('alerta', ['msg' => 'Cambios guardados!', 'type' => 'success']);
+        $this->dispatch('hideModal');
+        $this->dispatch('alerta', ['msg' => 'Cambios guardados!', 'type' => 'success']);
     }
 
     public function clearModal()
@@ -85,7 +85,7 @@ class Perfil extends Component
         unlink(storage_path('app/public/perfiles/'). $us->photo);
         $us->photo = null;
         $us->save();
-        $this->dispatchBrowserEvent('alerta', ['msg' => 'Foto eliminada!', 'type' => 'success']);
+        $this->dispatch('alerta', ['msg' => 'Foto eliminada!', 'type' => 'success']);
         //redireccionamos a la misma pagina para ver los cambios (no quizo renderizar en esta parte)
         return redirect(request()->header('Referer'));
 

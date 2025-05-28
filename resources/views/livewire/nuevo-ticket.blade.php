@@ -1,6 +1,8 @@
 <div>
 
-  <h1 class="h3 my-4">Nuevo ticket</h1>
+  <h1 class="h2">
+    Nuevo ticket
+  </h1>
 
   <form wire:submit.prevent="guardar">
     {{-- Información del Ticket --}}
@@ -10,26 +12,30 @@
         <div class="row mb-3">
           <div class="col-md-6">
             <label for="tema" class="form-label">Tema *</label>
-            <input type="text" wire:model="tema" class="form-control" id="tema" maxlength="100" >
-              @error('tema')
-              <small class="text-danger">{{ $message }}</small>
-              @enderror
+            <input type="text" wire:model="tema" class="form-control @error('telefono') is-invalid  @enderror" id="tema" maxlength="100">
+            @error('tema')
+            <div class="invalid-feedback d-block">{{ $message }}</div>
+            @enderror
           </div>
           <div class="col-md-6">
             <label for="telefono" class="form-label">Teléfono / EXT *</label>
-            <input type="text" wire:model="telefono" class="form-control" id="telefono" >
-              @error('telefono')
-              <small class="text-danger">{{$message}}</small>
-              @enderror
+            <input type="text" wire:model="telefono" class="form-control @error('telefono') is-invalid  @enderror" id="telefono">
+            @error('telefono')
+            <div class="invalid-feedback d-block">{{ $message }}</div>
+            @enderror
           </div>
         </div>
-        <div id="editor-container" wire:ignore class="mb-3">
-          <label for="descripcion">Descripción <span><strong>*</strong></span></label>
-          <input id="descripcion" type="hidden" wire:model.live="descripcion">
-          <trix-editor input="descripcion"></trix-editor>
+
+        <div id="editor-container" class="mb-3">
+
+          <label for="descripcion">Descripción <strong>*</strong></label>
+
+          <input id="descripcion" type="hidden" wire:model="descripcion">
+
+          <trix-editor input="descripcion" class="@error('descripcion') is-invalid  @enderror" wire:ignore></trix-editor>
 
           @error('descripcion')
-          <small class="text-danger">{{$message}}</small>
+          <div class="invalid-feedback d-block">{{ $message }}</div>
           @enderror
 
         </div>
@@ -44,16 +50,16 @@
           <div class="col-md-4">
             <label for="usuario" class="form-label">Usuario</label>
             <input type="text" wire:model="quien_reporta" class="form-control" id="usuario">
-          @error('quien_reporta')
-          <small class="text-danger">{{$message}}</small>
-          @enderror
+            @error('quien_reporta')
+            <small class="text-danger">{{$message}}</small>
+            @enderror
           </div>
           <div class="col-md-4">
             <label for="edificio" class="form-label">Edificio</label>
             <select wire:model="edificio" class="form-select" id="edificio">
               <option value="">-- Selecciona una opción --</option>
               @foreach($edificios as $index => $edificio)
-                <option>{{Str::upper($edificio->nombre)}}</option>
+              <option>{{Str::upper($edificio->nombre)}}</option>
               @endforeach
             </select>
           </div>
@@ -62,7 +68,7 @@
             <select wire:model="departamento" class="form-select" id="departamento">
               <option value="">-- Selecciona una opción --</option>
               @foreach($departamentos as $id => $dpto)
-                <option>{{Str::upper($dpto->nombre)}}</option>
+              <option>{{Str::upper($dpto->nombre)}}</option>
               @endforeach
             </select>
           </div>
@@ -82,7 +88,7 @@
             @enderror
           </div>
 
-          
+
           <div class="col-md-4">
             <label for="autoriza" class="form-label">Autoriza</label>
             <input type="text" wire:model="autoriza" class="form-control" id="autoriza">
@@ -104,7 +110,7 @@
             <select wire:model.defer="categoria" class="form-select" id="categoria">
               <option value="">-- Selecciona una opción --</option>
               @foreach($categorias as $index => $cat)
-                   <option>{{ Str::upper($cat->name)}}</option>
+              <option>{{ Str::upper($cat->name)}}</option>
               @endforeach
             </select>
           </div>
@@ -113,16 +119,16 @@
             <select wire:model="asignado" class="form-select" id="asignado_a">
               <option value="">-- Selecciona una opción --</option>
               @foreach($tecnicos as $index => $tec)
-                <option value="{{ $tec->id }}">{{ $tec->name .' '. $tec->lastname }}</option>
+              <option value="{{ $tec->id }}">{{ $tec->name .' '. $tec->lastname }}</option>
               @endforeach
             </select>
           </div>
           <div class="col-md-4">
             <label for="prioridad" class="form-label">Prioridad</label>
             <select wire:model="prioridad" class="form-select" id="prioridad">
-              <option value="baja">Baja</option>
-              <option value="media">Media</option>
-              <option value="alta">Alta</option>
+              <option>Baja</option>
+              <option>Media</option>
+              <option>Alta</option>
             </select>
           </div>
         </div>
@@ -138,14 +144,14 @@
               <option>1181 [F-150] </option>
               <option>1917 [Hilux] </option>
               <option>2319 [Versa] </option>
-          </select>
+            </select>
           </div>
         </div>
       </div>
     </div>
 
     @error('attachment.*')
-      <small class="text-danger">{{ $message }}</small>
+    <small class="text-danger">{{ $message }}</small>
     @enderror
 
     {{-- Adjuntar archivo --}}
@@ -154,81 +160,80 @@
 
       <div>
 
-          <label for="attach">
-              <!-- Input para subir archivos -->
-              <input type="file" id="attach" wire:model="attachment" multiple class="form-control d-none">
-              <span class="btn btn-secondary" wire:loading.remove.attr="disabled"><i class="fa fa-paperclip"></i> Adjuntar archivo</span>
-          </label>
+        <label for="attach">
+          <!-- Input para subir archivos -->
+          <input type="file" id="attach" wire:model="attachment" multiple class="form-control d-none">
+          <span class="btn btn-secondary" wire:loading.remove.attr="disabled"><i class="fa fa-paperclip"></i> Adjuntar archivo</span>
+        </label>
 
-          <div wire:loading wire:target="attachment">
-              <span><img src="{{asset('img/loading.gif')}}" style="height: 32px; width:32px" alt="cargando archivos"></span>
-          </div>
+        <div wire:loading wire:target="attachment">
+          <span><img src="{{asset('img/loading.gif')}}" style="height: 32px; width:32px" alt="cargando archivos"></span>
+        </div>
 
-          <div class="mt-2">
-            @if($attachment)
-            <div class="d-flex">
-              @foreach($attachment as $item => $value)
-              @if($value != null)
-              <h4>
+        <div class="mt-2">
+          @if($attachment)
+          <div class="d-flex">
+            @foreach($attachment as $item => $value)
+            @if($value != null)
+            <h4>
               <span class="badge bg-dark text-white">
                 {{$value->getClientOriginalName()}}</span>
               <span wire:click="delFile({{$item}})" style="cursor:pointer" class="me-2"><i class="fa fa-times-circle text-danger"></i></span>
-              </h4>
-              @endif
-              @endforeach
-            </div>
+            </h4>
             @endif
+            @endforeach
           </div>
+          @endif
+        </div>
       </div>
 
       {{-- Guardar --}}
       <div>
-          <button type="submit" wire:loading.remove="guardar" class="btn btn-success">
-              <i class="fa fa-save"></i> Guardar
-          </button>
+        <button type="submit" wire:loading.remove="guardar" class="btn btn-success">
+          <i class="fa fa-save"></i> Guardar
+        </button>
 
-          <button class="btn btn-success" wire:loading disabled=true wire:target="guardar">
-              <img src="{{asset('img/loading.gif')}}" style="height: 16px; width:16px"> Procesando...
-          </button>
+        <button class="btn btn-success" wire:loading disabled=true wire:target="guardar">
+          <img src="{{asset('img/loading.gif')}}" style="height: 16px; width:16px"> Procesando...
+        </button>
       </div>
 
     </div>
   </form>
 
-    @push('custom-scripts')
-    <script>
-      //Sincronizar cambios en descripcion con Trix
-        document.addEventListener("trix-change", function (event) {
-            const input = document.querySelector("#descripcion");
-            input.dispatchEvent(new Event("input", { bubbles: true }));
-        });
+  @push('custom-scripts')
+  <script>
+    //Sincronizar cambios en descripcion con Trix
+    document.addEventListener("trix-change", function(event) {
+      const input = document.querySelector("#descripcion");
+      input.dispatchEvent(new Event("input", {
+        bubbles: true
+      }));
+    });
 
-        //limpiar contenido del Trix editor
-        Livewire.on('limpiarDescripcion', () => {
-            document.querySelector("#descripcion").value = "";
-            document.querySelector("trix-editor").editor.loadHTML("");
-        });
+    //limpiar contenido del Trix editor
+    Livewire.on('limpiarDescripcion', () => {
+      document.querySelector("#descripcion").value = "";
+      document.querySelector("trix-editor").editor.loadHTML("");
+    });
 
-        //Setear contenido en trix editor
-        $(document).on('setEditor', function(event){
+    //Setear contenido en trix editor
+    $(document).on('setEditor', function(event) {
 
-          setTimeout(() => {
-            const contenido = event.detail.contenido;
-            document.querySelector("#descripcion").value = contenido;
-            document.querySelector("trix-editor").editor.loadHTML(contenido);
-          }, 200);
-          
-        })
-        
+      setTimeout(() => {
+        const contenido = event.detail.contenido;
+        document.querySelector("#descripcion").value = contenido;
+        document.querySelector("trix-editor").editor.loadHTML(contenido);
+      }, 200);
 
-        // Enviar telegram
-        $(document).on('enviar-notificacion-telegram', function(event) {
-            console.log(event.detail)
-            fetch(encodeURI(`https://api.telegram.org/bot6050250438:AAFMUxeC57F7C9TxV5MBBLZDcKB7aUGXkgc/sendMessage?chat_id=${event.detail.destino}&text=${event.detail.msj}`))
-        })
+    })
 
 
-
-    </script>
-    @endpush
+    // Enviar telegram
+    $(document).on('enviar-notificacion-telegram', function(event) {
+      console.log(event.detail)
+      fetch(encodeURI(`https://api.telegram.org/bot6050250438:AAFMUxeC57F7C9TxV5MBBLZDcKB7aUGXkgc/sendMessage?chat_id=${event.detail.destino}&text=${event.detail.msj}`))
+    })
+  </script>
+  @endpush
 </div>

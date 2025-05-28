@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Events\IpAssigned;
+use App\Events\TicketAssigned;
 use App\Events\UpdateEquipoEvent;
 use App\Listeners\IpAssignedListener;
+use App\Listeners\SendTelegramNotification;
 use App\Listeners\UpdateEquipoListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -22,7 +24,11 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        
+
+        TicketAssigned::class => [
+            SendTelegramNotification::class,
+        ],
+
     ];
 
     /**

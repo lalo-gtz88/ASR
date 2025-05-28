@@ -8,6 +8,7 @@ use App\Models\departamento;
 use App\Models\edificio;
 use App\Models\Ticket;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -34,13 +35,21 @@ class TicketsList extends Component
 
     public function render()
     {
-
-        $tickets = $this->getTickets();
-
         $tecnicos = $this->getTecnicos();
 
-        $this->obtenerSeguimientos();
 
+        $user = User::find(Auth::user()->id);
+        
+        //si el usuario no tiene privilegio de ver todos los tickets 
+        if (!$user->can('Mostrar todos los tickets')) {
+
+            $this->fu = $user->id;
+            $this->fu = Auth::user()->id;
+            $this->dispatch('disabledFiltro');
+        }
+
+        $tickets = $this->getTickets();
+        $this->obtenerSeguimientos();
 
         return view('livewire.tickets-list', compact('tickets', 'tecnicos'));
     }
@@ -60,17 +69,18 @@ class TicketsList extends Component
     {
 
         $this->resetPage();
+
     }
 
     function getTickets()
     {
-
+        
         return Ticket::where('active', 1)
-            ->where($this->fs, 'LIKE', '%' . $this->search . '%')
-            ->where('asignado', 'LIKE', '%' . $this->fu . '%')
-            ->where('status', $this->fst)
-            ->orderBy('created_at', 'DESC')
-            ->paginate(10);;
+                    ->where($this->fs, 'LIKE', '%' . $this->search . '%')
+                    ->where('asignado', 'LIKE', '%' . $this->fu . '%')
+                    ->where('status', $this->fst)
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate(10);
     }
 
     function getTecnicos()

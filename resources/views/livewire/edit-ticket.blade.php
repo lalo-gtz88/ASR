@@ -5,9 +5,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Editar </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
@@ -19,15 +17,17 @@
                         @enderror
                     </div>
 
-                    <div>
-                        <label for="descripcionEdit">Descripción <span><strong>*</strong></span></label>
-                        <div wire:ignore>
-                            <textarea id="descripcionEdit" class="form-control"
-                            wire:model="descripcion"></textarea>
-                        </div>
-                        @error('descEmpty')
-                        <small class="text-danger">{{$message}}</small>
+                    <div id="editor-container" wire:ignore class="mb-3">
+
+                        <label for="descripcion">Descripción <strong>*</strong></label>
+                        <input id="descripcion" type="hidden" wire:model="descripcion">
+
+                        <trix-editor input="descripcion" class="@error('descripcion') is-invalid  @enderror" ></trix-editor>
+
+                        @error('descripcion')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror
+
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -39,25 +39,30 @@
 
     @push('custom-scripts')
     <script>
+
+       //Sincronizar cambios en descripcion con Trix
+        document.addEventListener("trix-change", function (event) {
+            const input = document.querySelector("#descripcion");
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+        });
+        
+        //mostramos el contenido en el trix editor cuando hacemos click en editar y nos abre el modal
          $(document).on('showEditTicket', function(e) {
-            
-            //integramos summernote
-            setTimeout(() => {
-                $('#descripcionEdit').summernote({
-                    height:100,
-                    focus: true,
-                    callbacks: {
-                        onChange: function(content, $editable){
-                            @this.set('descripcionEdit', content);
-                        }
-                    }
-                });
 
-                $('.note-editable').html(e.detail.descripcion)
-                //abrimos modal
-                $('#modal-edit-ticket').modal('show')
+             const contenido = e.detail.descripcion ?? '';
+             console.log(e.detail.descripcion)
 
-            }, 10);  
+            // Seleccionamos el input y el editor
+            const input = document.querySelector('#descripcion');
+            const editor = document.querySelector("trix-editor");
+
+            // Establecer valor en el input y forzar render en Trix
+            input.value = contenido;
+            editor.editor.loadHTML(contenido);
+
+            // Abre el modal
+            $('#modal-edit-ticket').modal('show');
+
         })
     </script>
     @endpush

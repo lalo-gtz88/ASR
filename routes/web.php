@@ -3,6 +3,7 @@
 use App\Http\Controllers\Actividades;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlmacenController;
+use App\Http\Controllers\CatalogosController;
 use App\Http\Controllers\VerEnlace;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -48,7 +49,10 @@ use App\Livewire\NuevoEquipo;
 //Login
 Route::view('/', 'login')->name('login');
 Route::post('/loginned', [UserController::class, 'authenticate'])->name('loginned');
-Route::get('/route-cache', function() { Artisan::call('route:cache'); return 'Routes cache cleared'; });
+Route::get('/route-cache', function () {
+    Artisan::call('route:cache');
+    return 'Routes cache cleared';
+});
 
 
 //Auth
@@ -62,25 +66,26 @@ Route::middleware(['auth'])->group(function () {
 
     //Tickets
     Route::view('/tickets', 'tickets')->name('tickets');
-    Route::get('/nuevo/ticket',[TicketsController::class, 'newTicket'] )->name('nuevoTicket');
-    Route::get('/copia/ticket/{id}',[TicketsController::class, 'copy'] )->name('copyTicket');
-    Route::get('/ticket/{id}',[EditarTicket::class, 'index'] )->name('editarTicket');
+    Route::get('/nuevo/ticket', [TicketsController::class, 'newTicket'])->name('nuevoTicket');
+    Route::get('/copia/ticket/{id}', [TicketsController::class, 'copy'])->name('copyTicket');
+    Route::get('/ticket/{id}', [EditarTicket::class, 'index'])->name('editarTicket');
     Route::get('/ticket/document/{id}', [PDFController::class, 'viewDocTicket'])->name('ticketDocument');
 
     //Catalogos
     Route::group(['middleware' => ['permission:Catalogos']], function () {
         Route::get('/admin/catalogos',  [AdminController::class, 'indexCat'])->name('catalogos');
+        Route::get('/catalogos/{tipo}',  [CatalogosController::class, 'index'])->name('catalogos.tipo');
     });
 
     //Perfil
     Route::get('/perfil', [UserController::class, 'perfil'])->name('perfil');
 
     //Actividades
-    Route::get('/actividades', [Actividades::class,'index'])->name('todolist');
+    Route::get('/actividades', [Actividades::class, 'index'])->name('todolist');
 
     //Red
     Route::get('/enlaces', [Enlaces::class, 'index'])->name('enlaces');
-    Route::get('/nuevo/enlace', [NuevoEnlace::class, 'index' ])->name('nuevoEnlace');
+    Route::get('/nuevo/enlace', [NuevoEnlace::class, 'index'])->name('nuevoEnlace');
     Route::get('/editar/enlace/{id}', [EditarEnlace::class, 'index'])->name('editarEnlace');
     Route::get('/details/enlace/{id}', [VerEnlace::class, 'index'])->name('verEnlace');
     Route::get('/mapa/enlaces/', [RedMapas::class, 'index'])->name('mapaEnlaces');
@@ -93,7 +98,7 @@ Route::middleware(['auth'])->group(function () {
 
     //Monitoreo equipos
     Route::get('/monitoreo/equipos', MonitorEquipos::class)->name('monitoreoEquipos');
-    
+
     //Documentos
     Route::get('/memorias', MemoriasTecnicas::class)->name('memorias');
 
@@ -116,5 +121,4 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios');
         Route::get('/user/roles/{id}', [UserController::class, 'roles'])->name('roles');
     });
-    
 });

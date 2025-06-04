@@ -6,7 +6,7 @@ use App\Models\edificio;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Edificios extends Component
+class EdificiosCat extends Component
 {
     use WithPagination;
 
@@ -27,7 +27,7 @@ class Edificios extends Component
             ->orderBy("nombre")
             ->paginate(10);
 
-        return view('livewire.edificios', compact('edificios'));
+        return view('livewire.edificios-cat', compact('edificios'));
     }
 
     public function store()

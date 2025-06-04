@@ -1,7 +1,7 @@
 <div>
     <div>
         <label for="proveedor" class="d-flex align-items-end justify-content-between">Proveedor
-            <span class="btn btn-link" data-toggle="modal" data-target="#modalProveedores"><i class="fa fa-plus"></i> Nuevo</span>
+            <span class="btn btn-link" data-bs-toggle="modal" data-bs-target="#modalProveedores"><i class="fa fa-plus"></i> Nuevo</span>
         </label>
         <select type="text" id="proveedor" wire:model="proveedor" class="form-control" wire:change="enviarProveedor()">
             <option value=""> ---Selecciona una opción--- </option>
@@ -21,9 +21,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Nuevo proveedor</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
@@ -77,7 +75,6 @@
         $(document).on('hidden.bs.modal', '#modalProveedores', function() {
             Livewire.dispatch('resetModal')
         })
-
     </script>
     @endpush
 

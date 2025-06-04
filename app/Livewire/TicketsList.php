@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Events\CambiosTicket;
+use App\Jobs\SendTelegramNotification;
 use App\Models\Categoria;
 use App\Models\departamento;
 use App\Models\edificio;
@@ -39,7 +40,7 @@ class TicketsList extends Component
 
 
         $user = User::find(Auth::user()->id);
-        
+
         //si el usuario no tiene privilegio de ver todos los tickets 
         if (!$user->can('Mostrar todos los tickets')) {
 
@@ -69,18 +70,17 @@ class TicketsList extends Component
     {
 
         $this->resetPage();
-
     }
 
     function getTickets()
     {
-        
+
         return Ticket::where('active', 1)
-                    ->where($this->fs, 'LIKE', '%' . $this->search . '%')
-                    ->where('asignado', 'LIKE', '%' . $this->fu . '%')
-                    ->where('status', $this->fst)
-                    ->orderBy('created_at', 'DESC')
-                    ->paginate(10);
+            ->where($this->fs, 'LIKE', '%' . $this->search . '%')
+            ->where('asignado', 'LIKE', '%' . $this->fu . '%')
+            ->where('status', $this->fst)
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
     }
 
     function getTecnicos()
@@ -97,23 +97,26 @@ class TicketsList extends Component
 
         Ticket::find($id)->delete();
         $this->dispatch('ticket-saved')->to(CajaEstadistica::class);
-        $this->dispatch('alerta',  type:"success", msg: 'Registro eliminado!');
+        $this->dispatch('alerta',  type: "success", msg: 'Registro eliminado!');
     }
 
-    function asignar($ticketID, $tecnicoID){
+    function asignar($ticketID, $tecnicoID)
+    {
 
         $t = Ticket::find($ticketID);
         $t->asignado = $tecnicoID;
         $t->save();
 
-        $this->dispatch('alerta',  type:"success", msg: 'Ticket asignado!');
+        $this->dispatch('alerta',  type: "success", msg: 'Ticket asignado!');
 
+        //enviamos notificacion por telegram
+        SendTelegramNotification::dispatch($t->id);
     }
 
-    function obtenerSeguimientos()  {
-        
+    function obtenerSeguimientos()
+    {
+
         // $ticket = Ticket::find(14);
         // dd($ticket->seguimientos);
     }
-
 }

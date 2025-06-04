@@ -61,7 +61,7 @@ class TicketsComp extends Component
     public $ticketsToMerge = [];
     public $tecnicos = [];
 
-    
+
     public function updatingSearch()
     {
         $this->resetPage(); //para resetear a la primera pagina cuando tenemos paginacion y filtrado 
@@ -83,39 +83,6 @@ class TicketsComp extends Component
         //     ->select(DB::raw("actividades.*"))
         //     ->where('actividades.active', 1)
         //     ->where('usuario_actividades.usuario', Auth::user()->id)->get();
-
-
-        //cargamos los tickets
-        // $tickets = Ticket::leftJoin('users as asignados', 'asignados.id', 'tickets.asignado')
-        //     ->leftJoin('users as creadores', 'creadores.id', 'tickets.creador')
-        //     ->select(DB::raw("tickets.*,
-        //                                     asignados.name as asignadoName, 
-        //                                     asignados.lastname as asignadoLastname,
-        //                                     CONCAT_WS(' ', creadores.name, creadores.lastname) as creador,
-        //                                     asignados.photo"))
-        //     ->where('tickets.active', 1)
-        //     ->where('tickets.status', $this->filtro_status)
-        //     ->where('tickets.asignado', 'like', '%' . $this->userFilter . '%')
-        //     ->where(function ($q) {
-        //         $q->where('tickets.id', 'LIKE', $this->search);
-        //         $q->orWhere('tickets.tema', 'LIKE', "%" . $this->search . "%");
-        //         $q->orWhere('tickets.descripcion', 'LIKE', "%" . $this->search . "%");
-        //     })
-        //     ->orderBy('id', 'DESC')
-        //     ->paginate(14);
-
-        // $totalTickets = Ticket::where('status', $this->filtro_status)->where('active', 1)->get();
-        // $ticketsByUser = Ticket::where('status', $this->filtro_status)->where('active', 1)->where('asignado', Auth::user()->id)->get();
-
-
-        //si el usuario no tiene privilegio de ver todos los tickets
-        // $user = Auth::user();
-        // if (!$user->hasPermissionTo('Mostrar todos los tickets')) {
-
-        //     $this->userFilter = Auth::user()->id;
-        //     $this->dispatch('disabledFiltro');
-        // }
-
 
     }
 
@@ -251,196 +218,17 @@ class TicketsComp extends Component
     }
 
     #[On('editar')]
-    function editar($id) {
-        
+    function editar($id)
+    {
+
         $this->dispatch('setearValores', id: $id)->to('EditTicket');
         $this->dispatch('abrirModalEdit', id: $id);
     }
-    
+
     #[On('limpiar')]
-    function Limpiar() {
-        
+    function Limpiar()
+    {
+
         $this->reset();
     }
-
-    // public function store()
-    // {
-    //     //validamos campos
-    //     $this->validate([
-    //         'tema' => 'required',
-    //         'descripcion' => 'required',
-    //         'attachment.*' => 'mimes:jpg,pdf|nullable' //validamos que sea de tipo pdf o jpg
-    //     ]);
-
-
-        //Guardamos el ticket
-        // $ticket = new Ticket();
-        // $ticket->tema = mb_strtoupper($this->tema);
-        // $ticket->descripcion = $this->descripcion;
-        // $ticket->reporta = $this->quien_reporta;
-        // $ticket->asignado = ($this->asignado != "") ? $this->asignado : 0;
-        // $ticket->creador = Auth::user()->id;
-        // $ticket->prioridad = $this->prioridad;
-        // $ticket->categoria = $this->categoria;
-        // $ticket->usuario_red = $this->usuario_red;
-        // $ticket->status = "Abierto";
-        // $ticket->telefono = $this->telefono;
-        // $ticket->departamento = $this->departamento;
-        // $ticket->edificio = $this->edificio;
-        // $ticket->ip = $this->ip;
-        // $ticket->autoriza = $this->autoriza;
-        // $ticket->fecha_atencion = $this->fecha_de_atencion;
-        // $ticket->usuario = Auth::user()->id;
-        // $ticket->save();
-
-        //Guardamos la primera nota del ticket
-        // $seguimiento = new Seguimiento();
-        // $seguimiento->notas = $this->descripcion;
-        // $seguimiento->ticket = $ticket->id;
-        // $seguimiento->usuario = Auth::user()->id;
-        // $seguimiento->save();
-
-
-        //Si contiene un archivo adjunto lo guardamos en la carpeta public 
-        // if (count($this->attachment) > 0) {
-
-        //     foreach ($this->attachment as $item) {
-        //         if ($item != null) {
-        //             $fileName = $item->store('public/documents');
-        //             // //Luego lo guardamos como nota de seguimiento con el nombre del archivo generado
-        //             $seguimiento = new Seguimiento();
-        //             $seguimiento->notas = 'Archivo adjunto';
-        //             $seguimiento->ticket = $ticket->id;
-        //             $seguimiento->usuario = Auth::user()->id;
-        //             $seguimiento->file = explode('/', $fileName)[2];
-        //             $seguimiento->save();
-        //         }
-        //     }
-        // }
-
-        //************************************************************ */
-        //PROCESO PARA EL ENVIO DE CORREO ELECTRONICO
-        //************************************************************ */
-
-        //si se ha asignado el ticket a alguien obtenemos el usuario asignado 
-        //         if ($ticket->asignado != '') {
-
-        //             // creamos un archivo de texto plano para enviar el mail
-        //             $archivo = fopen('C:\ASR\public\body.txt', 'w+');
-        //             $tema = "Ticket_#_$ticket->id-" . mb_strtoupper($ticket->tema);
-        //             //agregamos el contenido
-        //             $contenido = "Se te ha asignado un ticket con prioridad ". $ticket->prioridad. ", creado por " . Auth::user()->name . ' ' . Auth::user()->lastname . " 
-
-        // DETALLES:".
-        // strip_tags($this->eliminar_tildes($ticket->descripcion));
-
-        // //colocamos el contenido en el archivo
-        //     fputs($archivo, $contenido);
-
-        //     //cerramos el documento
-        //     fclose($archivo);
-
-        //     $asignado =  User::find($ticket->asignado);
-        //     echo exec("START C:\ASR\public\sendMail.bat $asignado->email $tema");
-
-        //     //enviamos notificacion por telegram en caso de que tenga registrado el chat_id
-        //     if ($asignado->telegram != null) {
-
-        //         // $contenido = "Ticket No $ticket->id .-". mb_strtoupper($ticket->tema )."
-        //         //     \nSe te ha asignado un ticket con prioridad $ticket->prioridad, creado por". Auth::user()->name.' '.Auth::user()->lastname."
-        //         //     \n
-        //         //     DETALLES:\n
-        //         //     $ticket->descripcion ";
-        //         $contenido = "[ TICKET $ticket->id .-" . mb_strtoupper($ticket->tema) . " ]\n Se te ha asignado un ticket con prioridad ". $ticket->prioridad . ", favor de atender\nDETALLES:\n". strip_tags($this->eliminar_tildes($ticket->descripcion))." \n\nATRIBUTOS:\nPrioridad: $ticket->prioridad \nAsignado: $asignado->name" . " " . $asignado->lastname . "\nCreador: " . Auth::user()->name . ' ' . Auth::user()->lastname;
-
-        //         $this->sendTelegram($asignado->telegram, $contenido);
-        //     }
-        // }
-
-        // //despues mandamos email a todos los usuarios que tienen activada la opcion de 
-        // //recibir notificaciones de todos los tickets
-
-        // $usersSend = User::permission('Recibir notificación de todos los tickets')->get();
-
-        // //comprobamos que existan usuarios con esta opcion habilitada
-        // if (count($usersSend) > 0) {
-
-        //     $asignadoToAll = null;
-        //     if ($ticket->asignado != '') {
-        //         $as = User::find($ticket->asignado);
-        //         $asignadoToAll = $as->name . " " . $as->lastname;
-        //     } else {
-        //         $asignadoToAll = 'SIN ASIGNAR';
-        //     }
-
-        //     $creador = Auth::user()->name . ' ' . Auth::user()->lastname;
-        //     // creamos un archivo de texto plano para enviar el mail
-        //     $archivo = fopen('C:\ASR\public\body.txt', 'w+');
-        //     $tema = "Ticket_#_$ticket->id-" . mb_strtoupper($ticket->tema);
-        // //agregamos el contenido
-        //             $contenido = "Se ha creado un nuevo ticket con prioridad $ticket->prioridad, creado por $creador
-
-        // DETALLES: ".
-        // strip_tags($this->eliminar_tildes($ticket->descripcion)).
-
-        // "ATRIBUTOS:
-        //  Prioridad: $ticket->prioridad
-        //  Asignado: $asignadoToAll
-        //  Creador: $creador";
-
-        //             //colocamos el contenido en el archivo
-        //             fputs($archivo, $contenido);
-        //             //cerramos el documento
-        //             fclose($archivo);
-
-
-        //             foreach ($usersSend as $item) {
-        //                 //comprobamos que email de la persona asignada no sea el mismo para no enviar
-        //                 //doble el correo
-        //                 if ($item->email != $asignado->email) {
-        //                     //mandamos el correo
-        //                     echo exec("START C:\ASR\public\sendMail.bat $item->email $tema");
-        //                 }
-        //             }
-
-        //             foreach ($usersSend as $item) {
-        //                 //comprobamos que tengan registrado el chat_id
-        //                 if ($item->telegram != null) {
-
-        //                     $contenido = "[TICKET $ticket->id .-" . mb_strtoupper($ticket->tema) . "]\nDETALLES:\n". strip_tags($ticket->descripcion). "\n\nATRIBUTOS:\nPrioridad: $ticket->prioridad \nAsignado: $asignadoToAll \nCreador: $creador";
-        //                     //enviamos notificacion por telegram
-        //                     $this->sendTelegram($item->telegram, $contenido);
-        //                 }
-        //             }
-        // }
-
-
-        //limpiamos modal
-    //     $this->reset(
-    //         'tema',
-    //         'descripcion',
-    //         'prioridad',
-    //         'quien_reporta',
-    //         'telefono',
-    //         'edificio',
-    //         'departamento',
-    //         'descripcion',
-    //         'ip',
-    //         'usuario_red',
-    //         'asignado',
-    //         'categoria',
-    //         'autoriza',
-    //         'attachment'
-    //     );
-
-    //     //mandamos alerta de registro guardado y cerramos modal
-    //     $this->dispatch('alerta', ['msg' => 'Registro guardado!', 'type' => 'success']);
-    //     // return redirect(request()->header('Referer'));
-    //     $this->dispatch('closeModal');
-    //     // $this->emit('$refresh');
-    //     return route('sendEvent');
-    // }
-
-
-
 }

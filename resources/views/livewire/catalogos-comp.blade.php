@@ -2,77 +2,40 @@
     <div class="container-fluid">
 
         <h2>Catálogos</h2>
-        <div class="accordion" id="accordionExample">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingOne">
-                    <button
-                        class="accordion-button collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseOne"
-                        aria-expanded="true"
-                        aria-controls="collapseOne">
-                        Edificios
-                    </button>
-                </h2>
-                <div
-                    id="collapseOne"
-                    class="accordion-collapse collapse"
-                    data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        <livewire:edificios />
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5>Edificios</h5>
+                        <p class="text-muted">Catálogo de edificios</p>
+                        <a href="{{route('catalogos.tipo', 'edificios')}}" class="btn btn-primary btn-sm">Gestionar </a>
                     </div>
                 </div>
             </div>
 
-
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingOne">
-                    <button
-                        class="accordion-button collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseTwo"
-                        aria-expanded="true"
-                        aria-controls="collapseTwo">
-                        Departamentos
-                    </button>
-                </h2>
-                <div
-                    id="collapseTwo"
-                    class="accordion-collapse collapse"
-                    aria-labelledby="headingOne"
-                    data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        <livewire:departamentos />
+            <div class="col-md-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5>Departamentos</h5>
+                        <p class="text-muted">Catálogo de departamentos</p>
+                        <a href="#" class="btn btn-primary btn-sm">Gestionar </a>
                     </div>
                 </div>
             </div>
 
-
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingOne">
-                    <button
-                        class="accordion-button collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseThree"
-                        aria-expanded="true"
-                        aria-controls="collapseThree">
-                        Categorias para los tickets
-                    </button>
-                </h2>
-                <div
-                    id="collapseThree"
-                    class="accordion-collapse collapse"
-                    data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        <livewire:categorias />
+            <div class="col-md-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5>Categorías</h5>
+                        <p class="text-muted">Catálogo de categorías</p>
+                        <a href="#" class="btn btn-primary btn-sm">Gestionar </a>
                     </div>
                 </div>
             </div>
+
 
         </div>
+
 
     </div>
     @push('custom-scripts')

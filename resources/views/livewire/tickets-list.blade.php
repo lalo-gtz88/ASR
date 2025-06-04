@@ -14,17 +14,19 @@
         }
 
         @media (max-width: 768px) {
-            .ticket-header, .ticket-row {
+
+            .ticket-header,
+            .ticket-row {
                 flex-direction: column;
                 align-items: start !important;
             }
 
-            .ticket-row > div {
+            .ticket-row>div {
                 width: 100% !important;
                 margin-bottom: 5px;
             }
 
-            .ticket-header > div {
+            .ticket-header>div {
                 width: 100% !important;
                 font-weight: bold;
                 border-bottom: 1px solid #ddd;
@@ -44,14 +46,14 @@
                     <option>PENDIENTE</option>
                 </select>
             </div>
-            
+
             <div class="col-md-3">
                 <label for="usuario" class="form-label">Técnico asignado</label>
-                <select name="usuario" id="usuario" class="form-select"  @can(!'Mostrar todos los ticiket') disabled @endcan wire:model.live="fu">
+                <select name="usuario" id="usuario" class="form-select" @can(!'Mostrar todos los ticiket') disabled @endcan wire:model.live="fu">
                     <option value="">TODOS</option>
                     <option value="0">SIN ASIGNAR</option>
                     @foreach($tecnicos as $item)
-                        <option value="{{$item->id}}">{{$item->name.' '.$item->lastname}}</option>
+                    <option value="{{$item->id}}">{{$item->name.' '.$item->lastname}}</option>
                     @endforeach
                 </select>
             </div>
@@ -80,7 +82,7 @@
         </div>
 
         <hr>
-        
+
         <!-- Lista de Tickets -->
         @if(count($tickets) > 0)
         <div class="bg-light p-2 border rounded mb-2 sticky-top">
@@ -137,9 +139,9 @@
                 <div class="col-md-1">{{$value->id}}</div>
 
                 <!-- Fecha de creacion -->
-                 <div class="col-md-1">
-                 {{Carbon\Carbon::parse($value->created_at)->format('d-M-Y')}} <br>
-                 <span class="text-muted">{{Carbon\Carbon::parse($value->created_at)->format('H:i a')}}</span>
+                <div class="col-md-1">
+                    {{Carbon\Carbon::parse($value->created_at)->format('d-M-Y')}} <br>
+                    <span class="text-muted">{{Carbon\Carbon::parse($value->created_at)->format('H:i a')}}</span>
                 </div>
 
                 <!-- Tema -->
@@ -147,7 +149,7 @@
                     <a href="{{route('editarTicket', $value->id)}}" class="linkticket text-dark">{{$value->tema}}</a>
                     <div class="tipticket shadow border rounded p-2 position-absolute bg-white" style="z-index:1000;">
                         <h6 class="mt-2">
-                            <span class="badge badge-{{$value->colorPrioridad}}">{{$value->prioridad}}</span> #{{$value->id}} - {{$value->tema}}
+                            <span class="badge bg-{{$value->colorPrioridad}}">{{$value->prioridad}}</span> #{{$value->id}} - {{$value->tema}}
                         </h6>
                         <hr>
                         <p><?php echo strip_tags($value->descripcion) ?></p>
@@ -172,7 +174,9 @@
                 <div class="col-md-1">{{$value->categoria}}</div>
 
                 <!-- Prioridad -->
-                <div class="col-md-1"><h5><span class="badge bg-{{$value->colorPrioridad}} ">{{$value->prioridad}}</span></h5></div>
+                <div class="col-md-1">
+                    <h5><span class="badge bg-{{$value->colorPrioridad}} ">{{$value->prioridad}}</span></h5>
+                </div>
 
                 <!-- Usuario Reporta -->
                 <div class="col-md-2">{{ $value->reporta }}</div>
@@ -205,17 +209,16 @@
 
         <!-- Modales -->
         <livewire:edit-ticket />
-        
+
     </div>
 
     @push('custom-scripts')
     <script>
-        document.addEventListener('disabledFiltro', function(){
+        document.addEventListener('disabledFiltro', function() {
 
             document.querySelector('#usuario').disabled = true
         })
-
     </script>
-    
+
     @endpush
 </div>

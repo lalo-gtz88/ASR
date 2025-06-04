@@ -23,6 +23,17 @@ class Dashboard extends Component
     public function mount()
     {
 
+        $this->obtenerDatos();
+    }
+
+    public function render()
+    {
+        $this->obtenerDatos();
+        return view('livewire.dashboard');
+    }
+
+    function obtenerDatos()
+    {
 
         //tickets por status
         $this->openCount = Ticket::where('status', 'Abierto')->where('active', 1)->count();
@@ -52,6 +63,7 @@ class Dashboard extends Component
 
         //Tickets por usuario 
         $ticketsByUser = Ticket::select('asignado', DB::raw('count(*) as total'))
+            ->where('active', 1)
             ->whereNotNull('asignado')
             ->where('status', 'abierto')
             ->groupBy('asignado')
@@ -71,10 +83,5 @@ class Dashboard extends Component
 
         $this->edificioLabels = $ticketsByEdificio->pluck('edificio')->toArray();
         $this->edificioData = $ticketsByEdificio->pluck('total')->toArray();
-    }
-
-    public function render()
-    {
-        return view('livewire.dashboard');
     }
 }

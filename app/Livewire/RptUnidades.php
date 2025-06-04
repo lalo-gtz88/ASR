@@ -36,6 +36,7 @@ class RptUnidades extends Component
                                 tickets.unidad, 
                                 tickets.edificio,
                                 tickets.`status`,
+                                tickets.categoria,
                                 CONCAT_WS(' ', users.`name`, users.lastname) AS 'usuario', 
                                 seguimientos.created_at as 'cerrado'
                                 FROM tickets

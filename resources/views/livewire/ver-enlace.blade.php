@@ -16,7 +16,6 @@
 
             <div class="d-flex align-items-center justify-content-between col-12 mb-2">
                 <div class="d-flex align-items-center">
-                    <a href="{{route('enlaces')}}" class=" mr-2"><i class="fa fa-arrow-circle-left"></i></a>
                     <h4>Enlace {{$referencia}}</h4>
                 </div>
 
@@ -88,6 +87,9 @@
 
     @push('custom-scripts')
     <script>
+        var lat = @json($lat);
+        var lng = @json($lng);
+
         var map = L.map('map', {
 
             doubleClickZoom: false
@@ -95,18 +97,18 @@
         });
 
         setTimeout(() => {
-            map.setView([{{$lat}}, {{$lng}}], 13)
+            map.setView([lat, lng], 13)
         }, 200);
 
         // Agregar capa base de OpenStreetMap
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-        
+
 
         //agrega el marcador a la posicion por doble click
         var marker;
 
-        marker = L.marker([{{$lat}}, {{$lng}}]).addTo(map)
+        marker = L.marker([lat, lng]).addTo(map)
 
         $(document).on('volverEnlaces', function() {
             setTimeout(() => {
@@ -116,20 +118,22 @@
         })
 
 
-        function borrar(id){
-            if(confirm('Estas seguro que deseas borrar el enlace?')){
+        function borrar(id) {
+            if (confirm('Estas seguro que deseas borrar el enlace?')) {
 
-                Livewire.dispatch('borrar', {id:id})
+                Livewire.dispatch('borrar', {
+                    id: id
+                })
             }
         }
 
 
         $(document).on('volverEnlaces', function() {
-                setTimeout(() => {
-                    location.href = "/enlaces"
-                }, 1000);
+            setTimeout(() => {
+                location.href = "/enlaces"
+            }, 1000);
 
-            })
+        })
     </script>
     @endpush
 

@@ -47,6 +47,7 @@
                         <th>Abierto</th>
                         <th>Cerrado</th>
                         <th>Departamento</th>
+                        <th>Categoría</th>
                         <th>Status</th>
                         <th>Unidad</th>
                         <th>Edificio</th>
@@ -59,6 +60,7 @@
                             <td>{{Carbon\Carbon::parse($item->abierto)->format('d/m/Y H:i')}}</td>
                             <td>{{Carbon\Carbon::parse($item->cerrado)->format('d/m/Y H:i')}}</td>
                             <td>{{$item->departamento}}</td>
+                            <td>{{$item->categoria}}</td>
                             <td>{{Str::upper($item->status)}}</td>
                             <td>{{$item->unidad}}</td>
                             <td>{{$item->edificio}}</td>

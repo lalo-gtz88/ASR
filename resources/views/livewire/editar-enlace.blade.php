@@ -1,6 +1,4 @@
 <div>
-    <div>
-
     <style>
         #map {
             height: 80vh;
@@ -8,9 +6,7 @@
     </style>
 
     <div class="container-fluid mt-3">
-        
-        <a href="{{route('verEnlace', $uniqueId)}}" class="mr-2"><i class="fa fa-arrow-circle-left"></i> Atras</a>
-            
+
         <div class="row">
             <div class="col-lg-4">
                 <div>
@@ -123,70 +119,70 @@
         </div>
     </div>
 
-@push('custom-scripts')
-<script>
-    var lat = {{$lat}};
-    var lng = {{$lng}};
-    
-    var map = L.map('map',{
-        doubleClickZoom: false
-    });
+    @push('custom-scripts')
+    <script>
+        var lat = @json($lat);
+        var lng = @json($lng);
 
-    var marker;
+        var map = L.map('map', {
+            doubleClickZoom: false
+        });
 
-    // Agregar capa base de OpenStreetMap
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map)
+        var marker;
 
-    setTimeout(() => {
-        map.setView([lat, lng], 13)
-    }, 200);
+        // Agregar capa base de OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map)
 
-    //agrega el marcador a la posicion guardada en la bd
-    marker = L.marker([lat, lng], {
-        draggable: true,
-    }).addTo(map)
+        setTimeout(() => {
+            map.setView([lat, lng], 13)
+        }, 200);
 
-
-    map.on('dblclick', function(e) {
-
-        //si ya se encuentra un marcador lo elimina
-        if (marker) {
-            map.removeLayer(marker);
-        }
-
-        //agrega el marcador a la posicion por doble click
-        marker = L.marker([e.latlng.lat, e.latlng.lng], {
+        //agrega el marcador a la posicion guardada en la bd
+        marker = L.marker([lat, lng], {
             draggable: true,
         }).addTo(map)
 
-        //manda el evento para setear las propiedades lat y lng 
-        Livewire.dispatch('setLatLng', {
-            lat: marker.getLatLng().lat,
-            lng: marker.getLatLng().lng
+
+        map.on('dblclick', function(e) {
+
+            //si ya se encuentra un marcador lo elimina
+            if (marker) {
+                map.removeLayer(marker);
+            }
+
+            //agrega el marcador a la posicion por doble click
+            marker = L.marker([e.latlng.lat, e.latlng.lng], {
+                draggable: true,
+            }).addTo(map)
+
+            //manda el evento para setear las propiedades lat y lng 
+            Livewire.dispatch('setLatLng', {
+                lat: marker.getLatLng().lat,
+                lng: marker.getLatLng().lng
+            })
+
         })
-    
-    })
 
-    //mueve el marcador de posicion arrastrando
-    marker.on('dragend', function(e) {
+        //mueve el marcador de posicion arrastrando
+        marker.on('dragend', function(e) {
 
-        marker = e.target;
+            marker = e.target;
 
-        //manda el evento para setear las propiedades lat y lng 
-        Livewire.dispatch('setLatLng', {
-            lat: marker.getLatLng().lat,
-            lng: marker.getLatLng().lng
+            //manda el evento para setear las propiedades lat y lng 
+            Livewire.dispatch('setLatLng', {
+                lat: marker.getLatLng().lat,
+                lng: marker.getLatLng().lng
+            })
+
         })
 
-    })
+        //evento que se dispara cuando termina de cargar el DOM para obtener el proveedor
+        document.addEventListener("DOMContentLoaded", function() {
 
-    //evento que se dispara cuando termina de cargar el DOM para obtener el proveedor
-    document.addEventListener("DOMContentLoaded", function() {
+            Livewire.dispatch('setearProveedor')
 
-        Livewire.dispatch('setearProveedor')
+        });
+    </script>
+    @endpush
 
-    });
-    
-</script>
-@endpush
 </div>

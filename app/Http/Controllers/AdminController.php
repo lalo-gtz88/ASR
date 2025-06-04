@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    function indexCat() {
-        
-        return view('catalogos');
+    function indexCat()
+    {
+
+        return view('dashboard-catalogos');
     }
 }

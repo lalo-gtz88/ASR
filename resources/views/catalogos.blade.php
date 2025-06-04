@@ -1,7 +1,10 @@
 @extends('components.layouts.app')
 
-@section('subtitle', 'Catálogos')
+@section('subtitle', 'Catálogo de ')
 
 @section('content')
-<livewire:catalogos-comp />
+@if($tipo == 'edificios')
+<livewire:edificios-cat />
+@endif
+
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Events\CambiosTicket;
+use App\Jobs\SendTelegramNotification;
 use App\Models\Categoria;
 use App\Models\departamento;
 use App\Models\edificio;
@@ -29,6 +30,7 @@ class ActualizarTicket extends Component
     public $departamento = "";
     public $ip = "";
     public $asignado = "";
+    public $asignadoOld = "";
     public $categoria = "";
     public $autoriza = "";
     public $attachment = [];
@@ -49,10 +51,11 @@ class ActualizarTicket extends Component
         $this->autoriza = $this->ticket->autoriza;
         $this->categoria = $this->ticket->categoria;
         $this->asignado = $this->ticket->asignado;
+        $this->asignadoOld = $this->ticket->asignado;
         $this->prioridad = $this->ticket->prioridad;
         $this->fecha_de_atencion = $this->ticket->fecha_atencion;
         $this->unidad = $this->ticket->unidad;
-        
+
         $this->dispatch('buscarEquipo', ip: $this->ip)->to('HistorialTicket');
     }
 
@@ -108,7 +111,7 @@ class ActualizarTicket extends Component
 
     function guardar()
     {
-        //validacion
+        //Validación
         $this->validate([
             'telefono' => 'required'
         ]);
@@ -129,13 +132,20 @@ class ActualizarTicket extends Component
         $ticketNew->unidad = $this->unidad;
         $ticketNew->save();
 
+        //Comprobamos si se hizo cambio en la asignacion del ticket para mandar la notificacion
+        if ($ticketNew->asignado != $this->asignadoOld) {
+            SendTelegramNotification::dispatch($ticketNew->id);
+        }
+
+        //Registramos los cambios del ticket
         CambiosTicket::dispatch($this->ticket, $ticketNew);
         $this->dispatch('ticket-actualizado')->to(ComentariosTicket::class);
         $this->dispatch('alerta', msg: 'Cambios guardados!', type: 'success');
     }
 
-    function limpiarEquipo() {
-        
+    function limpiarEquipo()
+    {
+
         $this->dispatch('limpiarEquipo')->to('HistorialTicket');
     }
 }

@@ -15,7 +15,6 @@ class TelegramService
 
     public function sendMessage(string $chatId, string $message): bool
     {
-        //$url= "https://api.telegram.org/bot6050250438:AAFMUxeC57F7C9TxV5MBBLZDcKB7aUGXkgc/sendMessage?chat_id="
         $url = "https://api.telegram.org/bot{$this->botToken}/sendMessage";
 
         $response = Http::timeout(5) //max 5 segundos de espera

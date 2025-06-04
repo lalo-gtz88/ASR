@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Events\TicketAssigned;
+use App\Jobs\SendTelegramNotification;
 use App\Models\AlertasUsers;
 use App\Models\Categoria;
 use App\Models\departamento;
@@ -152,7 +153,7 @@ class NuevoTicket extends Component
         $this->adjuntarArchivos($this->attachment, $ticket->id);
 
         //enviamos notificacion por telegram
-        event(new TicketAssigned($ticket));
+        SendTelegramNotification::dispatch($ticket->id);
 
         //eventos
         $this->dispatch('alerta', msg: 'Registro guardado!', type: 'success');

@@ -44,11 +44,11 @@ class ComentariosTicket extends Component
     }
 
     function guardar($status = null)
-    {        
+    {
 
         //guardamos el comentario
         $this->guardarComentario();
-        
+
         //actualizamos el status del ticket 
         $this->guardarStatus($status);
 
@@ -66,7 +66,7 @@ class ComentariosTicket extends Component
     function guardarComentario()
     {
 
-        if ($this->mensaje == "" ) {
+        if ($this->mensaje == "") {
 
             return;
         }
@@ -91,7 +91,7 @@ class ComentariosTicket extends Component
             $this->ticketNew->save();
             if ($this->ticket->status != $this->ticketNew->status) {
 
-                $this->dispatch('alerta', type:"success", msg: "Status ha cambiado a " . $this->ticketNew->status);
+                $this->dispatch('alerta', type: "success", msg: "Status ha cambiado a " . $this->ticketNew->status);
 
                 //enviamos evento para registrar cambios
                 CambiosTicket::dispatch($this->ticket, $this->ticketNew);
@@ -105,7 +105,7 @@ class ComentariosTicket extends Component
         if (count($this->attachments) > 0) {
 
             $this->validate([
-                'attachments.*' => 'mimes:jpg,pdf'
+                'attachments.*' => 'nullable|mimes:jpg,png,pdf',
             ]);
 
             foreach ($this->attachments as $item) {
@@ -148,28 +148,30 @@ class ComentariosTicket extends Component
         $s->delete();
     }
 
-    function actualizarTema()  {
-        
+    function actualizarTema()
+    {
+
         $this->ticket->tema = $this->tema;
         $this->ticket->save();
-        $this->dispatch('alerta', type:"success", msg: "Cambios guardados!");
-
+        $this->dispatch('alerta', type: "success", msg: "Cambios guardados!");
     }
 
-    function actualizarDescripcion() {
-        
+    function actualizarDescripcion()
+    {
+
         $this->ticket->descripcion = $this->descripcion;
         $this->ticket->save();
-        $this->dispatch('alerta', type:"success", msg: "Cambios guardados!");
-
+        $this->dispatch('alerta', type: "success", msg: "Cambios guardados!");
     }
 
-    function cancelEditarDesc() {
+    function cancelEditarDesc()
+    {
         $this->reset('descripcion');
         $this->dispatch('cancelEditarDesc');
     }
 
-    function ticketActualizado() {
+    function ticketActualizado()
+    {
         $this->dispatch('$refresh');
         $this->dispatch('setScroll');
     }

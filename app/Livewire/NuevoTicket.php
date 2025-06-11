@@ -22,7 +22,6 @@ class NuevoTicket extends Component
     use WithFileUploads;
 
     //Propiedades
-    #[Reactive]
     public $uniqueId;  //para en caso de hacer un copy de otro ticket tomarlo como referencia
     public $tema = "";
     public $descripcion = "";
@@ -113,7 +112,7 @@ class NuevoTicket extends Component
 
     function guardar()
     {
-        $this->getUsersNotifications();
+        //$this->getUsersNotifications();
 
         if ($this->direccionIp)
             $this->ip = "172.16." . $this->direccionIp;
@@ -123,7 +122,7 @@ class NuevoTicket extends Component
             'tema' => 'required|max:100',
             'descripcion' => 'required',
             'telefono' => 'required',
-            'attachment.*' => 'nullable|mimes:jpg,png',
+            'attachment.*' => 'nullable|mimes:jpg,png,pdf',
             'ip' => 'nullable|ip'
         ]);
 
@@ -157,14 +156,10 @@ class NuevoTicket extends Component
 
         //eventos
         $this->dispatch('alerta', msg: 'Registro guardado!', type: 'success');
-        $this->dispatch('cerrarModal');
-        $this->dispatch('ticket-saved')->to(TicketsList::class);
-        $this->dispatch('ticket-saved')->to(CajaEstadistica::class);
-
 
         //limpiamos
         $this->resetExcept('uniqueId');
-        $this->dispatch('limpiarDescripcion');
+        //$this->dispatch('limpiarDescripcion');
     }
 
     //borrar archivos que se van adjuntar

@@ -224,15 +224,8 @@
         const contenido = event.detail.contenido;
         document.querySelector("#descripcion").value = contenido;
         document.querySelector("trix-editor").editor.loadHTML(contenido);
-      }, 200);
+      }, 300);
 
-    })
-
-
-    // Enviar telegram
-    $(document).on('enviar-notificacion-telegram', function(event) {
-      console.log(event.detail)
-      fetch(encodeURI(`https://api.telegram.org/bot6050250438:AAFMUxeC57F7C9TxV5MBBLZDcKB7aUGXkgc/sendMessage?chat_id=${event.detail.destino}&text=${event.detail.msj}`))
     })
   </script>
   @endpush

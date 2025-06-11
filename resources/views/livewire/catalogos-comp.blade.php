@@ -7,7 +7,7 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h5>Edificios</h5>
-                        <p class="text-muted">Catálogo de edificios</p>
+                        <p class="text-muted">Catálogo de edificios o centros de trabajo</p>
                         <a href="{{route('catalogos.tipo', 'edificios')}}" class="btn btn-primary btn-sm">Gestionar </a>
                     </div>
                 </div>
@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <h5>Departamentos</h5>
                         <p class="text-muted">Catálogo de departamentos</p>
-                        <a href="#" class="btn btn-primary btn-sm">Gestionar </a>
+                        <a href="{{route('catalogos.tipo', 'departamentos')}}" class="btn btn-primary btn-sm">Gestionar </a>
                     </div>
                 </div>
             </div>
@@ -27,8 +27,18 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h5>Categorías</h5>
-                        <p class="text-muted">Catálogo de categorías</p>
-                        <a href="#" class="btn btn-primary btn-sm">Gestionar </a>
+                        <p class="text-muted">Catálogo de categorías para los ticket de servicio</p>
+                        <a href="{{route('catalogos.tipo', 'categorias')}}" class=" btn btn-primary btn-sm">Gestionar </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5>Segmentos de red</h5>
+                        <p class="text-muted">Catálogo de segmentos de red para el manejo de ip's</p>
+                        <a href="{{route('catalogos.tipo', 'segmentos')}}" class=" btn btn-primary btn-sm">Gestionar </a>
                     </div>
                 </div>
             </div>

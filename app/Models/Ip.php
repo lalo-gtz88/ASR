@@ -11,18 +11,31 @@ class Ip extends Model
 {
     use HasFactory;
 
-    function segmento() : BelongsTo {
+    function relSegmento(): BelongsTo
+    {
 
         return $this->belongsTo(Segmento::class, 'segmento_id');
     }
 
-    function equipo() : BelongsTo {
-        
+    function equipo(): BelongsTo
+    {
+
         return $this->belongsTo(Equipo::class, 'equipo_id');
     }
 
-    function usuario() : BelongsTo {
-        
+    function usuario(): BelongsTo
+    {
+
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+
+    function getIconUsoAttribute()
+    {
+
+        if ($this->en_uso == 0)
+            return '✅';
+        else
+            return '❌';
     }
 }

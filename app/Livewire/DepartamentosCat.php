@@ -2,11 +2,11 @@
 
 namespace App\Livewire;
 
-use App\Models\edificio;
+use App\Models\departamento;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class EdificiosCat extends Component
+class DepartamentosCat extends Component
 {
     use WithPagination;
 
@@ -30,12 +30,12 @@ class EdificiosCat extends Component
 
     public function render()
     {
-        $edificios = edificio::where('active', 1)
+        $departamentos = departamento::where('active', 1)
             ->where('nombre', 'like', "%{$this->search}%")
             ->orderBy("nombre")
             ->paginate(10);
 
-        return view('livewire.edificios-cat', compact('edificios'));
+        return view('livewire.departamentos-cat', compact('departamentos'));
     }
 
 
@@ -47,12 +47,12 @@ class EdificiosCat extends Component
         ]);
 
         if (!$this->editar) {
-            $ed = new edificio();
+            $ed = new departamento();
             $ed->nombre = $this->nombre;
             $ed->save();
         } else {
 
-            $ed = edificio::find($this->idEd);
+            $ed = departamento::find($this->idEd);
             $ed->nombre = $this->nombre;
             $ed->save();
         }
@@ -63,7 +63,7 @@ class EdificiosCat extends Component
 
     public function edit($id)
     {
-        $ed = edificio::find($id);
+        $ed = departamento::find($id);
         $this->idEd = $ed->id;
         $this->nombre = $ed->nombre;
         $this->editar = true;
@@ -76,7 +76,7 @@ class EdificiosCat extends Component
 
     public function delItem($id)
     {
-        $ed = edificio::find($id);
+        $ed = departamento::find($id);
         $ed->active = 0;
         $ed->save();
         $this->dispatch('alerta', msg: 'Registro eliminado!', type: 'success');

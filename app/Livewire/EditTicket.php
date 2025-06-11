@@ -18,19 +18,20 @@ class EditTicket extends Component
     }
 
     #[On('editar')]
-    function setValores($id) {
-    
+    function setValores($id)
+    {
+
         $ticket = Ticket::find($id);
         $this->ticketID = $id;
         $this->tema = $ticket->tema;
         $this->descripcion = $ticket->descripcion;
-        //$this->dispatch('setDesc', descripcion: $this->descripcion);
         $this->dispatch('showEditTicket', descripcion: $this->descripcion);
     }
 
 
-    function save() {
-        
+    function save()
+    {
+
         $this->validate([
             'tema' => 'required|max:255',
             'descripcion' => 'required',
@@ -41,8 +42,13 @@ class EditTicket extends Component
         $t->descripcion = $this->descripcion;
         $t->save();
 
-        $this->dispatch('alerta', type:"success", msg:"Cambios guardados!" );
-        
+        //mandamos evento para actualizar en componente TicketsList
+        $this->dispatch('ticket-saved')->to('TicketsList');
+        //alerta de cambios guardados
+        $this->dispatch('alerta', type: "success", msg: "Cambios guardados!");
+        //cerramos modal
+        $this->dispatch('cerrarModal');
+        //limpiamos los campos
+        $this->reset('tema', 'ticketID', 'descripcion');
     }
-
 }

@@ -3,7 +3,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h5 class="card-title">Catálogo: Edificios</h5>
+            <h5 class="card-title">Catálogo: Categorias</h5>
         </div>
 
         <div class="card-body">
@@ -12,7 +12,7 @@
                     <div class="col-md-8">
 
                         <input type="text" class="form-control" wire:model="nombre" id="nombre"
-                            placeholder="Nombre de edificio">
+                            placeholder="Nombre de categoria">
                         @error('nombre')
                         <small class="text-danger">{{$message}}</small>
                         @enderror
@@ -48,12 +48,12 @@
                 </thead>
                 <tbody>
 
-                    @foreach($edificios as $edificio)
+                    @foreach($categorias as $categoria)
                     <tr>
-                        <td>{{Str::upper($edificio->nombre)}}</td>
+                        <td>{{Str::upper($categoria->name)}}</td>
                         <td>
-                            <button class="btn-link btn" title="Editar" wire:click="edit({{$edificio->id}})"><i class="fa fa-edit"></i></button>
-                            <button class="btn-link btn text-danger editEd" wire:confirm="¿Eliminar este registro?" wire:click="delItem({{$edificio->id}})" title="Eliminar"><i class="fa fa-trash"></i></button>
+                            <button class="btn-link btn" title="Editar" wire:click="edit({{$categoria->id}})"><i class="fa fa-edit"></i></button>
+                            <button class="btn-link btn text-danger editEd" wire:confirm="¿Eliminar este registro?" wire:click="delItem({{$categoria->id}})" title="Eliminar"><i class="fa fa-trash"></i></button>
                         </td>
                     </tr>
                     @endforeach
@@ -61,7 +61,7 @@
             </table>
 
             <div>
-                {{$edificios->links()}}
+                {{$categorias->links()}}
             </div>
 
         </div>

@@ -4,13 +4,9 @@ namespace App\Livewire;
 
 use App\Events\CambiosTicket;
 use App\Jobs\SendTelegramNotification;
-use App\Models\Categoria;
-use App\Models\departamento;
-use App\Models\edificio;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -50,7 +46,7 @@ class TicketsList extends Component
         }
 
         $tickets = $this->getTickets();
-        $this->obtenerSeguimientos();
+        //$this->obtenerSeguimientos();
 
         return view('livewire.tickets-list', compact('tickets', 'tecnicos'));
     }
@@ -103,20 +99,20 @@ class TicketsList extends Component
     function asignar($ticketID, $tecnicoID)
     {
 
-        $t = Ticket::find($ticketID);
-        $t->asignado = $tecnicoID;
-        $t->save();
+        $ticket = Ticket::find($ticketID);
+
+        $ticketOld = clone $ticket;
+
+        $ticket->asignado = $tecnicoID;
+        $ticket->save();
+
 
         $this->dispatch('alerta',  type: "success", msg: 'Ticket asignado!');
 
+        //registramos loscambios en el ticket
+        CambiosTicket::dispatch($ticketOld, $ticket);
+
         //enviamos notificacion por telegram
-        SendTelegramNotification::dispatch($t->id);
-    }
-
-    function obtenerSeguimientos()
-    {
-
-        // $ticket = Ticket::find(14);
-        // dd($ticket->seguimientos);
+        SendTelegramNotification::dispatch($ticket->id);
     }
 }

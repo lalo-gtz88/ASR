@@ -43,64 +43,66 @@
         @if(count($equipos) > 0)
 
         <div class="card">
-            <div class="card-body" style="height: 65vh; overflow-y: auto; padding:0">
 
-                <table id="tblEquipos" class="table table-sm small">
-                    <thead class="sticky-top table-primary" style="z-index: 1;">
-                        <th style="cursor:pointer;" wire:click="orderEq('et')">DSI / ST @if($orderField == 'et') @if($orderTable == 'asc') <i class="fa fa-sort-asc"></i> @else <i class="fa fa-sort-desc"></i> @endif @endif</th>
-                        <th style="cursor:pointer;" wire:click="orderEq('tip_id')">Tipo de ID @if($orderField == 'tip_id') @if($orderTable == 'asc') <i class="fa fa-sort-asc"></i> @else <i class="fa fa-sort-desc"></i> @endif @endif</th>
-                        <th style="cursor:pointer;" wire:click="orderEq('tip')">Equipo @if($orderField == 'tip') @if($orderTable == 'asc') <i class="fa fa-sort-asc"></i> @else <i class="fa fa-sort-desc"></i> @endif @endif</th>
-                        <th style="cursor:pointer;" wire:click="orderEq('condicion')">Condición @if($orderField == 'condicion') @if($orderTable == 'asc') <i class="fa fa-sort-asc"></i> @else <i class="fa fa-sort-desc"></i> @endif @endif</th>
-                        <th style="cursor:pointer;" wire:click="orderEq('almacen')">Almacén @if($orderField == 'almacen') @if($orderTable == 'asc') <i class="fa fa-sort-asc"></i> @else <i class="fa fa-sort-desc"></i> @endif @endif</th>
-                        <th style="cursor:pointer;" wire:click="orderEq('created_at')">Creado @if($orderField == 'created_at') @if($orderTable == 'asc') <i class="fa fa-sort-asc"></i> @else <i class="fa fa-sort-desc"></i> @endif @endif</th>
-                        <th style="cursor:pointer;" wire:click="orderEq('updated_at')">Ultima actualización @if($orderField == 'updated_at') @if($orderTable == 'asc') <i class="fa fa-sort-asc"></i> @else <i class="fa fa-sort-desc"></i> @endif @endif</th>
-                        <!-- <th>Cantidad</th> -->
-                        <th>Acciones</th>
-                    </thead>
-                    <tbody>
-                        @foreach($equipos as $item)
-                        <tr>
-                            <td>{{$item->et}}</td>
-                            <td>{{$item->tip_id}}</td>
-                            <td>
-                                {{$item->tip}} <br>
-                                <span class="text-muted"><small>{{$item->not}}</small></span>
-                            </td>
-                            <td>{{$item->condicion}}</td>
-                            <td>{{$item->almacen}}</td>
-                            <td>
-                                {{Carbon\Carbon::parse($item->created_at)->format('d/m/Y')}}
-                                <br>
-                                <span class="text-muted">{{$item->creador}}</span>
+            <div class="card-body" style="height: 65vh; overflow: auto; padding:0">
 
-                            </td>
-                            <td>{{Carbon\Carbon::parse($item->updated_at)->diffForHumans()}}
-                                <br>
-                                <span class="text-muted">{{$item->editor}}</span>
-                            </td>
-                            <!-- <td>
+                <div class="table-responsive">
+                    <table id="tblEquipos" class="table table-sm small">
+                        <thead class="sticky-top table-primary" style="z-index: 1;">
+                            <th style="cursor:pointer;" wire:click="orderEq('et')">DSI / ST @if($orderField == 'et') @if($orderTable == 'asc') <i class="fa fa-sort-asc"></i> @else <i class="fa fa-sort-desc"></i> @endif @endif</th>
+                            <th style="cursor:pointer;" wire:click="orderEq('tip_id')">Tipo de ID @if($orderField == 'tip_id') @if($orderTable == 'asc') <i class="fa fa-sort-asc"></i> @else <i class="fa fa-sort-desc"></i> @endif @endif</th>
+                            <th style="cursor:pointer;" wire:click="orderEq('tip')">Equipo @if($orderField == 'tip') @if($orderTable == 'asc') <i class="fa fa-sort-asc"></i> @else <i class="fa fa-sort-desc"></i> @endif @endif</th>
+                            <th style="cursor:pointer;" wire:click="orderEq('condicion')">Condición @if($orderField == 'condicion') @if($orderTable == 'asc') <i class="fa fa-sort-asc"></i> @else <i class="fa fa-sort-desc"></i> @endif @endif</th>
+                            <th style="cursor:pointer;" wire:click="orderEq('almacen')">Almacén @if($orderField == 'almacen') @if($orderTable == 'asc') <i class="fa fa-sort-asc"></i> @else <i class="fa fa-sort-desc"></i> @endif @endif</th>
+                            <th style="cursor:pointer;" wire:click="orderEq('created_at')">Creado @if($orderField == 'created_at') @if($orderTable == 'asc') <i class="fa fa-sort-asc"></i> @else <i class="fa fa-sort-desc"></i> @endif @endif</th>
+                            <th style="cursor:pointer;" wire:click="orderEq('updated_at')">Ultima actualización @if($orderField == 'updated_at') @if($orderTable == 'asc') <i class="fa fa-sort-asc"></i> @else <i class="fa fa-sort-desc"></i> @endif @endif</th>
+                            <!-- <th>Cantidad</th> -->
+                            <th>Acciones</th>
+                        </thead>
+                        <tbody>
+                            @foreach($equipos as $item)
+                            <tr>
+                                <td>{{$item->et}}</td>
+                                <td>{{$item->tip_id}}</td>
+                                <td>
+                                    {{$item->tip}} <br>
+                                    <span class="text-muted"><small>{{$item->not}}</small></span>
+                                </td>
+                                <td>{{$item->condicion}}</td>
+                                <td>{{$item->almacen}}</td>
+                                <td>
+                                    {{Carbon\Carbon::parse($item->created_at)->format('d/m/Y')}}
+                                    <br>
+                                    <span class="text-muted">{{$item->creador}}</span>
+
+                                </td>
+                                <td>{{Carbon\Carbon::parse($item->updated_at)->diffForHumans()}}
+                                    <br>
+                                    <span class="text-muted">{{$item->editor}}</span>
+                                </td>
+                                <!-- <td>
                             <span><strong>{{$item->cant}}</strong></span>
                             <a href="#" data-toggle="tooltip" title="Stock" class="p-0 mr-3" ><i class="fa fa-archive" ></i></a>
                             </td> -->
-                            <td>
-                                <a href="#" data-toggle="tooltip" title="Editar" class="p-0 me-3" wire:click.prevent="edit({{$item->id}})"><i class="fa fa-pencil text-secondary"></i></a>
-                                <a href="#" wire:click.prevent="showModalSalida({{$item->id}})" data-toggle="tooltip" title="Salida de almacén" class="p-0"><i class="fa fa-external-link" aria-hidden="true"></i></a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                                <td>
+                                    <a href="#" data-toggle="tooltip" title="Editar" class="p-0 me-3" wire:click.prevent="edit({{$item->id}})"><i class="fa fa-pencil text-secondary"></i></a>
+                                    <a href="#" wire:click.prevent="showModalSalida({{$item->id}})" data-toggle="tooltip" title="Salida de almacén" class="p-0"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
 
-
-                <button class="btn-success btn export-btn"><i class="fa fa-share"></i> Exportar</button>
             </div>
 
         </div>
 
+        <button class="btn-success btn export-btn mt-3"><i class="fa fa-share"></i> Exportar</button>
 
         @else
 
-        <P>NO SE ENCONTRARÓN EQUIPOS</P>
+        <p class="text-">No se encontrarón resultados</p>
 
         @endif
     </div>

@@ -17,6 +17,7 @@ use App\Http\Controllers\PDFController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EditarEnlace;
 use App\Http\Controllers\EquipoController;
+use App\Http\Controllers\RedController;
 use App\Http\Controllers\RedMapas;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\TicketsController;
@@ -30,6 +31,7 @@ use App\Livewire\AlmacenComp;
 use App\Livewire\EditarEquipo;
 use App\Livewire\EquipoDetails;
 use App\Livewire\InventarioEquipos;
+use App\Livewire\IpsList;
 use App\Livewire\MapaEnlaces;
 use App\Livewire\MemoriasTecnicas;
 use App\Livewire\MonitorEquipos;
@@ -89,6 +91,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/editar/enlace/{id}', [EditarEnlace::class, 'index'])->name('editarEnlace');
     Route::get('/details/enlace/{id}', [VerEnlace::class, 'index'])->name('verEnlace');
     Route::get('/mapa/enlaces/', [RedMapas::class, 'index'])->name('mapaEnlaces');
+    Route::get('/ips/list', [RedController::class, 'indexIps'])->name('ips');
 
     //Equipos
     Route::view('/equipos', 'equipos-inventario')->name('equipos');

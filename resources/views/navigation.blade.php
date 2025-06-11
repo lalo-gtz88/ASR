@@ -8,7 +8,7 @@
     </nav>
 
     <!-- Sidebar fijo en pantallas grandes -->
-    <div  id="sidebar" class="sidebar d-none d-lg-block">
+    <div id="sidebar" class="sidebar d-none d-lg-block">
         <h5 class="text-center">NetDesk</h5>
         <ul class="nav flex-column">
             <li class="nav-item">
@@ -36,6 +36,7 @@
                     <i class="bi bi-chevron-down"></i>
                 </a>
                 <ul class="submenu" id="submenu">
+                    <li><a class="nav-link text-white" href="{{route('ips')}}"><i class="fas fa-network-wired"></i> Ip´s</a></li>
                     <li><a class="nav-link" href="{{route('enlaces')}}"><i class="bi bi-link"></i> Enlaces</a></li>
                     <li><a class="nav-link" href="{{route('mapaEnlaces')}}"><i class="bi bi-geo-alt"></i> Mapa</a></li>
                 </ul>
@@ -61,7 +62,7 @@
                 <ul class="submenu" id="submenu">
                     <li><a class="nav-link" href="{{route('catalogos')}}"><i class="bi bi-journals"></i> Catálogos</a></li>
                     <li><a class="nav-link" href="{{route('usuarios')}}"><i class="bi bi-people"></i> Usuarios</a></li>
-                    <li><a class="nav-link text-white" href="{{route('reporte.unidades')}}"><i class="fa-solid fa-chart-simple"></i> Reporte de unidades</a></li>
+                    <li><a class="nav-link text-white" href="{{route('reporte.unidades')}}"><i class="fa-solid fa-chart-simple"></i> Reporte de tickets</a></li>
                 </ul>
             </li>
             @endcan
@@ -78,60 +79,61 @@
         </div>
         <div class="offcanvas-body">
             <ul class="nav flex-column">
-                 <li class="nav-item">
-                <a class="nav-link text-white" href="{{route('welcome')}}"><i class="bi bi-house"></i> Inicio</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white" href="{{route('tickets')}}"><i class="bi bi-ticket"></i> Tickets</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white d-flex justify-content-between align-items-center toggleSubmenu" href="#">
-                    <span><i class="bi bi-pc-display"></i> Equipos</span>
-                    <i class="bi bi-chevron-down"></i>
-                </a>
-                <ul class="submenu" id="submenu">
-                    <li><a class="nav-link text-white" href="{{route('equipos')}}"><i class="bi bi-box-seam"></i> Inventario</a></li>
-                </ul>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{route('welcome')}}"><i class="bi bi-house"></i> Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{route('tickets')}}"><i class="bi bi-ticket"></i> Tickets</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white d-flex justify-content-between align-items-center toggleSubmenu" href="#">
+                        <span><i class="bi bi-pc-display"></i> Equipos</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                    <ul class="submenu" id="submenu">
+                        <li><a class="nav-link text-white" href="{{route('equipos')}}"><i class="bi bi-box-seam"></i> Inventario</a></li>
+                    </ul>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link text-white d-flex justify-content-between align-items-center toggleSubmenu" href="#">
-                    <span><i class="bi bi-globe"></i> Red</span>
-                    <i class="bi bi-chevron-down"></i>
-                </a>
-                <ul class="submenu" id="submenu">
-                    <li><a class="nav-link text-white" href="{{route('enlaces')}}"><i class="bi bi-link"></i> Enlaces</a></li>
-                    <li><a class="nav-link text-white" href="{{route('mapaEnlaces')}}"><i class="bi bi-geo-alt"></i> Mapa</a></li>
-                </ul>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white d-flex justify-content-between align-items-center toggleSubmenu" href="#">
+                        <span><i class="bi bi-globe"></i> Red</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                    <ul class="submenu" id="submenu">
+                        <li><a class="nav-link text-white" href="{{route('ips')}}"><i class="fas fa-network-wired"></i> Ip´s</a></li>
+                        <li><a class="nav-link text-white" href="{{route('enlaces')}}"><i class="bi bi-link"></i> Enlaces</a></li>
+                        <li><a class="nav-link text-white" href="{{route('mapaEnlaces')}}"><i class="bi bi-geo-alt"></i> Mapa</a></li>
+                    </ul>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link text-white" href="{{route('todolist')}}"><i class="bi bi-list-task"></i> Actividades</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{route('todolist')}}"><i class="bi bi-list-task"></i> Actividades</a>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link text-white" href="{{route('almacenes')}}"><i class="bi bi-clipboard-check"></i> Almacén</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{route('almacenes')}}"><i class="bi bi-clipboard-check"></i> Almacén</a>
+                </li>
 
 
-            <li class="nav-item">
-                <a class="nav-link text-white d-flex justify-content-between align-items-center toggleSubmenu" href="#">
-                    <span><i class="bi bi-gear"></i> Administración</span>
-                    <i class="bi bi-chevron-down"></i>
-                </a>
-                <ul class="submenu" id="submenu">
-                    <li><a class="nav-link text-white" href="{{route('catalogos')}}"><i class="bi bi-journals"></i> Catálogos</a></li>
-                    <li><a class="nav-link text-white" href="{{route('usuarios')}}"><i class="bi bi-people"></i> Usuarios</a></li>
-                    <li><a class="nav-link text-white" href="{{route('reporte.unidades')}}"><i class="fa-solid fa-chart-simple"></i> Reporte de unidades</a></li>
-                </ul>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white d-flex justify-content-between align-items-center toggleSubmenu" href="#">
+                        <span><i class="bi bi-gear"></i> Administración</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                    <ul class="submenu" id="submenu">
+                        <li><a class="nav-link text-white" href="{{route('catalogos')}}"><i class="bi bi-journals"></i> Catálogos</a></li>
+                        <li><a class="nav-link text-white" href="{{route('usuarios')}}"><i class="bi bi-people"></i> Usuarios</a></li>
+                        <li><a class="nav-link text-white" href="{{route('reporte.unidades')}}"><i class="fa-solid fa-chart-simple"></i> Reporte de tickets</a></li>
+                    </ul>
+                </li>
 
-            <li class="nav-item">
-                <form action="{{route('logout')}}" method="post">
-                    @csrf
-                    <button class="nav-link text-white" type="submit"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</button>
-                </form>
-            </li>
+                <li class="nav-item">
+                    <form action="{{route('logout')}}" method="post">
+                        @csrf
+                        <button class="nav-link text-white" type="submit"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</button>
+                    </form>
+                </li>
             </ul>
         </div>
     </div>

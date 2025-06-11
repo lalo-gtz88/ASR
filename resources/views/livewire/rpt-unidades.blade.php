@@ -1,5 +1,5 @@
 <div>
-    <h2 class="card-title">Reporte de unidades</h2>
+    <h2 class="card-title">Reporte de tickets</h2>
     <div class="card text-left">
         <div class="card-body">
 

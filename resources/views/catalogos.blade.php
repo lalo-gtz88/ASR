@@ -7,4 +7,17 @@
 <livewire:edificios-cat />
 @endif
 
+@if($tipo == 'departamentos')
+<livewire:departamentos-cat />
+@endif
+
+@if($tipo == 'categorias')
+<livewire:categorias-cat />
+@endif
+
+@if($tipo == 'segmentos')
+<livewire:segmentos-cat />
+@endif
+
+
 @endsection

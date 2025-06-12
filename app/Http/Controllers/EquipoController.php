@@ -6,22 +6,23 @@ use Illuminate\Http\Request;
 
 class EquipoController extends Controller
 {
-    function index($id)  {
-        
+    function index($id)
+    {
+
         $uniqueId = $id;
         return view('equipo-detalles', compact('uniqueId'));
     }
 
-    function create() {
-        
-        return view('nuevo-equipo');
+    function create($ip = null)
+    {
+        return view('nuevo-equipo', ['ip' => $ip]);
     }
 
 
-    function edit($id) {
-        
+    function edit($id)
+    {
+
         $uniqueId = $id;
         return view('equipo-editar', compact('uniqueId'));
-
     }
 }

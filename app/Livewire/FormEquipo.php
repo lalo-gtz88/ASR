@@ -39,36 +39,41 @@ class FormEquipo extends Component
         'guardar'
     ];
 
-    public function mount()
+    public function mount($ip = null)
     {
         $this->tipos =  $this->getTiposEquipo();
         $this->marcas = $this->getMarcas();
 
+        if ($ip) {
+            $this->direccionIp = $ip;
+        }
+
         if ($this->editable) {
 
             $e = $this->getData($this->uniqueId);
-            
+
             $this->serviceTag = $e->service_tag;
             $this->tipo = $e->tipo;
             $this->marca = $e->marca;
             $this->modelo = $e->modelo;
             $this->inventario = $e->inventario;
             $this->fechaDeAdquisicion = $e->fecha_adquisicion;
-            $this->direccionIp = ($e->direccion_ip)? $this->obtenerIp($e->direccion_ip)[0]->dir : null;
+            $this->direccionIp = ($e->direccion_ip) ? $this->obtenerIp($e->direccion_ip)[0]->dir : null;
             $this->direccionMac = $e->direccion_mac;
         }
 
         $this->modelos = $this->getModelos();
     }
 
-    public function render() 
+    public function render()
     {
         return view('livewire.form-equipo');
     }
 
 
-    function updatedTipo() {
-        
+    function updatedTipo()
+    {
+
         $this->dispatch('actualizaTipo', tipo: $this->tipo)->to('InventarioEquipos');
     }
 
@@ -109,8 +114,9 @@ class FormEquipo extends Component
         return DB::select("SELECT INET_ATON('{$ip}') as dir");
     }
 
-    function obtenerIp($ip) {
-        
+    function obtenerIp($ip)
+    {
+
         return DB::select("SELECT INET_NTOA('{$ip}') as dir");
     }
 

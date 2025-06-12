@@ -4,6 +4,6 @@
 
 @section('content')
 <div>
-    <livewire:form-equipo />
+    <livewire:form-equipo :ip="$ip" />
 </div>
 @endsection

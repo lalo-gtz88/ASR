@@ -95,7 +95,7 @@ Route::middleware(['auth'])->group(function () {
 
     //Equipos
     Route::view('/equipos', 'equipos-inventario')->name('equipos');
-    Route::get('equipo/nuevo', [EquipoController::class, 'create'])->name('equipo.create');
+    Route::get('equipo/nuevo/{ip?}', [EquipoController::class, 'create'])->name('equipo.create');
     Route::get('/equipo/details/{id}', [EquipoController::class, 'index'])->name('detalleEquipo');
     Route::get('/equipo/editar/{id}', [EquipoController::class, 'edit'])->name('editarEquipo');
 

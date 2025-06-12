@@ -140,6 +140,8 @@
 
                 </div>
                 <div class="modal-footer">
+                    <a href="{{route('equipo.create', $ipAsignar)}}"
+                        class="btn btn-primary"><i class="fa fa-plus"></i> Nuevo equipo</a>
                     <button type="button"
                         wire:click="asginarIp"
                         class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
@@ -150,12 +152,10 @@
 
     @push('custom-scripts')
     <script>
-        const myModal = new bootstrap.Modal(
-            document.getElementById("modalAsignarIp"),
-        );
-
         document.addEventListener('showModal', function() {
-
+            const myModal = new bootstrap.Modal(
+                document.getElementById("modalAsignarIp"),
+            );
             myModal.show()
         })
     </script>

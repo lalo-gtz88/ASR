@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use App\Events\CambiosTicket;
 use App\Listeners\RegistrarCambiosTicket;
+use App\Models\Equipo;
 use App\Models\UsuarioActividades;
+use App\Observers\EquipoObserver;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
@@ -62,5 +64,7 @@ class AppServiceProvider extends ServiceProvider
             CambiosTicket::class,
             RegistrarCambiosTicket::class,
         );
+
+        Equipo::observe(EquipoObserver::class);
     }
 }

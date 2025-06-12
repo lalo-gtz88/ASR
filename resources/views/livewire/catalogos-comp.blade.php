@@ -3,7 +3,7 @@
 
         <h2>Catálogos</h2>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-3 mb-3">
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h5>Edificios</h5>
@@ -13,7 +13,7 @@
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-3 mb-3">
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h5>Departamentos</h5>
@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-3 mb-3">
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h5>Categorías</h5>
@@ -33,12 +33,22 @@
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-3 mb-3">
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h5>Segmentos de red</h5>
                         <p class="text-muted">Catálogo de segmentos de red para el manejo de ip's</p>
                         <a href="{{route('catalogos.tipo', 'segmentos')}}" class=" btn btn-primary btn-sm">Gestionar </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5>Marcas y modelos</h5>
+                        <p class="text-muted">Catálogo de marcas y modelos</p>
+                        <a href="{{route('catalogos.tipo', 'marcas')}}" class=" btn btn-primary btn-sm">Gestionar </a>
                     </div>
                 </div>
             </div>

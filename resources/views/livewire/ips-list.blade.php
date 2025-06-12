@@ -48,10 +48,10 @@
             </thead>
             <tbody>
                 @foreach($ips as $key => $value)
-                <tr class="middle">
+                <tr class="middle" wire:key="ip-{{$value->id}}">
                     <td><a href="#">{{long2ip($value->ip)}}</a></td>
                     <td class="text-center">
-                        @if($value->icon_uso == '❌')
+                        @if($value->en_uso)
                         <a href="#" wire:click="liberarIp('{{long2ip($value->ip)}}')" wire:confirm="¿Liberar esta IP?" style="text-decoration: none;">
                             {{$value->icon_uso}}
                         </a>

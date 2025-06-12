@@ -12,7 +12,7 @@
                     <select wire:model.live="tipo" id="tipo" class="form-select">
                         <option value="">Selecciona un tipo</option>
                         @foreach($tipos as $key => $value)
-                            <option value="{{ $value->id }}">{{ $value->nombre }}</option>
+                        <option value="{{ $value->id }}">{{ $value->nombre }}</option>
                         @endforeach
                     </select>
                     @error('tipo') <div class="text-danger small">{{ $message }}</div> @enderror
@@ -35,7 +35,7 @@
                     <select wire:model="marca" wire:change="listarModelos()" id="marca" class="form-select">
                         <option value="">Selecciona una marca</option>
                         @foreach($marcas as $key => $value)
-                            <option value="{{ $value->id }}">{{ $value->nombre }}</option>
+                        <option value="{{ $value->id }}">{{ $value->nombre }}</option>
                         @endforeach
                     </select>
                     @error('marca') <div class="text-danger small">{{ $message }}</div> @enderror
@@ -46,7 +46,7 @@
                     <select wire:model="modelo" id="modelo" class="form-select">
                         <option value="">Selecciona un modelo</option>
                         @foreach($modelos as $key => $value)
-                            <option value="{{ $value->id }}">{{ $value->nombre }}</option>
+                        <option value="{{ $value->id }}">{{ $value->nombre }}</option>
                         @endforeach
                     </select>
                     @error('modelo') <div class="text-danger small">{{ $message }}</div> @enderror
@@ -60,8 +60,9 @@
 
                 <div class="col-md-6">
                     <label for="direccionIp" class="form-label">Dirección IP</label>
-                    <input type="text" class="form-control" wire:model="direccionIp" id="direccionIp">
+                    <input type="text" class="form-control @if($ip_status=='Asignada') is-invalid @endif" wire:model.live="direccionIp" id="direccionIp">
                     @error('direccionIp') <div class="text-danger small">{{ $message }}</div> @enderror
+                    @if($ip_status=='Asignada') <div class="text-danger small">Dirección IP asignada</div> @endif
                 </div>
 
                 <div class="col-md-6">
@@ -91,5 +92,5 @@
 
         </div>
     </div>
-    
+
 </div>

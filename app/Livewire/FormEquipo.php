@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Equipo;
+use App\Models\Ip;
 use App\Models\Marca;
 use App\Models\Modelo;
 use App\Models\TiposEquipo;
@@ -33,6 +34,7 @@ class FormEquipo extends Component
     public $direccionMac;
     public $mostrar = false;
     public $editable = false;
+    public ?string $ip_status = null;
 
     protected $listeners = [
         'refrescar' => '$refresh',
@@ -124,10 +126,14 @@ class FormEquipo extends Component
     {
 
         $this->validate([
-            'serviceTag' => 'required',
+            'serviceTag' => 'required|string|unique:equipos,service_tag',
             'direccionIp' => 'ip|nullable',
             'direccionMac' => 'mac_address|nullable',
         ]);
+
+        if ($this->ip_status == 'Asignada') {
+            return;
+        }
 
         $ip = ($this->direccionIp) ? $this->convertIP($this->direccionIp) : null;
         $id = ($this->uniqueId) ? $this->uniqueId : null;
@@ -150,5 +156,21 @@ class FormEquipo extends Component
     function getData($id)
     {
         return Equipo::find($id);
+    }
+
+    function updatedDireccionIp($value)
+    {
+
+        // Validamos formato primero
+        if (!filter_var($value, FILTER_VALIDATE_IP)) {
+            $this->ip_status = null;
+            return;
+        }
+
+        $ip_long = ip2long($value);
+
+        $ip = Ip::where('ip', $ip_long)->first();
+
+        $this->ip_status = $ip && $ip->en_uso ? 'Asignada' : 'Disponible';
     }
 }

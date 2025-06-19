@@ -19,5 +19,9 @@
 <livewire:segmentos-cat />
 @endif
 
+@if($tipo == 'marcas')
+<livewire:marcas-cat />
+@endif
+
 
 @endsection

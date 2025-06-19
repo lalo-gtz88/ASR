@@ -11,10 +11,11 @@ class Modelo extends Model
     /** @use HasFactory<\Database\Factories\ModeloFactory> */
     use HasFactory;
 
+    protected $fillable = ['nombre', 'marca_id', 'foto'];
+
 
     function relMarca(): HasMany
     {
         return $this->hasMany(Marca::class, 'marca_id', 'id');
-     
     }
 }

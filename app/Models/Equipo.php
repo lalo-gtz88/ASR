@@ -15,18 +15,26 @@ class Equipo extends Model
     protected $fillable = ['service_tag', 'tipo', 'inventario', 'fecha_adquisicion', 'marca', 'modelo', 'direccion_ip', 'direccion_mac'];
 
 
-    function relTipoEquipo() : BelongsTo {
-        
+    function relTipoEquipo(): BelongsTo
+    {
+
         return $this->belongsTo(TiposEquipo::class, 'tipo');
     }
 
-    function relMarca(): BelongsTo {
-        
+    function relMarca(): BelongsTo
+    {
+
         return $this->belongsTo(Marca::class, 'marca');
     }
 
-    function relModelo(): BelongsTo {
-        
+    function relModelo(): BelongsTo
+    {
+
         return $this->belongsTo(Modelo::class, 'modelo');
+    }
+
+    public function historial()
+    {
+        return $this->hasMany(EquipoHistorial::class);
     }
 }

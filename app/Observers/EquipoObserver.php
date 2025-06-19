@@ -3,7 +3,9 @@
 namespace App\Observers;
 
 use App\Models\Equipo;
+use App\Models\EquipoHistorial;
 use App\Models\Ip;
+use Illuminate\Support\Facades\Auth;
 
 class EquipoObserver
 {
@@ -27,6 +29,48 @@ class EquipoObserver
      */
     public function updated(Equipo $equipo): void
     {
+
+        // Verifica campos que cambian
+        foreach ($equipo->getDirty() as $campo => $nuevoValor) {
+
+            //evitamos que guarde los cambios de los timestamp
+            if (in_array($campo, ['created_at', 'updated_at'])) {
+                continue;
+            };
+
+            $valorAnterior = $equipo->getOriginal($campo);
+
+            // Detectamos si es un campo de relación (catálogo)
+            switch ($campo) {
+                case 'tipo':
+                    $valorAnterior = optional(\App\Models\TiposEquipo::find($valorAnterior))->nombre;
+                    $nuevoValor = optional(\App\Models\TiposEquipo::find($nuevoValor))->nombre;
+                    break;
+                case 'marca':
+                    $valorAnterior = optional(\App\Models\Marca::find($valorAnterior))->nombre;
+                    $nuevoValor = optional(\App\Models\Marca::find($nuevoValor))->nombre;
+                    break;
+                case 'modelo':
+                    $valorAnterior = optional(\App\Models\Modelo::find($valorAnterior))->nombre;
+                    $nuevoValor = optional(\App\Models\Modelo::find($nuevoValor))->nombre;
+                    break;
+                case 'direccion_ip':
+                    $valorAnterior =  optional(\App\Models\Ip::where('ip', $valorAnterior))->first()->ip;
+                    $valorAnterior = long2ip($valorAnterior);
+                    $nuevoValor = optional(\App\Models\Ip::where('ip', $nuevoValor))->first()->ip;
+                    $nuevoValor = long2ip($nuevoValor);
+                    break;
+            }
+
+            EquipoHistorial::create([
+                'equipo_id' => $equipo->id,
+                'campo' => $campo,
+                'valor_anterior' => $valorAnterior,
+                'valor_nuevo' => $nuevoValor,
+                'usuario_id' => Auth::id(), // puede ser null si se ejecuta desde consola
+            ]);
+        }
+
         if ($equipo->wasChanged('direccion_ip')) {
             // Liberar IP anterior
             $ipAnterior = Ip::where('ip', $equipo->getOriginal('direccion_ip'))->first();

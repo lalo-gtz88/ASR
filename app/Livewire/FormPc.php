@@ -27,7 +27,7 @@ class FormPc extends Component
         'refrescar' => '$refresh',
         'guardarEquipo1' => 'guardarCambios', //guardar cambios en una pc desktop
         'guardarEquipo2' => 'guardarCambios', //guardar cambios en una pc laptop
-        'actualizar'=> 'actualizarPC'
+        'actualizar' => 'actualizarPC'
 
     ];
 
@@ -35,7 +35,7 @@ class FormPc extends Component
     {
         //$this->equipoId  = $equipoId;
 
-        if($equipoId){
+        if ($equipoId) {
             $this->editar($equipoId);
         }
     }
@@ -64,58 +64,57 @@ class FormPc extends Component
     function guardarCambios($dataEquipo)
     {
 
-        $ip = ($dataEquipo['direccionIp'])? $dataEquipo['direccionIp'][0]['dir']: null;
+        $ip = ($dataEquipo['direccionIp']) ? $dataEquipo['direccionIp'][0]['dir'] : null;
 
-        if ($this->equipoId){
+        if ($this->equipoId) {
 
-            $eq = Equipo::find($this->equipoId);
+            $eq = Equipo::find($dataEquipo['id']);
             $eq->update([
-                'service_tag'=>$dataEquipo['serviceTag'],
-                'tipo'=>$dataEquipo['tipo'],
-                'inventario'=>$dataEquipo['inventario'],
-                'marca'=>  $dataEquipo['marca'],
-                'modelo'=> $dataEquipo['modelo'],
-                'fecha_adquisicion'=>$dataEquipo['fechaDeAdquisicion'],
-                'direccion_ip'=> $ip,
-                'direccion_mac'=> $dataEquipo['direccionMac'],
+                'service_tag' => $dataEquipo['serviceTag'],
+                'tipo' => $dataEquipo['tipo'],
+                'inventario' => $dataEquipo['inventario'],
+                'marca' =>  $dataEquipo['marca'],
+                'modelo' => $dataEquipo['modelo'],
+                'fecha_adquisicion' => $dataEquipo['fechaDeAdquisicion'],
+                'direccion_ip' => $ip,
+                'direccion_mac' => $dataEquipo['direccionMac'],
             ]);
 
             $pc = PC::where('equipo_id', $this->equipoId)->first();
             $pc->update([
 
-                'equipo_id'=> $this->equipoId,
+                'equipo_id' => $this->equipoId,
                 'nombre_equipo' => $this->nombreDeEquipo,
-                'ram'=>$this->ram,
-                'hdd'=>$this-> hdd,
-                'sdd'=>$this-> sdd,
-                'sistema_operativo'=>$this-> sistemaOperativo,
+                'ram' => $this->ram,
+                'hdd' => $this->hdd,
+                'sdd' => $this->sdd,
+                'sistema_operativo' => $this->sistemaOperativo,
                 'usuario' => $this->usuario,
                 'usuario_red' => $this->usuarioRed,
                 'monitores' => $this->monitores,
             ]);
-            
-            $msj = "Cambios guardados!";
 
-        }else{
+            $msj = "Cambios guardados!";
+        } else {
 
             $eq = Equipo::create([
-                'service_tag'=>$dataEquipo['serviceTag'],
-                'tipo'=>$dataEquipo['tipo'],
-                'inventario'=>$dataEquipo['inventario'],
-                'marca'=>  $dataEquipo['marca'],
-                'modelo'=> $dataEquipo['modelo'],
-                'fecha_adquisicion'=>$dataEquipo['fechaDeAdquisicion'],
-                'direccion_ip'=> $ip,
-                'direccion_mac'=> $dataEquipo['direccionMac'],
+                'service_tag' => $dataEquipo['serviceTag'],
+                'tipo' => $dataEquipo['tipo'],
+                'inventario' => $dataEquipo['inventario'],
+                'marca' =>  $dataEquipo['marca'],
+                'modelo' => $dataEquipo['modelo'],
+                'fecha_adquisicion' => $dataEquipo['fechaDeAdquisicion'],
+                'direccion_ip' => $ip,
+                'direccion_mac' => $dataEquipo['direccionMac'],
             ]);
-            
+
             PC::create([
-                'equipo_id'=> $eq->id,
+                'equipo_id' => $eq->id,
                 'nombre_equipo' => $this->nombreDeEquipo,
-                'ram'=>$this->ram,
-                'hdd'=>$this-> hdd,
-                'sdd'=>$this-> sdd,
-                'sistema_operativo'=>$this-> sistemaOperativo,
+                'ram' => $this->ram,
+                'hdd' => $this->hdd,
+                'sdd' => $this->sdd,
+                'sistema_operativo' => $this->sistemaOperativo,
                 'usuario' => $this->usuario,
                 'usuario_red' => $this->usuarioRed,
                 'monitores' => $this->monitores,
@@ -158,7 +157,7 @@ class FormPc extends Component
     // }
 
     // function actualizarPC() {
-        
+
     //     $pc = PC::where('equipo_id', $this->equipoId)->first();
     //     $msj = "Cambios guardados!";
     //     $this->guardarPC($pc);

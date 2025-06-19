@@ -8,6 +8,7 @@ use App\Models\Marca;
 use App\Models\Modelo;
 use App\Models\TiposEquipo;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -124,19 +125,26 @@ class FormEquipo extends Component
 
     function guardar()
     {
-
         $this->validate([
-            'serviceTag' => 'required|string|unique:equipos,service_tag',
+            'serviceTag' => [
+                'required',
+                'string',
+                Rule::unique('equipos', 'service_tag')->ignore($this->uniqueId),
+            ],
             'direccionIp' => 'ip|nullable',
             'direccionMac' => 'mac_address|nullable',
         ]);
 
+
+        //evitar guardar equipo con ip duplicada
         if ($this->ip_status == 'Asignada') {
             return;
         }
 
         $ip = ($this->direccionIp) ? $this->convertIP($this->direccionIp) : null;
         $id = ($this->uniqueId) ? $this->uniqueId : null;
+
+        //dd($id);
 
         $data = [
             'id' => $id,

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Equipo;
+use App\Models\EquipoHistorial;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
@@ -21,24 +22,27 @@ class EquipoDetails extends Component
     public $direccionIp;
     public $direccionMac;
     public $photo;
+    public $historial = [];
 
 
-    public function mount() {
-        
+    public function mount()
+    {
+
         $e = $this->getData($this->uniqueId);
-        
+
         //set valores
         $this->serviceTag = $e->service_tag;
         $this->inventario = $e->inventario;
         $this->tipo = $e->tipo;
         $this->tipoNombre = $e->relTipoEquipo->nombre;
-        $this->marca = ($e->marca)? $e->relMarca->nombre: null;
-        $this->modelo = ($e->modelo)? $e->relModelo->nombre: null;
+        $this->marca = ($e->marca) ? $e->relMarca->nombre : null;
+        $this->modelo = ($e->modelo) ? $e->relModelo->nombre : null;
         $this->fechaDeAdquisicion = $e->fecha_adquisicion;
-        $this->direccionIp =($e->direccion_ip)? $this->obtenerIP($e->direccion_ip)[0]->dir: null;
+        $this->direccionIp = ($e->direccion_ip) ? $this->obtenerIP($e->direccion_ip)[0]->dir : null;
         $this->direccionMac = $e->direccion_mac;
-        $this->photo = ($e->modelo)? $e->relModelo->foto: null;
+        $this->photo = ($e->modelo) ? $e->relModelo->foto : null;
 
+        $this->obtenerHistorial();
     }
 
     public function render()
@@ -46,13 +50,20 @@ class EquipoDetails extends Component
         return view('livewire.equipo-details');
     }
 
-    function getData($id){
-        
+    function getData($id)
+    {
+
         return Equipo::find($id);
     }
 
     function obtenerIP($ip)
     {
         return DB::select("SELECT INET_NTOA('{$ip}') as dir");
+    }
+
+    function obtenerHistorial()
+    {
+
+        $this->historial = EquipoHistorial::where('equipo_id', $this->uniqueId)->orderBy('created_at', 'DESC')->get();
     }
 }

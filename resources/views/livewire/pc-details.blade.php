@@ -1,9 +1,9 @@
 <div>
 
-    <table class="table table-sm table-bordered table-details">
+    <table class="table table-bordered table-details">
         <tr>
-            <td class="col-md-2 text-right bg-primary ">Nombre de equipo</td>
-            <td >{{$nombreDeEquipo}}</td>
+            <td class="col-md-4 bg-primary ">Nombre de equipo</td>
+            <td>{{$nombreDeEquipo}}</td>
         </tr>
         <tr>
             <td class="text-right bg-primary">Memoria RAM</td>

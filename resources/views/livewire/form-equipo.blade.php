@@ -44,7 +44,7 @@
                 <div class="col-md-6">
                     <label for="modelo" class="form-label">Modelo</label>
                     <select wire:model="modelo" id="modelo" class="form-select">
-                        <option value="">Selecciona un modelo</option>
+                        <option value="0">Selecciona un modelo</option>
                         @foreach($modelos as $key => $value)
                         <option value="{{ $value->id }}">{{ $value->nombre }}</option>
                         @endforeach

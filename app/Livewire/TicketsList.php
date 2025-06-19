@@ -73,7 +73,7 @@ class TicketsList extends Component
 
         return Ticket::where('active', 1)
             ->where($this->fs, 'LIKE', '%' . $this->search . '%')
-            ->where('asignado', 'LIKE', '%' . $this->fu . '%')
+            ->when(is_numeric($this->fu), fn($q) => $q->where('asignado', $this->fu))
             ->where('status', $this->fst)
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
